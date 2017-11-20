@@ -1,0 +1,117 @@
+#BEGIN General-------------------------------------------------------------
+
+#Number of time instants:
+200
+
+#Number of averaging cycles:
+1000
+
+#Size of the simulation area in meters:
+40
+
+#END General---------------------------------------------------------------
+
+
+#BEGIN Initial pdf & state transition pdf----------------------------------
+
+#Variance of the Gaussian driving noise: ( covariance matrix given by Cu = diag([numBelow,numBelow,...]) )
+0.00035
+
+#END Initial pdf & state transition pdf------------------------------------
+
+
+#BEGIN Likelihood----------------------------------------------------------
+
+#Number of targets:
+#NOTE: Right now the initialization code in main.m supports up to 4 targets 
+1
+
+#Amplitude of the sound source:
+10.0
+
+#Variance of the measurement noise (w_sigma^2):
+0.001
+
+#Measurement model:
+#0 - Inverse decay h(x) = A/(r^invPow)
+#1 - Exponential decay h(x) = A*exp(-lambda*r) -- NOT IMPLEMENTED
+#2 - Bearing-only h(x) = arctan((x2-s2)/(x1-s1)) -- NOT IMPLEMENTED
+0
+
+#Inverse decay parameter (invPow):
+2
+
+#Exponential decay parameter (lambda):
+0.1
+
+#END Likelihood------------------------------------------------------------
+
+
+#BEGIN Particle filtering--------------------------------------------------
+
+#Number of particles:
+5000
+
+#Prediction step proposal density:
+#0 - state transition density
+#1 - auxiliary particle filtering -- NOT IMPLEMENTED
+0
+
+#Roughening:
+#NOTE: This switch is only relevant if SIR filter is used
+#0 - no roughening
+#1 - with roughening
+1
+
+#Roughening tuning constant:
+0.1
+
+#END Particle filtering----------------------------------------------------
+
+
+#BEGIN Consensus-----------------------------------------------------------
+
+#Consensus type:
+#0 - perfect consensus (sums are calculated exactly; asymptotic case)
+#1 - realistic consensus (sums are calculated using a consensus algorithm specified in the entries below)
+1
+
+#Consensus algorithm:
+#0 - Average consensus
+#1 - Censi's algorithm (quantized consensus) -- NOT IMPLEMENTED
+#2 - Push-Sum -- NOT IMPLEMENTED
+0
+
+#Consensus weight model:
+#0 - Constant step (0<x<1) - step size is a mandatory parameter! ; example: 0[0.5],0[1],0[0.01]
+#1 - Maximum degree constant weights
+#2 - Local degree weights (similar to metropolis)
+#3 - Metropolis
+3
+
+#Number of consensus iterations:
+8
+
+#END Likelihood consensus--------------------------------------------------
+
+
+#BEGIN Misc----------------------------------------------------------------
+
+#Network topology generation:
+#0 - load pre-generated network topology
+#1 - randomly generate topology in each averaging cycle
+1
+
+#Target trajectory generation:
+#0 - random generation during simulation run
+#1 - pre-generated target trajectory
+#2 - randomly pre-generated trajectories for each averaging cycle
+#3 - randomly pre-generated trajectories for each averaging cycle + randomly pre-generated measurements
+0
+
+#Visualization mode:
+#0 - off
+#1 - on (only 1 avg cycle is simulated; true and tracked trajectories of targets are stored)
+0
+
+#END Misc------------------------------------------------------------------

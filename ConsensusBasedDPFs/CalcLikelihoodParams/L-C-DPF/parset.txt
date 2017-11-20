@@ -1,0 +1,150 @@
+#BEGIN General-------------------------------------------------------------
+
+#Number of time instants:
+200
+
+#Number of averaging cycles:
+1000
+
+#Size of the simulation area in some distance units:
+40
+
+#END General---------------------------------------------------------------
+
+
+#BEGIN Initial pdf & state transition pdf----------------------------------
+
+#Variance of the Gaussian driving noise: ( covariance matrix given by Cu = diag([numBelow,numBelow,...]) )
+0.00035
+
+#END Initial pdf & state transition pdf------------------------------------
+
+
+#BEGIN Likelihood----------------------------------------------------------
+
+#Number of targets:
+#NOTE: Right now the initialization code in main.m supports up to 4 targets 
+1
+
+#Amplitude of the sound source (measured at distance 1):
+10
+
+#Variance of the measurement noise (w_sigma^2):
+0.001
+
+#Measurement model:
+#0 - Inverse decay h(x) = A/(r^invPow)
+#1 - Exponential decay h(x) = A*exp(-lambda*r) -- NOT IMPLEMENTED
+#2 - Bearing-only h(x) = arctan((x2-s2)/(x1-s1)) -- NOT IMPLEMENTED
+0
+
+#Inverse decay parameter (invPow):
+2
+
+#Exponential decay parameter (lambda):
+0.1
+
+#Track loss detection:
+#0 - off; 1 - on; 2 - track loss prevention via zeroing of alphas (in LC case) and dropping of too close sensors (in no LC case)
+#NOTE: In case of 2, track loss threshold below is interpreted as distance from sensor. If the estimated target distance is smaller, the sensor is disregarded.
+2
+
+#Track loss threshold: [some distance unit]
+1.0
+
+#END Likelihood------------------------------------------------------------
+
+
+#BEGIN Particle filtering--------------------------------------------------
+
+#Particle filter algorithm
+#0 - SIR filter
+#1 - GPF (Gaussian PF)
+#2 - GSPF (Gaussian sum PF) -- NOT IMPLEMENTED
+0
+
+#Number of particles:
+5000
+
+#Prediction step proposal density:
+#0 - state transition density
+#1 - auxiliary particle filtering -- NOT IMPLEMENTED
+0
+
+#Reduced complexity for DGPF:
+#NOTE: This is a switch used to toggle between DGPF and DGPF-R
+#NOTE2: This value is ignored when (likelihood) consensus type is set to "no consensus" (to centralized PF)
+#0 - no reduction; no combination of results of individual sensors; DGPF
+#1 - with reduction; combine results using consensus (same settings as LC); DGPF-R; (each sensor uses the number of particles specified in parset!!!)
+0
+
+#Roughening:
+#NOTE: This switch is only relevant if SIR filter is used
+#0 - no roughening
+#1 - with roughening
+1
+
+#Roughening tuning constant:
+0.1
+
+#END Particle filtering----------------------------------------------------
+
+
+#BEGIN Likelihood consensus------------------------------------------------
+
+#Consensus type:
+#0 - no consensus (true joint likelihood and centralized PF)
+#1 - perfect consensus (sums are calculated exactly; asymptotic case)
+#2 - realistic consensus (sums are calculated using a consensus algorithm specified in the entries below)
+2
+
+#Consensus algorithm:
+#0 - Average consensus
+#1 - Censi's algorithm (quantized consensus) ; 1[type of rounding][wordLength][fractionLength/exponentLength][fixed=0/float=1/simple=2]; example: 1[0][16][15][0], 1[0][Inf][Inf][2]
+#2 - Aysal's algorithm (quantized consensus)
+#3 - Push-Sum
+#1[0][Inf][1][2]
+0
+
+#Consensus weight model:
+#0 - Constant step (0<x<1) - step size is a mandatory parameter! ; example: 0[0.5],0[1],0[0.01]
+#1 - Maximum degree constant weights
+#2 - Local degree weights (similar to metropolis)
+#3 - Metropolis
+#0[0.3]
+3
+
+#Number of consensus iterations:
+8
+
+#Polynomial approximation of sensor measurement function:
+#0 - Taylor approximation -- NOT IMPLEMENTED
+#1 - Least squares approximation
+1
+
+#Degree of polynomial approximation of sensor measurement function:
+2
+
+#END Likelihood consensus--------------------------------------------------
+
+
+#BEGIN Misc----------------------------------------------------------------
+
+#Network topology generation:
+#0 - load pre-generated network topology
+#1 - randomly generate topology in each averaging cycle
+1
+
+#Target trajectory generation:
+#0 - random generation during simulation run
+#1 - pre-generated target trajectory
+#2 - randomly pre-generated trajectories for each averaging cycle
+#3 - randomly pre-generated trajectories for each averaging cycle + randomly pre-generated measurements
+0
+
+#Visualization mode:
+#0 - off
+#1 - on (only 1 avg cycle is simulated; true and tracked trajectories of targets are stored)
+0
+
+#END Misc------------------------------------------------------------------

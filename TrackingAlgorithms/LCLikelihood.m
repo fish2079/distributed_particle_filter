@@ -24,9 +24,12 @@ d = size(x_predicted,1)-1;
 R_inv = inv(obs.R);
 
 % Construct the Psi matrix
-for i=1:size(F.LC.basis,2)
-    Psi(:,i) = mvnpdf(x_predicted(1:2,:)', F.LC.basis(:,i)', F.LC.R);
-end
+degree_matrix = combinator(F.LC.max_degree,2,'c','r')'-1;
+Psi = exp(log(x_predicted(1:2,:))'*degree_matrix);
+% for i=1:size(F.LC.basis,2)
+%     
+%     Psi(:,i) = mvnpdf(x_predicted(1:2,:)', F.LC.basis(:,i)', F.LC.R);
+% end
 
 % Compute the coefficients for likelihood consensus
 for i=1:size(z,2)
@@ -60,7 +63,7 @@ end
 
 % Compute the second local statistics \alpha'Q^{-1}\alpha
 HxHx_ss = [];
-[a,b]=meshgrid(1:size(F.LC.basis,2),1:size(F.LC.basis,2));
+[a,b]=meshgrid(1:size(Psi,2),1:size(Psi,2));
 
 Psi_extended = Psi(:,a(:)).*Psi(:,b(:));
 for zz=1:size(z,2)
