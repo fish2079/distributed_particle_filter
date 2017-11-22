@@ -52,6 +52,8 @@ S.nb_sensors = 9; % number of sensors
 S.grid_sensor = true; % boolean flag to put the sensors in a grid
 % Generate the track, sensors and corresponding noise-free measurements
 S = buildSimulatedTrack(S, dynamic);
+S.parallel = sim_parameters.parallel;
+S.visualizeParticles = sim_parameters.visualizeParticles;
 
 % The struct obs contains all required parameters of measurement model
 obs.model = @computeBearing; % measurement model
@@ -70,6 +72,7 @@ if(isfield(sim_parameters, 'N'))
 else
     F.N = 1000;
 end
+F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
 % Particle Filter Regularization
 F.sigma_noise = 10^-6; % std of Gaussian noise to add to particles at each iteration
@@ -86,24 +89,38 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 F.LC.basis = [basis_x(:),basis_y(:)]';
 F.LC.R = diag([10,10].^2);
 % LA specific parameters
-F.LA.KNN = 5; % number of nearest neighbors
-F.LA.m = 10; % number of Eigenvectors to retain
+if(isfield(sim_parameters, 'KNN'))
+    F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
+else
+    F.LA.KNN = 10; 
+end
+if(isfield(sim_parameters, 'nbEig'))
+    F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
+else
+    F.LA.m = 10;
+end
 % Clustering specific parameters
-F.cluster.k = 5;
-F.cluster.KNN = 5;
+F.cluster.k = 6;
+F.cluster.KNN = F.LA.KNN;
 
-% Store the three parameter structs in the output struct
+% Store the two parameter structs in the output struct
 % The struct S contains parameters related to target track
 % The struct F contains parameters related to tracking algorithm
+parameters = sim_parameters;
 parameters.S = S;
 parameters.F = F;
-parameters.no_trials = sim_parameters.no_trials; 
-parameters.algorithms = sim_parameters.algorithms;
 
-% Run all trials in parallel
-parfor i = 1:parameters.no_trials
-    % Run one single trial
-    [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i)] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+% Run all trials in parallel if required
+if (parameters.parallel)
+    parfor i = 1:parameters.no_trials
+        % Run one single trial
+        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i)] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+    end
+else
+    for i = 1:parameters.no_trials
+        % Run one single trial
+        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i)] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+    end
 end
 
 % Store the results

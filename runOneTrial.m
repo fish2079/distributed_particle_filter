@@ -29,6 +29,7 @@ runtime = zeros(1, numel(algorithms));
 
 % Loop through all tracking filters
 for alg = 1:numel(algorithms)
+    disp(['trial ',num2str(trial_idx), ' ', func2str(algorithms{alg})]);
     % Set random seed to enable reproduction of results
     rng(trial_idx);
 

@@ -26,6 +26,7 @@ X_filterRepresentation(:,:,1) = F.initializeState(F);
 
 % Iterate over each time step
 for k = 1:S.nb_steps
+%     k
     % Load data for this time step
     D_single.measurements = D.measurements{k};
     D_single.sensorID = D.sensorID{k};
@@ -43,5 +44,15 @@ for k = 1:S.nb_steps
     
     % State estimate (conditional expectation of particle distribution)
     X_estimate(:,k) = F.mmseStateEstimate(X_filterRepresentation(:,:,k));
+    
+    % Visualize the tracking results at individual time steps
+    if (S.visualizeParticles && ~S.parallel)
+        if (k==1)
+            fig_handle = visualizeParticles(S, D_single, X_estimate(:,1:k), X_filterRepresentation(:,:,k), true, []);
+        else
+            fig_handle = visualizeParticles(S, D_single, X_estimate(:,1:k), X_filterRepresentation(:,:,k), true, fig_handle);
+        end
+        pause;
+    end
 end
 

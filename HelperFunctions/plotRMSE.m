@@ -24,7 +24,7 @@ for i=1:numel(filename)
     % Compute RMSE over time
     % The RMSE is stored as Nb_alg x Nb_trials matrix 
     % We concatenante the results from all files
-    averageError = [averageError; squeeze(mean(results.pos_error,2))];
+    averageError = [averageError; reshape(mean(results.pos_error,2),[size(results.pos_error,1),size(results.pos_error,3)])];
     
     % Compute average runtime
     % The runtime is stored as Nb_alg x Nb_trials matrix 

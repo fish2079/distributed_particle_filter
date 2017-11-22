@@ -47,11 +47,15 @@ if ~isempty(D.measurements)
     % Compute the posterior particle weights
     particle_weights = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    % Sample according to weights with replacement
-    I = randsample((1:N)', N, true, particle_weights);
-    
-    % Add regularization noise and set the weights
-    x_updated = [ x_predicted(1:d,I) + regularization_noise; ones(1,N)/N ];
+    if (1/sum(particle_weights.^2)<F.N_eff)
+        % Sample according to weights with replacement
+        I = randsample((1:N)', N, true, particle_weights);
+
+        % Add regularization noise and set the weights
+        x_updated = [ x_predicted(1:d,I) + regularization_noise; ones(1,N)/N ];
+    else
+        x_updated = [ x_predicted(1:d,:) + regularization_noise; particle_weights];
+    end
 else
     % If there is no measurement, propagate predicted particles and assign 
     % them equal weights
