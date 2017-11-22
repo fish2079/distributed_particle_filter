@@ -97,7 +97,7 @@ end
 if(isfield(sim_parameters, 'nbEig'))
     F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
 else
-    F.LA.m = 10;
+    F.LA.m = F.N;
 end
 % Clustering specific parameters
 F.cluster.k = 6;

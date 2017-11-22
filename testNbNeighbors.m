@@ -21,13 +21,13 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = [3];
+KNN_vector = [10:20:500];
 
 % Number of random trials
-sim_parameters.no_trials = 50; 
+sim_parameters.no_trials = 100; 
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists(5);
+sim_parameters.algorithms = alg_lists(4:5);
 
 % Loop through each choice of particle number
 for i=1:numel(KNN_vector)
@@ -55,4 +55,4 @@ for i=1:numel(KNN_vector)
 end
 
 % Plot the results
-plotRMSE(filename);
+% plotRMSE(filename);

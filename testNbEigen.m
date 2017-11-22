@@ -27,7 +27,7 @@ nbEig_vector = [5:5:50];
 sim_parameters.no_trials = 50; 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -48,11 +48,11 @@ for i=1:numel(nbEig_vector)
     
     % Run the simulated track with all selected tracking algorithms 
     % Each filter uses N particles   
-%     [results, parameters]= runSimulatedTrack(sim_parameters);
+    [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
     filename{i} = ['nbEigen',num2str(sim_parameters.nbEig),'_KNN',num2str(10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-%     save(filename{i}, 'results','parameters');
+    save(filename{i}, 'results','parameters');
 end
 
 % Plot the results
