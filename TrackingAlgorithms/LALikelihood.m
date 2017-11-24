@@ -40,10 +40,10 @@ end
 L = diag(sum(A,2)) - A;
 
 % Do eigenvalue decomposition of Laplacian matrix
-[V,~] = eig(L);
+[V_full,eigValues] = eig(L);
 
 % Select the m smallest eigenvectors;
-V = V(:,1:F.LA.m);
+V = V_full(:,1:F.LA.m);
 
 % Now have each sensor compute local log-likelihood using only local
 % measurements

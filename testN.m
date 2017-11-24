@@ -29,6 +29,9 @@ sim_parameters.no_trials = 50;
 % Flag for parallel run
 sim_parameters.parallel = false;
 
+% Flag for visualizing at each time step
+sim_parameters.visualizeParticles = false;
+
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 

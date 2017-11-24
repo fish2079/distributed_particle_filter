@@ -44,14 +44,15 @@ sim_parameters.algorithms = alg_lists(4:5);
 for i=1:numel(KNN_vector)
     % Set number of particles
     sim_parameters.KNN = KNN_vector(i); 
+
+    filename{i} = ['KNN',num2str(sim_parameters.KNN),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     
     % Run the simulated track with all selected tracking algorithms 
     % Each filter uses N particles   
-    [results, parameters]= runSimulatedTrack(sim_parameters);
+%     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['KNN',num2str(sim_parameters.KNN),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-    save(filename{i}, 'results','parameters');
+%     save(filename{i}, 'results','parameters');
 end
 
 % Plot the results

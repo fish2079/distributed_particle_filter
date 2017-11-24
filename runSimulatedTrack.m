@@ -85,9 +85,10 @@ F.mmseStateEstimate = @mmseEstimateFromParticles;
 % Bootstrap specific parameters
 F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true(2,:)]; 
 % LC specific parameters
-[basis_x,basis_y]=meshgrid([-20:20:120],[20:20:160]);
-F.LC.basis = [basis_x(:),basis_y(:)]';
-F.LC.R = diag([10,10].^2);
+% [basis_x,basis_y]=meshgrid([-20:20:120],[20:20:160]);
+% F.LC.basis = [basis_x(:),basis_y(:)]';
+% F.LC.R = diag([10,10].^2);
+F.LC.max_degree = 3;
 % LA specific parameters
 if(isfield(sim_parameters, 'KNN'))
     F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
@@ -97,10 +98,15 @@ end
 if(isfield(sim_parameters, 'nbEig'))
     F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
 else
-    F.LA.m = F.N;
+    F.LA.m = 10;
 end
 % Clustering specific parameters
-F.cluster.k = 6;
+if(isfield(sim_parameters,'nbClusters'))
+    F.cluster.k = sim_parameters.nbClusters;
+else
+    F.cluster.k = 6;
+end
+
 F.cluster.KNN = F.LA.KNN;
 
 % Store the two parameter structs in the output struct

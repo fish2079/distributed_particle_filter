@@ -21,7 +21,7 @@ function particle_weights = ClusterLikelihood(x_predicted, F, D, obs)
 d = size(x_predicted,1)-1;
 
 % Start by clustering the particles into k clusters
-[idx, mu_c] = kmeans(x_predicted',F.cluster.k);
+[idx, ~] = kmeans(x_predicted',F.cluster.k);
 
 % Compute clustering assignment matrix
 C = zeros(F.cluster.k, F.N);
