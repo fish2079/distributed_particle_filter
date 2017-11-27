@@ -15,13 +15,13 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Results\LA_results\';
+filepath = 'Results_LApf\';
 % Number of particles for the filter
-KNN_vector = [10:20:500];
+KNN_vector = [5,10,20,50];
 nbEig_vector = [50:50:1000];
 
 % Number of random trials
-sim_parameters.no_trials = 30; 
+sim_parameters.no_trials = 100; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbEig_vector));
 time = zeros(numel(KNN_vector), numel(nbEig_vector));
@@ -35,7 +35,7 @@ for j=1:numel(nbEig_vector)
 
         [RMSE_vector, time_vector] = processResults(filename);
         
-        RMSE(i,j) = mean(RMSE_vector);
+        RMSE(i,j) = nanmean(RMSE_vector);
         time(i,j) = mean(time_vector);
         yo=5;
     end
@@ -43,19 +43,19 @@ end
 
 figure();
 set(gcf,'color','white');
-set(gca,'fontsize',32);
 [x,y]=meshgrid(nbEig_vector,KNN_vector);
 scatter(x(:),y(:), 200, RMSE(:), 'filled');
 colorbar;
 xlabel('Number of Eigenvectors');
-ylabel('Number of nearest neighbors');
+ylabel('Number of neighbors');
 title('Average RMSE for LA filter');
+set(gca,'fontsize',32);
 
 figure();
 set(gcf,'color','white');
-set(gca,'fontsize',32);
 scatter(x(:),y(:), 200, time(:), 'filled');
 colorbar;
 xlabel('Number of Eigenvectors');
-ylabel('Number of nearest neighbors');
+ylabel('Number of neighbors');
 title('Average runtime for LA filter');
+set(gca,'fontsize',32);

@@ -88,7 +88,11 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 % [basis_x,basis_y]=meshgrid([-20:20:120],[20:20:160]);
 % F.LC.basis = [basis_x(:),basis_y(:)]';
 % F.LC.R = diag([10,10].^2);
-F.LC.max_degree = 3;
+if(isfield(sim_parameters, 'max_degree'))
+    F.LC.max_degree = sim_parameters.max_degree;
+else   
+    F.LC.max_degree = 3;
+end
 % LA specific parameters
 if(isfield(sim_parameters, 'KNN'))
     F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors

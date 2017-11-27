@@ -15,7 +15,7 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Results\Clustering_results\';
+filepath = 'Results\Results_KNN_nbCluster\';
 % Number of particles for the filter
 KNN_vector = [10:20:500];
 nbClusters_vector = [50:50:350];

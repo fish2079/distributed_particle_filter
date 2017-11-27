@@ -51,8 +51,8 @@ for i=1:numel(nbEig_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['nbEigen',num2str(sim_parameters.nbEig),'_KNN',num2str(10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-    save(filename{i}, 'results','parameters');
+    filename = ['nbEigen',num2str(sim_parameters.nbEig),'_KNN',num2str(10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    save(filename, 'results','parameters');
 end
 
 % Plot the results

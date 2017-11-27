@@ -24,8 +24,11 @@ d = size(x_predicted,1)-1;
 R_inv = inv(obs.R);
 
 % Construct the Psi matrix
-degree_matrix = combinator(F.LC.max_degree,2,'c','r')'-1;
-Psi = exp(log(x_predicted(1:2,:))'*degree_matrix);
+degree_matrix = combinator(F.LC.max_degree,2,'p','r')'-1;
+for i=1:size(degree_matrix,2)
+    Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
+end
+% Psi = exp(log(x_predicted(1:2,:))'*degree_matrix);
 % for i=1:size(F.LC.basis,2)
 %     
 %     Psi(:,i) = mvnpdf(x_predicted(1:2,:)', F.LC.basis(:,i)', F.LC.R);

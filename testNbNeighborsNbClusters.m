@@ -21,14 +21,14 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = [10:20:500];
-nbClusters_vector = 1000; %[50:50:1000];
+KNN_vector = 10;%[10:20:500];
+nbClusters_vector = 20;%1000; %[50:50:1000];
 
 % Number of random trials
-sim_parameters.no_trials = 30; 
+sim_parameters.no_trials = 100; 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -47,7 +47,7 @@ for j=1:numel(nbClusters_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{i} = ['KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{i} = ['Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
         % Run the simulated track with all selected tracking algorithms 
         % Each filter uses N particles   
