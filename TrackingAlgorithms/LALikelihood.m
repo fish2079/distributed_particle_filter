@@ -51,7 +51,7 @@ for i=1:numel(D.sensorID)
     D_single.measurements = D.measurements(:,i);
     D_single.sensorID = D.sensorID(i);
     D_single.sensorLoc = D.sensorLoc(:,i);
-    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs));
+    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
 end
 
 % Compute local coefficients

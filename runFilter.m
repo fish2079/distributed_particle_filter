@@ -1,4 +1,4 @@
-function X_estimate = runFilter(S, F, D, dynamic, obs)
+function [X_estimate, time] = runFilter(S, F, D, dynamic, obs)
 %   Function to run one single trial using a single particle filter
 %
 %   Inputs:
@@ -40,7 +40,7 @@ for k = 1:S.nb_steps
     end
     
     % Run the particle filter for a single time step
-    X_filterRepresentation(:,:,k) = F.algorithm(X_filterRepresentation(:,:,max(k-1,1)), F, D_single, dynamic, obs);
+    [X_filterRepresentation(:,:,k), time(k)] = F.algorithm(X_filterRepresentation(:,:,max(k-1,1)), F, D_single, dynamic, obs);
     
     % State estimate (conditional expectation of particle distribution)
     X_estimate(:,k) = F.mmseStateEstimate(X_filterRepresentation(:,:,k));
@@ -55,4 +55,3 @@ for k = 1:S.nb_steps
         pause;
     end
 end
-

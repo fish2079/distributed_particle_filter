@@ -21,14 +21,14 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = 10;%[10:20:500];
-nbClusters_vector = 20;%1000; %[50:50:1000];
+KNN_vector = [5,10,20,50];
+nbClusters_vector = [50:50:350];
 
 % Number of random trials
 sim_parameters.no_trials = 100; 
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;

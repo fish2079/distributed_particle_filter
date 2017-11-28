@@ -15,45 +15,90 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Results\Results_KNN_nbCluster\';
+filepath = 'Results_Clusterpf\';
 % Number of particles for the filter
-KNN_vector = [10:20:500];
-nbClusters_vector = [50:50:350];
+KNN_vector = [5,10,20,50];
+nbClusters_vector = [50:50:500];
 
 % Number of random trials
-sim_parameters.no_trials = 30; 
+sim_parameters.no_trials = 100; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbClusters_vector));
 time = zeros(numel(KNN_vector), numel(nbClusters_vector));
+
+RMSEFull = [];
+timeFull = [];
 for j=1:numel(nbClusters_vector)
-    sim_parameters.nbEig = nbClusters_vector(j);
+    sim_parameters.nbClusters = nbClusters_vector(j);
+    xticklabel{j} = num2str(sim_parameters.nbClusters);
     for i=1:numel(KNN_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{1} = [filepath,'KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{1} = [filepath,'Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
         [RMSE_vector, time_vector] = processResults(filename);
+        RMSEFull = [RMSEFull; RMSE_vector];
         
         RMSE(i,j) = mean(RMSE_vector);
         time(i,j) = mean(time_vector);
+        timeFull = [timeFull; time_vector];
     end
 end
 
 figure();
 set(gcf,'color','white');
-set(gca,'fontsize',32);
-[x,y]=meshgrid(nbClusters_vector,KNN_vector);
-scatter(x(:),y(:), 200, RMSE(:), 'filled')
-xlabel('Number of cluters');
-ylabel('Number of nearest neighbors');
-title('Average RMSE for Clustering filter');
+boxplot(RMSEFull(1:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
 
 figure();
 set(gcf,'color','white');
-set(gca,'fontsize',32);
-scatter(x(:),y(:), 200, time(:), 'filled');
-colorbar;
-xlabel('Number of Eigenvectors');
-ylabel('Number of nearest neighbors');
-title('Average runtime for Clustering filter');
+boxplot(RMSEFull(2:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
+
+figure();
+set(gcf,'color','white');
+boxplot(RMSEFull(3:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(1:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(2:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(3:4:end,:)');
+xlabel('Number of Clusters');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));

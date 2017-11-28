@@ -6,15 +6,16 @@
 \usepackage{graphicx}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{fullpage}
+\usepackage{subfigure}
 \author{Jun Ye Yu}
 \title{Distributed particle filter for bearing-only tracking}
 \begin{document}
 \maketitle
 
 \section{Introduction}
-In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the log-likelihood function using six global sufficient statistics that are computed using distributed summation. The second filter uses likelihood consensus to approximate the measurement function. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}, \textbf{LCpf}, \textbf{LApf} and \textbf{Clusterpf} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
+In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the log-likelihood function using six global sufficient statistics that are computed using distributed summation. The second filter uses likelihood consensus to approximate the measurement function. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are then recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}, \textbf{LCpf}, \textbf{LApf} and \textbf{Clusterpf} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
 
-The remainder of the report is organized as follows. Sec.~\ref{sec:problem} defines the tracking problem. Sec.~\ref{sec:pf} presents the particle filters. Sec.~\ref{} compares the filters' performance and Sec.~\ref{} concludes the report. 
+The remainder of the report is organized as follows. Sec.~\ref{sec:problem} defines the tracking problem. Sec.~\ref{sec:pf} presents the particle filters. Sec.~\ref{sec:evaluation} compares the filters' performance and Sec.~\ref{sec:conclusion} concludes the report. 
 
 \section{Problem statement}
 \label{sec:problem}
@@ -125,6 +126,7 @@ Since the particle log-likelihoods can be considered as a smooth signal over the
 We note that the transformation basis vectors of LApf are flexible and adapted to the particle locations whereas the LCpf requires fixed basis vectors. On the other hand, LApf requires synchronization of random number generator to ensure that all sensors have the same particle set. 
 
 \subsection{Clustering particle filter}
+\label{sec:evaluation}
 In Clusterpf, the particles are grouped into $c$ clusters based on their position. The sensors then reach consensus on the cluster log-likelihoods rather than individual particle log-likelihoods. For $c << N$, significant reduction in communication overhead can be achieved. 
 
 We follow the approach in~\cite{}. The log-likelihood of each cluster is equal to the aggregate log-likelihood of its constituent particles. Let $\gamma^c$ denote the joint log-likelihood of the clusters after consensus. Let $C$ denote the $c \times N$ cluster assignment matrix where $C(i,j)=1$ denotes that particle $j$ belongs to cluster $i$. 
@@ -177,11 +179,11 @@ where $\sigma_a=10^{-4}$, $T=1$ and $\sigma_{\theta}=0.0873\text{ rad} = 5 \text
 \end{figure}
 
 \subsection{Algorithm setup}
-All particle filters use a total of $N=1000$ particles. At time step 1, we generate the initial particles using the true target state: $X_i(1) \sim \mathcal{N}(X_i(1), X(1), R_{\text{initial}})$ with $R_{\text{initial}}=\text{diag}([0.5^2,0.5^2,0.05^2,0.05^2])$. 
+All particle filters use a total of $N=1000$ particles. At time step 1, we generate the initial particles using the true target state: $X_i(1) \sim \mathcal{N}(X(1), R_{\text{initial}})$ with $R_{\text{initial}}=\text{diag}([0.5^2,0.5^2,0.05^2,0.05^2])$. 
 
-For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_t^j$ with $0\leq i, j \leq d$ where $d$ is some user-specified max degree. For default value of $d=2$, the basis functions would be
+For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_t^j$ with $0\leq i, j \leq d$ where $d$ is some user-specified max degree. For $d=2$, the basis functions would be
 \begin{align*}
-\beta_1(X) &= x_t^0 y_t^0 = 0 \\
+\beta_1(X) &= x_t^0 y_t^0 = 1 \\
 \beta_2(X) &= x_t^0 y_t^1 = y_t \\
 \beta_3(X) &= x_t^0 y_t^2 = y_t^2 \\
 \beta_4(X) &= x_t^1 y_t^0 = x_t \\
@@ -189,39 +191,76 @@ For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_
 \beta_9(X) &= x_t^2 y_t^2 
 \end{align*}
 
-For LApf, we construct a $K$-nearest neighbor graph with default value of $K=10$ and retain $m=6$ Eigenvectors as the basis of Laplacian transformation. 
+For LApf, we construct a $K$-nearest neighbor graph and retain $m< N$ Eigenvectors as the basis of Laplacian transformation. 
 
-For Clusterpf, all particles are grouped into $C=6$ clusters and a 10-nearest neighbor graph is constructed to recover individual particle weights. 
+For Clusterpf, all particles are grouped into $C$ clusters and a $K$-nearest neighbor graph is constructed to recover individual particle weights. 
 
 Finally, the random number generators are synchronized to ensure that the particles remain the same across sensors. All summations are computed exactly without using any distributed algorithms. This ensures that no performance degradation is caused by consensus.
 
 \subsection{Individual algorithm performance}
-In this section, we evaluate the performance of individual algorithms with respect to their specific parameters. We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate and total runtime (from initialization to end of time step 50). 
+In this section, we evaluate the performance of individual algorithms with respect to their specific parameters. We run a number of Monte Carlo simulations on each algorithm while varying one single parameter. The track remains the same in each trial; but the measurements differ. 
 
-Consider first LCpf. The max degree $d$ should offer a trade-off between tracking performance and total runtime. Higher degree $d$ leads to more basis functions and by extension better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. 
+We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate and total runtime (from initialization to end of time step 50). Our objective is to select a set of parameters that offer optimal trade-off between tracking performance and computational load. 
 
-Fig.~\ref{fig:results_maxDegree} shows the RMSE and total runtime averaged over all 50 times and 200 Monte Carlo trials. The track remains the same in each trial; but the measurements differ. We see a steady increase of total runtime with increasing max degree as expected. The average RMSE is very high at $d=0$ which is not surprising since the only basis function would be $B_i(X)=x_t^0y_t^0 = 1$. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model.
-
-Consider next LApf. This filter has two parameters of interest: $K$, the number of nearest neighbors for the graph construction, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. This in turn might change the number of Eigenvectors required for the transformation and affect the tracking performance. 
-
-We run a number of simulations where we vary one of the two parameters and compare the results. Fig.~\ref{} shows the average RMSE and runtime over 30 trials. WAIT FOR ADDITIONAL SIMULATION RESULTS
-
-Finally, consider Clusterpf. This filter also has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. More clusters should improve tracking performance at the cost of higher communication overhead. 
-
-We run a number of simulations and Fig.~\ref{} shows the average RMSE and runtime over 30 trials. 
-
+Consider first LCpf. The max degree $d$ should offer a trade-off between tracking performance and total runtime. Higher degree $d$ leads to more basis functions and likely better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. 
 
 \begin{figure}
 \centering
 \includegraphics[width=0.45\textwidth]{Figures/RMSE_maxDegree}
 \includegraphics[width=0.45\textwidth]{Figures/runtime_maxDegree}
-\caption{Average RMSE and runtime of LCpf with respect to max degree}
+\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials}
 \label{fig:results_maxDegree}
 \end{figure}
 
+Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 200 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model. Therefore, we will select $d=1$ for LCpf in subsequent simulations. 
 
-\subsection{Simulation performance}
-Fig.~\ref{fig:MSE} shows the boxplots of mean squared position error with respect to the number of particles. All results are averaged over 100 Monte Carlo trials. At each trial, the trajectory and sensor measurements change. For any trial, all algorithms have the same initial particles and measurements. 
+Consider next LApf. This filter has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
+
+Fig.~\ref{fig:RMSE_NbEigen} shows the boxplot of time-averaged RMSE over 100 trials. For all values of $K$, we do not notice a significant improvement in tracking performance as more Eigenvectors are used. This suggests that most of the graph energy is stored in the first 50 Eigenvectors
+
+Fig.~\ref{fig:runtime_NbEigen} shows the boxplot of total runtime. There is a lot of fluctuations in the runtime; but we do notice an overall decrease as we increase $m$. This result is rather surprising to us and we are still looking into the cause of this behavior. For the subsequent simulations, we will set $K=5$ and $m=500$. 
+
+\begin{figure}
+\centering
+\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN5}}
+\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN10}}
+\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN20}}
+\caption{Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+\label{fig:RMSE_NbEigen}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN5}}
+\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN10}}
+\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN20}}
+\caption{Boxplot of total runtime of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+\label{fig:runtime_NbEigen}
+\end{figure}
+
+Finally, consider Clusterpf. This filter also has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
+
+\begin{figure}
+\centering
+\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN5}}
+\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN10}}
+\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN20}}
+\caption{Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+\label{fig:RMSE_NbClusters}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN5}}
+\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN10}}
+\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN20}}
+\caption{Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+\label{fig:runtime_NbClusters}
+\end{figure}
+
+\subsection{Performance comparison between filters}
+To be completed
+%Fig.~\ref{fig:MSE} shows the boxplots of mean squared position error with respect to the number of particles. All results are averaged over 100 Monte Carlo trials. At each trial, the trajectory and sensor measurements change. For any trial, all algorithms have the same initial particles and measurements. 
 
 %\begin{figure}
 %\centering
@@ -230,10 +269,12 @@ Fig.~\ref{fig:MSE} shows the boxplots of mean squared position error with respec
 %\label{fig:MSE}
 %\end{figure}
 
-The BSPF and CSSPF have similar tracking performance; however the LCPF has consistently the worst performance (i.e., almost double the MSE of the other methods). 
+%The BSPF and CSSPF have similar tracking performance; however the LCPF has consistently the worst performance (i.e., almost double the MSE of the other methods). 
 
 %To understand the poor performance of LCPF, at each time step of BSPF, we compute the particle likelihoods exactly and using likelihood consensus approximation, and then compute the discrepancy between them. Fig.~\ref{} shows the average discrepancy over time. 
 
 \section{Conclusion}
+\label{sec:conclusion}
+To be completed
 
 \end{document}

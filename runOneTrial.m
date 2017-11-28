@@ -1,4 +1,4 @@
-function [x_t, pos_error, runtime] = runOneTrial(S, F, dynamic, obs, algorithms, trial_idx)
+function [x_t, pos_error, runtime, detailedTime] = runOneTrial(S, F, dynamic, obs, algorithms, trial_idx)
 %   Function to run one single Monte Carlo trial
 %   The function generates the measurements for the trial and runs all
 %   specified tracking algorithms
@@ -38,7 +38,9 @@ for alg = 1:numel(algorithms)
 
     % run the algorithm and store the results for the trial
     tic;
-    x_t(:,:,alg) = runFilter(S, F_trial, D, dynamic, obs);
+    [x_t(:,:,alg), detailedTime{alg}] = runFilter(S, F_trial, D, dynamic, obs);
     runtime(alg) = toc;
     pos_error(alg,:) = computePositionError(x_t(:,:,alg), S.x_t);
 end
+
+yo=5;

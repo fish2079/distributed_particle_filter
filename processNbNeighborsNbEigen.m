@@ -25,8 +25,12 @@ sim_parameters.no_trials = 100;
 
 RMSE = zeros(numel(KNN_vector), numel(nbEig_vector));
 time = zeros(numel(KNN_vector), numel(nbEig_vector));
+timeFull = [];
+RMSEFull = [];
+
 for j=1:numel(nbEig_vector)
     sim_parameters.nbEig = nbEig_vector(j);
+    xticklabel{j} = num2str(sim_parameters.nbEig);
     for i=1:numel(KNN_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
@@ -36,26 +40,68 @@ for j=1:numel(nbEig_vector)
         [RMSE_vector, time_vector] = processResults(filename);
         
         RMSE(i,j) = nanmean(RMSE_vector);
+        RMSEFull = [RMSEFull; RMSE_vector];
+        RMSESTD(i,j) = std(RMSE_vector);
+        
+        timeFull = [timeFull; time_vector];
         time(i,j) = mean(time_vector);
-        yo=5;
+        timeSTD(i,j) = std(time_vector);
     end
 end
 
 figure();
 set(gcf,'color','white');
-[x,y]=meshgrid(nbEig_vector,KNN_vector);
-scatter(x(:),y(:), 200, RMSE(:), 'filled');
-colorbar;
+boxplot(RMSEFull(1:4:end,:)');
 xlabel('Number of Eigenvectors');
-ylabel('Number of neighbors');
-title('Average RMSE for LA filter');
-set(gca,'fontsize',32);
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
 
 figure();
 set(gcf,'color','white');
-scatter(x(:),y(:), 200, time(:), 'filled');
-colorbar;
+boxplot(RMSEFull(2:4:end,:)');
 xlabel('Number of Eigenvectors');
-ylabel('Number of neighbors');
-title('Average runtime for LA filter');
-set(gca,'fontsize',32);
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
+
+figure();
+set(gcf,'color','white');
+boxplot(RMSEFull(3:4:end,:)');
+xlabel('Number of Eigenvectors');
+ylabel('RMSE');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+ylim([0,8]);
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(1:4:end,:)');
+xlabel('Number of Eigenvectors');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(2:4:end,:)');
+xlabel('Number of Eigenvectors');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));
+
+figure();
+set(gcf,'color','white');
+boxplot(timeFull(3:4:end,:)');
+xlabel('Number of Eigenvectors');
+ylabel('Total runtime');
+set(gca,'fontsize',48);
+set(gca,'xtick',2:2:numel(xticklabel));
+set(gca,'xticklabel', xticklabel(2:2:end));

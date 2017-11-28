@@ -1,4 +1,4 @@
-function [x_updated] = LApf_distributed(x_old, F, D, dynamic, obs)
+function [x_updated, time] = LApf_distributed(x_old, F, D, dynamic, obs)
 %   This function implements one time step of the distributed Laplacian
 %`  approximation particle filter
 %
@@ -28,7 +28,7 @@ function [x_updated] = LApf_distributed(x_old, F, D, dynamic, obs)
 % assumption of reliable communications) the weighted particle clouds at
 % all nodes remain the same, so this approach is equivalent. It also uses
 % less memory and is less computationally intensive.
-
+tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -61,3 +61,4 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
+time = toc;

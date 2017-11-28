@@ -36,7 +36,7 @@ for i=1:numel(D.sensorID)
     D_single.measurements = D.measurements(:,i);
     D_single.sensorID = D.sensorID(i);
     D_single.sensorLoc = D.sensorLoc(:,i);
-    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs));
+    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
     log_lh_cluster_ss(i,:) = C*log_lh_ss(i,:)';
 end
 
@@ -69,8 +69,12 @@ gamma = quadprog(L,[],[],[],C,log_lh_cluster',[], [], [], options)';
 
 gamma = gamma-max(gamma);
 
-% Compute unnormalized posterior weight
-particle_weights = exp(gamma).*x_predicted(d+1,:);
+try
+    % Compute unnormalized posterior weight
+    particle_weights = exp(gamma).*x_predicted(d+1,:);
+catch ME
+    save('error.mat');
+end
 
 % Give all particles equal weights if all particles have zero weight
 if (sum(particle_weights) == 0)
