@@ -1,4 +1,4 @@
-function particle_weights = LALikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif] = LALikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -20,7 +20,16 @@ function particle_weights = LALikelihood(x_predicted, F, D, obs)
 
 d = size(x_predicted,1)-1;
 
-% Start by constructing the K-nearest graph for all the particles
+% First have each sensor compute local log-likelihood using only local
+% measurements
+for i=1:numel(D.sensorID)
+    D_single.measurements = D.measurements(:,i);
+    D_single.sensorID = D.sensorID(i);
+    D_single.sensorLoc = D.sensorLoc(:,i);
+    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+end
+
+% Construct the K-nearest graph for all the particles
 % We actually find the k+1 nearest neighbors since particle i is the
 % closest neighbor to particle i itself with 0 distance
 % We thus ignore the first column of idx 
@@ -45,15 +54,6 @@ L = diag(sum(A,2)) - A;
 % Select the m smallest eigenvectors;
 V = V_full(:,1:F.LA.m);
 
-% Now have each sensor compute local log-likelihood using only local
-% measurements
-for i=1:numel(D.sensorID)
-    D_single.measurements = D.measurements(:,i);
-    D_single.sensorID = D.sensorID(i);
-    D_single.sensorLoc = D.sensorLoc(:,i);
-    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
-end
-
 % Compute local coefficients
 alpha_ss = V'*log_lh_ss';
 
@@ -77,3 +77,14 @@ end
 
 % Normalize the weights
 particle_weights = particle_weights./sum(particle_weights); 
+
+% Debug part
+gamma_exact = (V_full*(sum(V_full'*log_lh_ss',2)))';
+
+gamma_exact = gamma_exact-max(gamma_exact);
+gamma_dif = norm(gamma-gamma_exact);
+
+weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
+weight_exact = weight_exact/sum(weight_exact);
+
+weight_dif = norm(weight_exact-particle_weights);

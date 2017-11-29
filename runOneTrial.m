@@ -1,4 +1,4 @@
-function [x_t, pos_error, runtime, detailedTime] = runOneTrial(S, F, dynamic, obs, algorithms, trial_idx)
+function [x_t, pos_error, runtime, details] = runOneTrial(S, F, dynamic, obs, algorithms, trial_idx)
 %   Function to run one single Monte Carlo trial
 %   The function generates the measurements for the trial and runs all
 %   specified tracking algorithms
@@ -17,6 +17,8 @@ function [x_t, pos_error, runtime, detailedTime] = runOneTrial(S, F, dynamic, ob
 %       the target state dimension
 %       pos_error: 1 x nb_steps row vector of position estimation error
 %       runtime: 1 x nb_algs row vector of total runtime for each algorithm 
+%       details: 1 x nb_algs stuct array, each struct contains data that
+%       can be used for debugging individual algorithms. 
 
 % Generate measurements for the given trial
 rng(trial_idx+1000);
@@ -38,9 +40,7 @@ for alg = 1:numel(algorithms)
 
     % run the algorithm and store the results for the trial
     tic;
-    [x_t(:,:,alg), detailedTime{alg}] = runFilter(S, F_trial, D, dynamic, obs);
+    [x_t(:,:,alg), details{alg}] = runFilter(S, F_trial, D, dynamic, obs);
     runtime(alg) = toc;
     pos_error(alg,:) = computePositionError(x_t(:,:,alg), S.x_t);
 end
-
-yo=5;

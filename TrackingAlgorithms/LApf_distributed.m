@@ -1,4 +1,4 @@
-function [x_updated, time] = LApf_distributed(x_old, F, D, dynamic, obs)
+function [x_updated, details] = LApf_distributed(x_old, F, D, dynamic, obs, details)
 %   This function implements one time step of the distributed Laplacian
 %`  approximation particle filter
 %
@@ -10,11 +10,13 @@ function [x_updated, time] = LApf_distributed(x_old, F, D, dynamic, obs)
 %       D: Struct containing measurement data
 %       dynamics: Struct containing dynamic model parameters
 %       obs: Struct containing measurement model paraleters
+%       details: Struct containing debug data for the algorithm
 %
 %   Outputs:
 %       x_updated: (d+1)*N matrix of updated particles where N is the number of
 %                  particles and d is the dimension of the state. The d+1 
 %                  row is the updated particle weights
+%       details: updated input struct of the same name
 %
 % Jun Ye Yu
 % McGill University
@@ -45,7 +47,19 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    particle_weights = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif] = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    
+    if (isfield(details,'gamma_dif'))
+        details.gamma_dif = [details.gamma_dif, gamma_dif];
+    else
+        details.gamma_dif = gamma_dif;
+    end
+    
+    if (isfield(details,'weight_dif'))
+        details.weight_dif = [details.weight_dif, weight_dif];
+    else
+        details.weight_dif = weight_dif;
+    end
     
     if (1/sum(particle_weights.^2)<F.N_eff)
         % Sample according to weights with replacement
@@ -61,4 +75,8 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
-time = toc;
+if (isfield(details,'step_time'))
+    details.step_time = [details.step_time, toc];
+else
+    details.step_time = toc;
+end

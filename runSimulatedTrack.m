@@ -124,12 +124,12 @@ parameters.F = F;
 if (parameters.parallel)
     parfor i = 1:parameters.no_trials
         % Run one single trial
-        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), detailedTime{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end
 else
     for i = 1:parameters.no_trials
         % Run one single trial
-        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), detailedTime{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end
 end
 
@@ -137,4 +137,4 @@ end
 results.x_t = x_t;
 results.pos_error = pos_error;
 results.runtime = runtime;
-results.detailedTime = detailedTime;
+results.details = details;

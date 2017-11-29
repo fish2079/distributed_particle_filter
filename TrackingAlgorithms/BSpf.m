@@ -1,4 +1,4 @@
-function [x_updated] = BSpf(x_old, F, D, dynamic, obs)
+function [x_updated, details] = BSpf(x_old, F, D, dynamic, obs, details)
 %   This function implements one time step of the centralized bootstrap 
 %   particle filter
 %
@@ -54,6 +54,8 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
+
+details = [];
 
 
 

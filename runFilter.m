@@ -1,4 +1,4 @@
-function [X_estimate, time] = runFilter(S, F, D, dynamic, obs)
+function [X_estimate, details] = runFilter(S, F, D, dynamic, obs)
 %   Function to run one single trial using a single particle filter
 %
 %   Inputs:
@@ -12,6 +12,8 @@ function [X_estimate, time] = runFilter(S, F, D, dynamic, obs)
 %       X_estimate: d x nb_steps matrix of estimated target states where d is
 %       the target state dimension
 %       position_error: 1 x nb_steps row vector of position estimation error
+%       details: struct containing miscellaneous data for algorithm
+%       debugging
 %
 % Jun Ye Yu
 % McGill University
@@ -24,9 +26,12 @@ X_estimate = zeros(F.d, S.nb_steps);
 % Initialize particles
 X_filterRepresentation(:,:,1) = F.initializeState(F);
 
+% Initialize debug struct
+details = struct();
+
 % Iterate over each time step
 for k = 1:S.nb_steps
-%     k
+    k
     % Load data for this time step
     D_single.measurements = D.measurements{k};
     D_single.sensorID = D.sensorID{k};
@@ -40,7 +45,7 @@ for k = 1:S.nb_steps
     end
     
     % Run the particle filter for a single time step
-    [X_filterRepresentation(:,:,k), time(k)] = F.algorithm(X_filterRepresentation(:,:,max(k-1,1)), F, D_single, dynamic, obs);
+    [X_filterRepresentation(:,:,k), details] = F.algorithm(X_filterRepresentation(:,:,max(k-1,1)), F, D_single, dynamic, obs, details);
     
     % State estimate (conditional expectation of particle distribution)
     X_estimate(:,k) = F.mmseStateEstimate(X_filterRepresentation(:,:,k));

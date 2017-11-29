@@ -13,7 +13,7 @@
 % Nov. 9th, 2017
 
 warning('off','all');
-% clear;clc;
+clear;clc;
 % Set path to helper functions
 addpath('./DynamicModels/');
 addpath('./HelperFunctions/');
@@ -21,14 +21,14 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = 5; %[10:20:500];
-nbEig_vector = [100,200,500]; %[50:50:1000];
+KNN_vector = [3];
+nbEig_vector = [5]; 
 
 % Number of random trials
-sim_parameters.no_trials = 20; 
+sim_parameters.no_trials = 8; 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -39,7 +39,7 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists(4);
+sim_parameters.algorithms = alg_lists([4]);
 
 for j=1:numel(nbEig_vector)
     sim_parameters.nbEig = nbEig_vector(j);
@@ -47,7 +47,7 @@ for j=1:numel(nbEig_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{i} = ['KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{i} = ['LApf_KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
         % Run the simulated track with all selected tracking algorithms 
         % Each filter uses N particles   
