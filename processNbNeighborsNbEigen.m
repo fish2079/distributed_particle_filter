@@ -18,8 +18,8 @@ clear;clc;
 filepath = 'OldResults\Results_LApf\';
 % filepath = '';
 % Number of particles for the filter
-KNN_vector = [1:10];
-nbEig_vector = [5,10,15,20];
+KNN_vector = [10];
+nbEig_vector = [5, 10, 15, 20, 50, 100, 250, 500, 750];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -39,7 +39,7 @@ for j=1:numel(nbEig_vector)
 
         filename{1} = [filepath,'KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
-        [RMSE_vector, time_vector] = processResults(filename, 2);
+        [RMSE_vector, time_vector] = processResults(filename, 1);
         
         RMSE(i,j) = nanmean(RMSE_vector);
         RMSEFull = [RMSEFull; RMSE_vector];

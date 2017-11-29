@@ -15,13 +15,14 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Results_Clusterpf\';
+%filepath = 'Results_Clusterpf\';
+filepath = '';
 % Number of particles for the filter
-KNN_vector = [5,10,20,50];
-nbClusters_vector = [50:50:500];
+KNN_vector = [1:10];
+nbClusters_vector = 10;%[10, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 100; 
+sim_parameters.no_trials = 200; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbClusters_vector));
 time = zeros(numel(KNN_vector), numel(nbClusters_vector));
@@ -37,7 +38,7 @@ for j=1:numel(nbClusters_vector)
 
         filename{1} = [filepath,'Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
-        [RMSE_vector, time_vector] = processResults(filename);
+        [RMSE_vector, time_vector] = processResults(filename, 1);
         RMSEFull = [RMSEFull; RMSE_vector];
         
         RMSE(i,j) = mean(RMSE_vector);
@@ -46,59 +47,59 @@ for j=1:numel(nbClusters_vector)
     end
 end
 
-figure();
-set(gcf,'color','white');
-boxplot(RMSEFull(1:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('RMSE');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
-ylim([0,8]);
-
-figure();
-set(gcf,'color','white');
-boxplot(RMSEFull(2:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('RMSE');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
-ylim([0,8]);
-
-figure();
-set(gcf,'color','white');
-boxplot(RMSEFull(3:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('RMSE');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
-ylim([0,8]);
-
-figure();
-set(gcf,'color','white');
-boxplot(timeFull(1:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('Total runtime');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
-
-figure();
-set(gcf,'color','white');
-boxplot(timeFull(2:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('Total runtime');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
-
-figure();
-set(gcf,'color','white');
-boxplot(timeFull(3:4:end,:)');
-xlabel('Number of Clusters');
-ylabel('Total runtime');
-set(gca,'fontsize',48);
-set(gca,'xtick',2:2:numel(xticklabel));
-set(gca,'xticklabel', xticklabel(2:2:end));
+% figure();
+% set(gcf,'color','white');
+% boxplot(RMSEFull(1:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('RMSE');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));
+% ylim([0,8]);
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(RMSEFull(2:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('RMSE');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));
+% ylim([0,8]);
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(RMSEFull(3:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('RMSE');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));
+% ylim([0,8]);
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(timeFull(1:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('Total runtime');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(timeFull(2:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('Total runtime');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(timeFull(3:4:end,:)');
+% xlabel('Number of Clusters');
+% ylabel('Total runtime');
+% set(gca,'fontsize',48);
+% set(gca,'xtick',2:2:numel(xticklabel));
+% set(gca,'xticklabel', xticklabel(2:2:end));

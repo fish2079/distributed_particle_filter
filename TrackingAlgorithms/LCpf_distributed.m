@@ -1,4 +1,4 @@
-function x_updated= LCpf_distributed(x_old, F, D, dynamic, obs)
+function [x_updated, details]= LCpf_distributed(x_old, F, D, dynamic, obs, details)
 %   This function implements one step of the distributed likelihood 
 %   consensus particle filter. 
 %
@@ -10,11 +10,13 @@ function x_updated= LCpf_distributed(x_old, F, D, dynamic, obs)
 %       D: Struct containing measurement data
 %       dynamics: Struct containing dynamic model parameters
 %       obs: Struct containing measurement model paraleters
+%       details: Struct containing debug data for the algorithm
 %
 %   Outputs:
 %       x_updated: (d+1)*N matrix of updated particles where N is the number of
 %                  particles and d is the dimension of the state. The d+1 
 %                  row is the updated particle weights
+%       details: updated input struct of the same name
 %
 % Jun Ye Yu
 % McGill University

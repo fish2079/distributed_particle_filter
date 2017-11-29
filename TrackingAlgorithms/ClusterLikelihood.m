@@ -1,4 +1,4 @@
-function particle_weights = ClusterLikelihood(x_predicted, F, D, obs)
+function [particle_weights, cluster_time, KNN_time, gamma_time] = ClusterLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner by clustering
 %   particles and gossiping on cluster log-likelihoods
@@ -19,9 +19,10 @@ function particle_weights = ClusterLikelihood(x_predicted, F, D, obs)
 % Nov. 14th, 2017
 
 d = size(x_predicted,1)-1;
-
+tic;
 % Start by clustering the particles into k clusters
 [idx, ~] = kmeans(x_predicted',F.cluster.k);
+cluster_time = toc;
 
 % Compute clustering assignment matrix
 C = zeros(F.cluster.k, F.N);
@@ -48,8 +49,10 @@ log_lh_cluster = sum(log_lh_cluster_ss, 1);
 % We actually find the k+1 nearest neighbors since particle i is the
 % closest neighbor to particle i itself with 0 distance
 % We thus ignore the first column of idx 
+tic;
 idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.cluster.KNN+1);
 idx = idx(:,2:end);
+KNN_time = toc;
 
 % Now construct the adjacency matrix
 A = zeros(F.N, F.N);
@@ -63,9 +66,11 @@ end
 % Construct Laplacian matrix
 L = diag(sum(A,2)) - A;
 
+tic;
 % Solve the convex optimization
 options =  optimoptions(@quadprog, 'Display','off');
 gamma = quadprog(L,[],[],[],C,log_lh_cluster',[], [], [], options)';
+gamma_time = toc;
 
 gamma = gamma-max(gamma);
 

@@ -1,4 +1,4 @@
-function [x_updated] = Clusterpf_distributed(x_old, F, D, dynamic, obs)
+function [x_updated, details] = Clusterpf_distributed(x_old, F, D, dynamic, obs, details)
 %   This function implements one time step of the distributed clustering
 %   partcile filter
 %
@@ -28,7 +28,7 @@ function [x_updated] = Clusterpf_distributed(x_old, F, D, dynamic, obs)
 % assumption of reliable communications) the weighted particle clouds at
 % all nodes remain the same, so this approach is equivalent. It also uses
 % less memory and is less computationally intensive.
-
+tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -45,7 +45,25 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    particle_weights = ClusterLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, cluster_time, KNN_time, gamma_time] = ClusterLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    
+    if (isfield(details,'cluster_time'))
+        details.cluster_time = [details.cluster_time, cluster_time];
+    else
+        details.cluster_time = cluster_time;
+    end
+    
+    if (isfield(details,'KNN_time'))
+        details.KNN_time = [details.KNN_time, KNN_time];
+    else
+        details.KNN_time = KNN_time;
+    end
+    
+    if (isfield(details,'gamma_time'))
+        details.gamma_time = [details.gamma_time, gamma_time];
+    else
+        details.gamma_time = gamma_time;
+    end
     
     if (1/sum(particle_weights.^2)<F.N_eff)
         % Sample according to weights with replacement
@@ -60,4 +78,9 @@ else
     % If there is no measurement, propagate predicted particles and assign 
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
+end
+if (isfield(details,'step_time'))
+    details.step_time = [details.step_time, toc];
+else
+    details.step_time = toc;
 end

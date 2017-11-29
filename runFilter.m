@@ -31,7 +31,7 @@ details = struct();
 
 % Iterate over each time step
 for k = 1:S.nb_steps
-    k
+%     k
     % Load data for this time step
     D_single.measurements = D.measurements{k};
     D_single.sensorID = D.sensorID{k};
