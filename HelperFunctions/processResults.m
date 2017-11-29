@@ -25,10 +25,17 @@ for i=1:numel(filename)
         % We concatenante the results from all files
         averageError = [averageError; reshape(mean(results.pos_error,3),[size(results.pos_error,1),size(results.pos_error,2)])];
     end
-    % Compute average runtime
-    % The runtime is stored as Nb_alg x Nb_trials matrix 
-    % We concatenante the results from all files 
-    averageTime = [averageTime; results.runtime];   
+    
+    % Compute runtime for each trial
+    time = zeros(1, parameters.no_trials);
+    for j=1:parameters.no_trials
+        if(isfield(results.details{j}{1},'cluster_time'))
+            time(j) = sum(results.details{j}{1}.cluster_time)+sum(results.details{j}{1}.KNN_time)+sum(results.details{j}{1}.gamma_time);
+        else
+            time(j) = sum(results.details{j}{1}.step_time);
+        end
+    end
+    averageTime = [averageTime; time];   
 end
 
 RMSE = averageError;

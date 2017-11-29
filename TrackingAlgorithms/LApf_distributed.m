@@ -30,7 +30,7 @@ function [x_updated, details] = LApf_distributed(x_old, F, D, dynamic, obs, deta
 % assumption of reliable communications) the weighted particle clouds at
 % all nodes remain the same, so this approach is equivalent. It also uses
 % less memory and is less computationally intensive.
-tic;
+step_tic = tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -76,7 +76,7 @@ else
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
 if (isfield(details,'step_time'))
-    details.step_time = [details.step_time, toc];
+    details.step_time = [details.step_time, toc(step_tic)];
 else
-    details.step_time = toc;
+    details.step_time = toc(step_tic);
 end

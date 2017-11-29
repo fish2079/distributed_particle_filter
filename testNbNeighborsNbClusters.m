@@ -28,7 +28,7 @@ nbClusters_vector = [10, 20, 50, 100, 200, 500, 1000];
 sim_parameters.no_trials = 200; 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;

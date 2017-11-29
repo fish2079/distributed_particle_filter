@@ -39,8 +39,8 @@ for alg = 1:numel(algorithms)
     F_trial.algorithm = algorithms{alg};
 
     % run the algorithm and store the results for the trial
-    tic;
+    trial_time=tic;
     [x_t(:,:,alg), details{alg}] = runFilter(S, F_trial, D, dynamic, obs);
-    runtime(alg) = toc;
+    runtime(alg) = toc(trial_time);
     pos_error(alg,:) = computePositionError(x_t(:,:,alg), S.x_t);
 end

@@ -15,11 +15,11 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'OldResults\Results_LApf\';
+filepath = 'Results_LApf\';
 % filepath = '';
 % Number of particles for the filter
-KNN_vector = [10];
-nbEig_vector = [5, 10, 15, 20, 50, 100, 250, 500, 750];
+KNN_vector = [3:10];
+nbEig_vector = [500]; %[5, 10, 15, 20, 50, 100, 200, 500];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -45,12 +45,18 @@ for j=1:numel(nbEig_vector)
         RMSEFull = [RMSEFull; RMSE_vector];
         RMSESTD(i,j) = std(RMSE_vector);
         
+        
         timeFull = [timeFull; time_vector];
         time(i,j) = mean(time_vector);
         timeSTD(i,j) = std(time_vector);
     end
 end
 
+figure();
+boxplot(RMSEFull');
+
+figure();
+boxplot(timeFull');
 % figure();
 % set(gcf,'color','white');
 % boxplot(RMSEFull(1:4:end,:)');

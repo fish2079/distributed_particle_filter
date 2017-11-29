@@ -56,4 +56,4 @@ for i=1:numel(maxDegree_vector)
 end
 
 % Plot the results
-plotRMSE(filename);
+% plotRMSE(filename);
