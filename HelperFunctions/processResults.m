@@ -1,4 +1,4 @@
-function [RMSE, time] = processResults(filename, mode)
+function [RMSE, runtime, detail_time] = processResults(filename, mode)
 %   Function to compute the average RMSE of position estimate and run time
 %
 %   Input:
@@ -10,6 +10,10 @@ function [RMSE, time] = processResults(filename, mode)
 % initialize output variable
 averageError = [];
 averageTime = [];
+
+if(nargin==1)
+    mode = 1;
+end
 
 % Loop through all results
 for i=1:numel(filename)
@@ -26,17 +30,20 @@ for i=1:numel(filename)
         averageError = [averageError; reshape(mean(results.pos_error,3),[size(results.pos_error,1),size(results.pos_error,2)])];
     end
     
-    % Compute runtime for each trial
-    time = zeros(1, parameters.no_trials);
-    for j=1:parameters.no_trials
-        if(isfield(results.details{j}{1},'cluster_time'))
-            time(j) = sum(results.details{j}{1}.cluster_time)+sum(results.details{j}{1}.KNN_time)+sum(results.details{j}{1}.gamma_time);
-        else
-            time(j) = sum(results.details{j}{1}.step_time);
-        end
-    end
-    averageTime = [averageTime; time];   
+    % Compute total runtime for each trial
+    runtime = results.runtime;
+    
+    
+%     time = zeros(1, parameters.no_trials);
+%     for j=1:parameters.no_trials
+%         if(isfield(results.details{j}{1},'cluster_time'))
+%             time(j) = sum(results.details{j}{1}.cluster_time)+sum(results.details{j}{1}.KNN_time)+sum(results.details{j}{1}.gamma_time);
+%         else
+%             time(j) = sum(results.details{j}{1}.step_time);
+%         end
+%     end
+%     averageTime = [averageTime; time];   
 end
 
 RMSE = averageError;
-time = averageTime;
+runtime = averageTime;

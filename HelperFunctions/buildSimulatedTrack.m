@@ -22,8 +22,8 @@ d = 4; % target state dimension
 % The initial target position is at the center of tracking area
 xMin = S.initial(1)-S.area_length*0.5;
 xMax = S.initial(1)+S.area_length*0.5;
-yMin = S.initial(2)-S.area_length*0.25;
-yMax = S.initial(2)+S.area_length*0.75;
+yMin = S.initial(2)-S.area_length*0.85;
+yMax = S.initial(2)+S.area_length*0.15;
 
 %% Place sensors in the tracking area
 % Place sensors in a grid if needed

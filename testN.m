@@ -21,13 +21,13 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N_vector = [250, 500, 750];
+N_vector = [100, 250, 500, 750, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 50; 
+sim_parameters.no_trials = 500; 
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -50,9 +50,9 @@ for i=1:numel(N_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = ['Track2_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
 end
 
 % Plot the results
-plotRMSE(filename);
+% plotRMSE(filename);
