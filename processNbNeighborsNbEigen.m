@@ -18,8 +18,8 @@ clear;clc;
 filepath = 'Results_LApf\';
 % filepath = '';
 % Number of particles for the filter
-KNN_vector = [3:10];
-nbEig_vector = [5, 10, 15, 20, 50, 100, 200, 500];
+KNN_vector = [10];
+nbEig_vector = [5, 10, 15, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -37,18 +37,16 @@ for j=1:numel(nbEig_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{1} = [filepath,'KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{i} = [filepath,'KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
-        [RMSE_vector, time_vector] = processResults(filename, 1);
+        [RMSE_vector, ~, time_vector, runtimeFull, detail] = extractResults(filename{i});
         
         RMSE(i,j) = nanmean(RMSE_vector);
         RMSEFull = [RMSEFull; RMSE_vector];
-        RMSESTD(i,j) = std(RMSE_vector);
         
         
-        timeFull = [timeFull; time_vector];
-        time(i,j) = mean(time_vector);
-        timeSTD(i,j) = std(time_vector);
+        timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
+        time(i,j) = mean(squeeze(sum(runtimeFull,2))');
     end
 end
 

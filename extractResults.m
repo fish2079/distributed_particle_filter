@@ -24,24 +24,29 @@ RMSEFull = results.pos_error;
 % Average runtime over time
 runtime = results.runtime;
 
+runtimeFull = [];
 % Extra results from the details subfield
 % Loop through each trial
 for tr=1:parameters.no_trials
     % Loop through each algorithm
-    for alg = 1:numel(results.details{tr})
-        runtimeFull(alg,:,tr) = results.details{tr}{alg}.step_time;
-        switch func2str(parameters.algorithms{alg})
-            case 'LCpf_distributed'
-                detail.LCpf.Hx_ss_dif(:,tr,:) = results.details{tr}{alg}.Hx_ss_dif;
-            case 'LApf_distributed'
-                detail.LApf.gamma_dif(:,tr) = results.details{tr}{alg}.gamma_dif;
-                detail.LApf.weight_dif(:,tr) = results.details{tr}{alg}.weight_dif;
-                detail.LApf.KNN_time(:,tr) = results.details{tr}{alg}.KNN_time;
-                detail.LApf.eig_time(:,tr) = results.details{tr}{alg}.eig_time;
-            case 'Clusterpf_distributed'
-                detail.Clusterpf.KNN_time(:,tr) = results.details{tr}{alg}.KNN_time';
-                detail.Clusterpf.cluster_time(:,tr) = results.details{tr}{alg}.cluster_time';
-                detail.Clusterpf.gamma_time(:,tr) = results.details{tr}{alg}.gamma_time';
+    for alg = 1:numel(parameters.algorithms)
+        if (isfield(results, 'details'))
+            runtimeFull(alg,:,tr) = results.details{tr}{alg}.step_time;
+            try
+                switch func2str(parameters.algorithms{alg})
+                    case 'LCpf_distributed'
+                        detail.LCpf.Hx_ss_dif(:,tr,:) = results.details{tr}{alg}.Hx_ss_dif;
+                    case 'LApf_distributed'
+                        detail.LApf.gamma_dif(:,tr) = results.details{tr}{alg}.gamma_dif;
+                        detail.LApf.weight_dif(:,tr) = results.details{tr}{alg}.weight_dif;
+                        detail.LApf.KNN_time(:,tr) = results.details{tr}{alg}.KNN_time;
+                        detail.LApf.eig_time(:,tr) = results.details{tr}{alg}.eig_time;
+                    case 'Clusterpf_distributed'
+                        detail.Clusterpf.KNN_time(:,tr) = results.details{tr}{alg}.KNN_time';
+                        detail.Clusterpf.cluster_time(:,tr) = results.details{tr}{alg}.cluster_time';
+                        detail.Clusterpf.gamma_time(:,tr) = results.details{tr}{alg}.gamma_time';
+                end
+            end
         end
     end
 end

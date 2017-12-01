@@ -36,17 +36,23 @@ for j=1:numel(nbClusters_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{1} = [filepath,'Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{i} = [filepath,'Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
-        [RMSE_vector, time_vector] = processResults(filename, 1);
+        [RMSE_vector, ~, time_vector, runtimeFull, detail] = extractResults(filename{i});
+        
+        RMSE(i,j) = nanmean(RMSE_vector);
         RMSEFull = [RMSEFull; RMSE_vector];
         
-        RMSE(i,j) = mean(RMSE_vector);
-        time(i,j) = mean(time_vector);
-        timeFull = [timeFull; time_vector];
+        timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
+        time(i,j) = mean(squeeze(sum(runtimeFull,2))');
     end
 end
 
+figure();
+boxplot(RMSEFull');
+
+figure();
+boxplot(timeFull');
 % figure();
 % set(gcf,'color','white');
 % boxplot(RMSEFull(1:4:end,:)');

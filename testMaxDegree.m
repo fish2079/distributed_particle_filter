@@ -27,7 +27,7 @@ maxDegree_vector = [1:10];
 sim_parameters.no_trials = 200; 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -51,7 +51,7 @@ for i=1:numel(maxDegree_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename = ['maxDegree',num2str(sim_parameters.max_degree),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename = ['LCpf_maxDegree',num2str(sim_parameters.max_degree),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename, 'results','parameters');
 end
 

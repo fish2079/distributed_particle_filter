@@ -21,29 +21,34 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Target trajectory (blue curve) and sensor positions (red diamond)}}{5}}
 \newlabel{fig:track}{{1}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Algorithm setup}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials}}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials. The red solid line in the left subfig is the average RMSE of BSpf for comparison.}}{6}}
 \newlabel{fig:results_maxDegree}{{2}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Individual algorithm performance}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Performance comparison between filters}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{7}}
-\newlabel{fig:RMSE_NbEigen}{{3}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of total runtime of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{7}}
-\newlabel{fig:runtime_NbEigen}{{4}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{7}}
-\newlabel{fig:RMSE_NbClusters}{{5}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{7}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{7}}
-\newlabel{fig:runtime_NbClusters}{{6}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{8}}
-\newlabel{sec:conclusion}{{5}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Likelihood consensus particle filter}{6}}
+\newlabel{fig:LCpf_approx_error}{{4.3.1}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of measurement approximation error with respect to max degree. All results are computed over 200 Monte Carlo trials}}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Laplacian approximation particle filter}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Cluster particle filter}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{8}}
+\newlabel{fig:RMSE_NbEigen}{{4}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of total runtime of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{8}}
+\newlabel{fig:runtime_NbEigen}{{5}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{8}}
+\newlabel{fig:RMSE_NbClusters}{{6}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=5}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$K$=10}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$K$=20}}}{8}}
+\newlabel{fig:runtime_NbClusters}{{7}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Performance comparison between filters}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}}
+\newlabel{sec:conclusion}{{5}{9}}

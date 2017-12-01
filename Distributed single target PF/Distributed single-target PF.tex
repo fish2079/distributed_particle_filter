@@ -168,7 +168,7 @@ where $\sigma_a=10^{-4}$, $T=1$ and $\sigma_{\theta}=0.0873\text{ rad} = 5 \text
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{Figures/track}
+\includegraphics[width=0.65\textwidth]{Figures/track}
 \caption{Target trajectory (blue curve) and sensor positions (red diamond)}
 \label{fig:track}
 \end{figure}
@@ -197,21 +197,36 @@ In this section, we evaluate the performance of individual algorithms with respe
 
 We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate and total runtime (from initialization to end of time step 50). Our objective is to select a set of parameters that offer optimal trade-off between tracking performance and computational load. 
 
+\subsubsection{Likelihood consensus particle filter}
 Consider first LCpf. The max degree $d$ should offer a trade-off between tracking performance and total runtime. Higher degree $d$ leads to more basis functions and likely better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.45\textwidth]{Figures/RMSE_maxDegree}
-\includegraphics[width=0.45\textwidth]{Figures/runtime_maxDegree}
-\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials}
+\includegraphics[width=0.65\textwidth]{Figures/RMSE_maxDegree}
+\includegraphics[width=0.65\textwidth]{Figures/runtime_maxDegree}
+\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials. The red solid line in the left subfig is the average RMSE of BSpf for comparison.}
 \label{fig:results_maxDegree}
 \end{figure}
 
-Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 200 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model. Therefore, we will select $d=1$ for LCpf in subsequent simulations. 
+Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 200 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model $H(X_i)$. 
 
-Consider next LApf. This filter has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
+To verify our conjecture, we compute the following metric. At each time step, we compute the aggregate approximation error over all $S$ measurements for each particle ($\sum_{s=1}^S H_s(X_i)-\hat(H)_s(X_i)$), and report the average value $\sum_{i=1}^N \sum_{s=1}^S(H_s(X_i)-\hat(H)_s(X_i))/N$. 
 
-Fig.~\ref{fig:RMSE_NbEigen} shows the boxplot of time-averaged RMSE over 100 trials. For all values of $K$, we do not notice a significant improvement in tracking performance as more Eigenvectors are used. This suggests that most of the graph energy is stored in the first 50 Eigenvectors
+Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect to max degree. The approximation error decreases until $d=4$ and increases afterwards; but the difference is rather small with a maximum difference of 1.5 degree (versus the 5 degrees standard deviation of measurement noise). This small difference in approximation error directly translates to negligible difference in tracking performance. Based on the computational overhead, we will select $d=1$ for LCpf in subsequent simulations. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{Figures/LCpf_approx_error.pdf}
+\label{fig:LCpf_approx_error}
+\caption{Boxplot of measurement approximation error with respect to max degree. All results are computed over 200 Monte Carlo trials}
+\end{figure}
+
+\subsubsection{Laplacian approximation particle filter}
+The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
+
+Fig.~\ref{fig:RMSE_NbEigen} shows the boxplot of time-averaged RMSE over 200 trials. Note that we start at $K=3$ since lower values do not lead to a connected graph. PLOT NEW FIGURES AND PROVIDE ANALYSIS.
+
+For all values of $K$, we do not notice a significant improvement in tracking performance as more Eigenvectors are used. This suggests that most of the graph energy is stored in the first 50 Eigenvectors. 
 
 Fig.~\ref{fig:runtime_NbEigen} shows the boxplot of total runtime. There is a lot of fluctuations in the runtime; but we do notice an overall decrease as we increase $m$. This result is rather surprising to us and we are still looking into the cause of this behavior. For the subsequent simulations, we will set $K=5$ and $m=500$. 
 
@@ -233,7 +248,8 @@ Fig.~\ref{fig:runtime_NbEigen} shows the boxplot of total runtime. There is a lo
 \label{fig:runtime_NbEigen}
 \end{figure}
 
-Finally, consider Clusterpf. This filter also has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
+\subsubsection{Cluster particle filter}
+The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
 
 \begin{figure}
 \centering

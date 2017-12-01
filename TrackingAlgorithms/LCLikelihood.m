@@ -50,7 +50,7 @@ for i=1:size(z,2)
     % Compute z'Q^{-1}\alpha
     zHx_ss(:,i) = z(:,i)'*R_inv*alpha_LC(:,:,i)';
     Hx_ss_true(:,:,i) = (Psi*alpha_LC(:,:,i))';
-    Hx_ss_dif(1,i) = norm(beta_LC(:,:,i)-Hx_ss_true(:,:,i));
+    Hx_ss_dif(1,i) = mean(abs(beta_LC(:,:,i)-Hx_ss_true(:,:,i)));
 end
 
 % Compute the second local statistics \alpha'Q^{-1}\alpha
