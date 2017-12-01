@@ -47,7 +47,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    [particle_weights, gamma_dif, weight_dif] = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif, KNN_time, eig_time] = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif, gamma_dif];
@@ -59,6 +59,18 @@ if ~isempty(D.measurements)
         details.weight_dif = [details.weight_dif, weight_dif];
     else
         details.weight_dif = weight_dif;
+    end
+    
+    if (isfield(details,'KNN_time'))
+        details.KNN_time = [details.KNN_time, KNN_time];
+    else
+        details.KNN_time = KNN_time;
+    end
+
+    if (isfield(details,'eig_time'))
+        details.eig_time = [details.eig_time, eig_time];
+    else
+        details.eig_time = eig_time;
     end
     
     if (1/sum(particle_weights.^2)<F.N_eff)

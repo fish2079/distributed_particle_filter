@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif] = LALikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, KNN_time, eig_time] = LALikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -33,8 +33,10 @@ end
 % We actually find the k+1 nearest neighbors since particle i is the
 % closest neighbor to particle i itself with 0 distance
 % We thus ignore the first column of idx 
+KNN_tic = tic;
 idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
 idx = idx(:,2:end);
+KNN_time = toc(KNN_tic);
 
 % Now construct the adjacency matrix
 A = zeros(F.N, F.N);
@@ -49,7 +51,9 @@ end
 L = diag(sum(A,2)) - A;
 
 % Do eigenvalue decomposition of Laplacian matrix
-[V_full,eigValues] = eig(L);
+eig_time_tic = tic;
+[V_full,~] = eig(L);
+eig_time = toc(eig_time_tic);
 
 % Select the m smallest eigenvectors;
 V = V_full(:,1:F.LA.m);

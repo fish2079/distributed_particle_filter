@@ -21,10 +21,22 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
+<<<<<<< .mine
+N_vector = [250, 500, 750, 1000];
+||||||| .r11
+N_vector = [250, 500, 750];
+=======
 N_vector = [100, 250, 500, 750, 1000];
+>>>>>>> .r12
 
 % Number of random trials
+<<<<<<< .mine
+sim_parameters.no_trials = 200; 
+||||||| .r11
+sim_parameters.no_trials = 50; 
+=======
 sim_parameters.no_trials = 500; 
+>>>>>>> .r12
 
 % Flag for parallel run
 sim_parameters.parallel = true;
@@ -50,8 +62,16 @@ for i=1:numel(N_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
+<<<<<<< .mine
+    filename = ['N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    save(filename, 'results','parameters');
+||||||| .r11
+    filename{i} = ['N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    save(filename{i}, 'results','parameters');
+=======
     filename{i} = ['Track2_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
+>>>>>>> .r12
 end
 
 % Plot the results

@@ -30,7 +30,7 @@ function [x_updated, details]= LCpf_distributed(x_old, F, D, dynamic, obs, detai
 % assumption of reliable communications) the weighted particle clouds at
 % all nodes remain the same, so this approach is equivalent. It also uses
 % less memory and is less computationally intensive.
-
+step_tic = tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -47,8 +47,14 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the particle likelihood
-    particle_weights = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, Hx_ss_dif] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
    
+    if (isfield(details,'Hx_ss_dif'))
+        details.Hx_ss_dif = [details.Hx_ss_dif; Hx_ss_dif];
+    else
+        details.Hx_ss_dif = Hx_ss_dif;
+    end
+    
     if (1/sum(particle_weights.^2)<F.N_eff)
         % Sample according to weights with replacement
         I = randsample((1:N)', N, true, particle_weights);
@@ -62,4 +68,9 @@ else
     % If there is no measurement, propagate predicted particles and assign 
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
+end
+if (isfield(details,'step_time'))
+    details.step_time = [details.step_time, toc(step_tic)];
+else
+    details.step_time = toc(step_tic);
 end

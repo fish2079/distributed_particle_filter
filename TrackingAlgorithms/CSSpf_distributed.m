@@ -1,4 +1,4 @@
-function [x_updated] = CSSpf_distributed(x_old, F, D, dynamic, obs)
+function [x_updated, details] = CSSpf_distributed(x_old, F, D, dynamic, obs, details)
 %   This function implements one time step of the distributed CSS particle
 %   filter
 %
@@ -28,7 +28,7 @@ function [x_updated] = CSSpf_distributed(x_old, F, D, dynamic, obs)
 % assumption of reliable communications) the weighted particle clouds at
 % all nodes remain the same, so this approach is equivalent. It also uses
 % less memory and is less computationally intensive.
-
+step_tic = tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -60,4 +60,9 @@ else
     % If there is no measurement, propagate predicted particles and assign 
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
+end
+if (isfield(details,'step_time'))
+    details.step_time = [details.step_time, toc(step_tic)];
+else
+    details.step_time = toc(step_tic);
 end

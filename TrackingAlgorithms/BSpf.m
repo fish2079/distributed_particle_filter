@@ -20,7 +20,7 @@ function [x_updated, details] = BSpf(x_old, F, D, dynamic, obs, details)
 % McGill University
 % jun.y.y.yu@mail.mcgill.ca
 % Nov. 9th, 2017
-
+step_tic = tic;
 N = F.N; % number of particles
 d = F.d; % state dimension
 
@@ -54,8 +54,11 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
-
-details = [];
+if (isfield(details,'step_time'))
+    details.step_time = [details.step_time, toc(step_tic)];
+else
+    details.step_time = toc(step_tic);
+end
 
 
 

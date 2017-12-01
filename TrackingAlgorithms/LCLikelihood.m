@@ -1,4 +1,4 @@
-function particle_weights = LCLikelihood(x_predicted, F, D, obs)
+function [particle_weights, Hx_ss_dif] = LCLikelihood(x_predicted, F, D, obs)
 %   Function to compute the posterior weights of particles
 %   The weight is computed using likelihood consensus to approximate the
 %   measurement model
@@ -24,7 +24,7 @@ d = size(x_predicted,1)-1;
 R_inv = inv(obs.R);
 
 % Construct the Psi matrix
-degree_matrix = combinator(F.LC.max_degree,2,'p','r')'-1;
+degree_matrix = combinator(F.LC.max_degree+1,2,'p','r')'-1;
 for i=1:size(degree_matrix,2)
     Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
 end
@@ -49,6 +49,8 @@ end
 for i=1:size(z,2)
     % Compute z'Q^{-1}\alpha
     zHx_ss(:,i) = z(:,i)'*R_inv*alpha_LC(:,:,i)';
+    Hx_ss_true(:,:,i) = (Psi*alpha_LC(:,:,i))';
+    Hx_ss_dif(1,i) = norm(beta_LC(:,:,i)-Hx_ss_true(:,:,i));
 end
 
 % Compute the second local statistics \alpha'Q^{-1}\alpha

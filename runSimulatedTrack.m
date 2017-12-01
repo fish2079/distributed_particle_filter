@@ -91,7 +91,7 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 if(isfield(sim_parameters, 'max_degree'))
     F.LC.max_degree = sim_parameters.max_degree;
 else   
-    F.LC.max_degree = 3;
+    F.LC.max_degree = 1;
 end
 % LA specific parameters
 if(isfield(sim_parameters, 'KNN'))
@@ -102,13 +102,13 @@ end
 if(isfield(sim_parameters, 'nbEig'))
     F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
 else
-    F.LA.m = 10;
+    F.LA.m = 50;
 end
 % Clustering specific parameters
 if(isfield(sim_parameters,'nbClusters'))
     F.cluster.k = sim_parameters.nbClusters;
 else
-    F.cluster.k = 6;
+    F.cluster.k = 50;
 end
 
 F.cluster.KNN = F.LA.KNN;

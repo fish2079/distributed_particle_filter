@@ -19,7 +19,7 @@ filepath = 'Results_LApf\';
 % filepath = '';
 % Number of particles for the filter
 KNN_vector = [3:10];
-nbEig_vector = [500]; %[5, 10, 15, 20, 50, 100, 200, 500];
+nbEig_vector = [5, 10, 15, 20, 50, 100, 200, 500];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
