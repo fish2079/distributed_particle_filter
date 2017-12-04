@@ -22,13 +22,13 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 KNN_vector = [1:10];
-nbClusters_vector = [10, 20, 50, 100, 200, 500, 1000];
+nbClusters_vector = [100]; %[10, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 200; 
+sim_parameters.no_trials = 8; 
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -39,7 +39,7 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists(5);
+sim_parameters.algorithms = alg_lists([5]);
 
 for j=1:numel(nbClusters_vector)
     sim_parameters.nbClusters = nbClusters_vector(j);

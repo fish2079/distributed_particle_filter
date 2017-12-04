@@ -21,11 +21,11 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = [1000];
-nbEig_vector = [5,10,20,100,200,500]; 
+KNN_vector = [3:10];
+nbEig_vector = [1000];%, 100, 200, 1000]; 
 
 % Number of random trials
-sim_parameters.no_trials = 4; 
+sim_parameters.no_trials = 8; 
 
 % Flag for parallel run
 sim_parameters.parallel = true;

@@ -15,21 +15,23 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Results_LApf\';
-% filepath = '';
+% filepath = 'Results_LApf\';
+filepath = '';
 % Number of particles for the filter
-KNN_vector = [10];
-nbEig_vector = [5, 10, 15, 20, 50, 100, 200, 500, 1000];
+KNN_vector = 3:10; %[10,20,50];
+nbEig_vector = [6,10, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 200; 
+sim_parameters.no_trials = 8; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbEig_vector));
 time = zeros(numel(KNN_vector), numel(nbEig_vector));
-RMSEFull = [];
 
-RMSETime = [];
+RMSEFull = [];
 timeFull = [];
+
+KNNtimeFull = [];
+eigtimeFull = [];
 for j=1:numel(nbEig_vector)
     sim_parameters.nbEig = nbEig_vector(j);
     xticklabel{j} = num2str(sim_parameters.nbEig);
@@ -37,7 +39,7 @@ for j=1:numel(nbEig_vector)
         % Set number of particles
         sim_parameters.KNN = KNN_vector(i); 
 
-        filename{i} = [filepath,'KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+        filename{i} = [filepath,'LApf_KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
         [RMSE_vector, ~, time_vector, runtimeFull, detail] = extractResults(filename{i});
         
@@ -47,6 +49,9 @@ for j=1:numel(nbEig_vector)
         
         timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
         time(i,j) = mean(squeeze(sum(runtimeFull,2))');
+        
+        KNNtimeFull = [KNNtimeFull; mean(detail.LApf.KNN_time,1)];
+        eigtimeFull = [eigtimeFull; mean(detail.LApf.eig_time,1)];
     end
 end
 

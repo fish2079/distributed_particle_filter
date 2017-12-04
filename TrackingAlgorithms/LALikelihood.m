@@ -23,10 +23,19 @@ d = size(x_predicted,1)-1;
 % First have each sensor compute local log-likelihood using only local
 % measurements
 for i=1:numel(D.sensorID)
-    D_single.measurements = D.measurements(:,i);
-    D_single.sensorID = D.sensorID(i);
-    D_single.sensorLoc = D.sensorLoc(:,i);
-    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+%     D_single.measurements = D.measurements(:,i);
+%     D_single.sensorID = D.sensorID(i);
+%     D_single.sensorLoc = D.sensorLoc(:,i);
+%     log_lh_ss_approx(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+    
+    z_received = D.measurements(:,i);
+    % Compute expected measurement
+    z_expected = obs.model(x_predicted(1:d,:), D.sensorLoc(:,i), obs);
+    
+    % Compute the Gaussian log-likelihood
+    z_dif = F.minus(z_received, z_expected);
+    
+    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
 end
 
 % Construct the K-nearest graph for all the particles
@@ -92,3 +101,15 @@ weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
 weight_exact = weight_exact/sum(weight_exact);
 
 weight_dif = norm(weight_exact-particle_weights);
+
+
+% debug 
+% log_lh = sum(log_lh_ss,1);
+% log_lh = log_lh-max(log_lh);
+% clc;
+% yo=norm(log_lh-gamma)
+
+% [bs_weights, bs_gamma, bs_gamma_ss] = GaussianLikelihood(x_predicted, F, D, obs);
+% hoho = norm(bs_weights-particle_weights)
+
+% mo=5;

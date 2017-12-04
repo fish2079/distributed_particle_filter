@@ -34,10 +34,26 @@ C(ind) = 1;
 % Also, compute the log-likelihood of clusters by summing up the
 % log-likelihoood of particles in that cluster
 for i=1:numel(D.sensorID)
-    D_single.measurements = D.measurements(:,i);
-    D_single.sensorID = D.sensorID(i);
-    D_single.sensorLoc = D.sensorLoc(:,i);
-    log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+%     D_single.measurements = D.measurements(:,i);
+%     D_single.sensorID = D.sensorID(i);
+%     D_single.sensorLoc = D.sensorLoc(:,i);
+%     log_lh_ss(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+%     log_lh_cluster_ss(i,:) = C*log_lh_ss(i,:)';
+    
+%     D_single.measurements = D.measurements(:,i);
+%     D_single.sensorID = D.sensorID(i);
+%     D_single.sensorLoc = D.sensorLoc(:,i);
+%     log_lh_ss_approx(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
+    
+    z_received = D.measurements(:,i);
+    % Compute expected measurement
+    z_expected = obs.model(x_predicted(1:d,:), D.sensorLoc(:,i), obs);
+    
+    % Compute the Gaussian log-likelihood
+    z_dif = F.minus(z_received, z_expected);
+    
+    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
+  
     log_lh_cluster_ss(i,:) = C*log_lh_ss(i,:)';
 end
 

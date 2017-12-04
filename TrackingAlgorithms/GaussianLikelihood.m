@@ -1,4 +1,4 @@
-function particle_weights = GaussianLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma, gamma_ss] = GaussianLikelihood(x_predicted, F, D, obs)
 %   Function to compute the posterior weights of particles
 %   The weight is computed exactly in a centralized manner
 %
@@ -29,6 +29,7 @@ for j = 1:size(D.measurements,2)
     z_dif = F.minus(z_received, z_expected);
     
     gamma = gamma + log(mvnpdf(z_dif', obs.mu', obs.R))';
+    gamma_ss(j,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
 end
 
 gamma = gamma - max(gamma);
