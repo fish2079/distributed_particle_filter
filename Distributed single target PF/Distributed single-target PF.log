@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  1 DEC 2017 16:33
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  5 DEC 2017 15:28
 entering extended mode
 **Distributed*single-target*PF.tex
 
@@ -475,182 +475,74 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3] [4]
-<Figures/track.pdf, id=28, 919.435pt x 460.72125pt>
+<Figures/track.pdf, id=28, 1103.12125pt x 656.4525pt>
 File: Figures/track.pdf Graphic file (type pdf)
  <use Figures/track.pdf>
 Package pdftex.def Info: Figures/track.pdf used on input line 171.
-(pdftex.def)             Requested size: 305.33789pt x 153.00159pt.
+(pdftex.def)             Requested size: 305.33789pt x 181.70195pt.
 
 [5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
 le target PF/Figures/track.pdf>]
-<Figures/RMSE_maxDegree.pdf, id=37, 1049.9225pt x 653.44125pt>
+<Figures/RMSE_maxDegree.pdf, id=37, 1077.02374pt x 653.44125pt>
 File: Figures/RMSE_maxDegree.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_maxDegree.pdf>
-Package pdftex.def Info: Figures/RMSE_maxDegree.pdf used on input line 205.
-(pdftex.def)             Requested size: 305.33789pt x 190.03152pt.
+Package pdftex.def Info: Figures/RMSE_maxDegree.pdf used on input line 204.
+(pdftex.def)             Requested size: 230.18253pt x 139.64958pt.
 
 <Figures/runtime_maxDegree.pdf, id=38, 1066.98625pt x 653.44125pt>
 File: Figures/runtime_maxDegree.pdf Graphic file (type pdf)
 
 <use Figures/runtime_maxDegree.pdf>
-Package pdftex.def Info: Figures/runtime_maxDegree.pdf used on input line 206.
-(pdftex.def)             Requested size: 305.33789pt x 186.99046pt.
+Package pdftex.def Info: Figures/runtime_maxDegree.pdf used on input line 207.
+(pdftex.def)             Requested size: 230.18253pt x 140.96571pt.
+
+<Figures/LCpf_approx_error.pdf, id=39, 1077.02374pt x 653.44125pt>
+File: Figures/LCpf_approx_error.pdf Graphic file (type pdf)
+
+<use Figures/LCpf_approx_error.pdf>
+Package pdftex.def Info: Figures/LCpf_approx_error.pdf used on input line 217.
+(pdftex.def)             Requested size: 258.36668pt x 156.74933pt.
  [6 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/RMSE_maxDegree.pdf> <C:/Users/Jay/Desktop/distributed_par
 ticle_filter.git/trunk/Distributed single target PF/Figures/runtime_maxDegree.p
 df>]
-<Figures/LCpf_approx_error.pdf, id=52, 1077.02374pt x 653.44125pt>
-File: Figures/LCpf_approx_error.pdf Graphic file (type pdf)
 
-<use Figures/LCpf_approx_error.pdf>
-Package pdftex.def Info: Figures/LCpf_approx_error.pdf used on input line 219.
-(pdftex.def)             Requested size: 305.33789pt x 185.24559pt.
+LaTeX Warning: Reference `' on page 7 undefined on input line 233.
 
-<Figures/RMSE_NbEigen_KNN5.pdf, id=53, 1103.12125pt x 669.50125pt>
-File: Figures/RMSE_NbEigen_KNN5.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbEigen_KNN5.pdf>
-Package pdftex.def Info: Figures/RMSE_NbEigen_KNN5.pdf used on input line 235.
-(pdftex.def)             Requested size: 140.92793pt x 85.52628pt.
-
-<Figures/RMSE_NbEigen_KNN10.pdf, id=54, 1103.12125pt x 669.50125pt>
-File: Figures/RMSE_NbEigen_KNN10.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbEigen_KNN10.pdf>
-Package pdftex.def Info: Figures/RMSE_NbEigen_KNN10.pdf used on input line 236.
-
-(pdftex.def)             Requested size: 140.92793pt x 85.52628pt.
-
-<Figures/RMSE_NbEigen_KNN20.pdf, id=55, 1103.12125pt x 669.50125pt>
-File: Figures/RMSE_NbEigen_KNN20.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbEigen_KNN20.pdf>
-Package pdftex.def Info: Figures/RMSE_NbEigen_KNN20.pdf used on input line 237.
-
-(pdftex.def)             Requested size: 140.92793pt x 85.52628pt.
-
-<Figures/runtime_NbEigen_KNN5.pdf, id=56, 1130.2225pt x 653.44125pt>
-File: Figures/runtime_NbEigen_KNN5.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbEigen_KNN5.pdf>
-Package pdftex.def Info: Figures/runtime_NbEigen_KNN5.pdf used on input line 24
-4.
-(pdftex.def)             Requested size: 140.92793pt x 81.47057pt.
-
-<Figures/runtime_NbEigen_KNN10.pdf, id=57, 1130.2225pt x 653.44125pt>
-File: Figures/runtime_NbEigen_KNN10.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbEigen_KNN10.pdf>
-Package pdftex.def Info: Figures/runtime_NbEigen_KNN10.pdf used on input line 2
-45.
-(pdftex.def)             Requested size: 140.92793pt x 81.47057pt.
-
-<Figures/runtime_NbEigen_KNN20.pdf, id=58, 1130.2225pt x 653.44125pt>
-File: Figures/runtime_NbEigen_KNN20.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbEigen_KNN20.pdf>
-Package pdftex.def Info: Figures/runtime_NbEigen_KNN20.pdf used on input line 2
-46.
-(pdftex.def)             Requested size: 140.92793pt x 81.47057pt.
-
-<Figures/RMSE_NbClusters_KNN5.pdf, id=59, 1078.0275pt x 658.46pt>
-File: Figures/RMSE_NbClusters_KNN5.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbClusters_KNN5.pdf>
-Package pdftex.def Info: Figures/RMSE_NbClusters_KNN5.pdf used on input line 25
-6.
-(pdftex.def)             Requested size: 140.92793pt x 86.07503pt.
-
-<Figures/RMSE_NbClusters_KNN10.pdf, id=60, 1078.0275pt x 658.46pt>
-File: Figures/RMSE_NbClusters_KNN10.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbClusters_KNN10.pdf>
-Package pdftex.def Info: Figures/RMSE_NbClusters_KNN10.pdf used on input line 2
-57.
-(pdftex.def)             Requested size: 140.92793pt x 86.07503pt.
-
-<Figures/RMSE_NbClusters_KNN20.pdf, id=61, 1078.0275pt x 658.46pt>
-File: Figures/RMSE_NbClusters_KNN20.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_NbClusters_KNN20.pdf>
-Package pdftex.def Info: Figures/RMSE_NbClusters_KNN20.pdf used on input line 2
-58.
-(pdftex.def)             Requested size: 140.92793pt x 86.07503pt.
-
-<Figures/runtime_NbClusters_KNN5.pdf, id=62, 1131.22626pt x 642.4pt>
-File: Figures/runtime_NbClusters_KNN5.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbClusters_KNN5.pdf>
-Package pdftex.def Info: Figures/runtime_NbClusters_KNN5.pdf used on input line
- 265.
-(pdftex.def)             Requested size: 140.92793pt x 80.02533pt.
-
-<Figures/runtime_NbClusters_KNN10.pdf, id=63, 1131.22626pt x 642.4pt>
-File: Figures/runtime_NbClusters_KNN10.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbClusters_KNN10.pdf>
-Package pdftex.def Info: Figures/runtime_NbClusters_KNN10.pdf used on input lin
-e 266.
-(pdftex.def)             Requested size: 140.92793pt x 80.02533pt.
-
-<Figures/runtime_NbClusters_KNN20.pdf, id=64, 1131.22626pt x 642.4pt>
-File: Figures/runtime_NbClusters_KNN20.pdf Graphic file (type pdf)
-
-<use Figures/runtime_NbClusters_KNN20.pdf>
-Package pdftex.def Info: Figures/runtime_NbClusters_KNN20.pdf used on input lin
-e 267.
-(pdftex.def)             Requested size: 140.92793pt x 80.02533pt.
- [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/LCpf_approx_error.pdf>] [8 <C:/Users/Jay/Desktop/distribu
-ted_particle_filter.git/trunk/Distributed single target PF/Figures/RMSE_NbEigen
-_KNN5.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distribu
-ted single target PF/Figures/RMSE_NbEigen_KNN10.pdf> <C:/Users/Jay/Desktop/dist
-ributed_particle_filter.git/trunk/Distributed single target PF/Figures/RMSE_NbE
-igen_KNN20.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Dis
-tributed single target PF/Figures/runtime_NbEigen_KNN5.pdf> <C:/Users/Jay/Deskt
-op/distributed_particle_filter.git/trunk/Distributed single target PF/Figures/r
-untime_NbEigen_KNN10.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git
-/trunk/Distributed single target PF/Figures/runtime_NbEigen_KNN20.pdf> <C:/User
-s/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target P
-F/Figures/RMSE_NbClusters_KNN5.pdf> <C:/Users/Jay/Desktop/distributed_particle_
-filter.git/trunk/Distributed single target PF/Figures/RMSE_NbClusters_KNN10.pdf
-> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed singl
-e target PF/Figures/RMSE_NbClusters_KNN20.pdf> <C:/Users/Jay/Desktop/distribute
-d_particle_filter.git/trunk/Distributed single target PF/Figures/runtime_NbClus
-ters_KNN5.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Dist
-ributed single target PF/Figures/runtime_NbClusters_KNN10.pdf> <C:/Users/Jay/De
-sktop/distributed_particle_filter.git/trunk/Distributed single target PF/Figure
-s/runtime_NbClusters_KNN20.pdf>]
-[9]
+[7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
+le target PF/Figures/LCpf_approx_error.pdf>] [8]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.aux") ) 
+ target PF\Distributed single-target PF.aux")
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3006 strings out of 493921
- 40220 string characters out of 3147289
- 103958 words of memory out of 3000000
- 6245 multiletter control sequences out of 15000+200000
+ 2947 strings out of 493921
+ 38094 string characters out of 3147289
+ 103946 words of memory out of 3000000
+ 6198 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,14n,24p,1050b,257s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Distributed single-target PF.pdf" (9 pages, 315483 bytes).
+ 27i,14n,24p,1050b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmti10.pfb>
+Output written on "Distributed single-target PF.pdf" (8 pages, 234956 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
+ 113 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

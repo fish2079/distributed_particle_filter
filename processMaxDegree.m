@@ -7,7 +7,7 @@ filepath = 'Results_LCpf\';
 maxDegree_vector = [1:9];
 
 % Number of random trials
-sim_parameters.no_trials = 200; 
+sim_parameters.no_trials = 100; 
 
 RMSE = zeros(1, numel(maxDegree_vector));
 RMSE_full = [];
@@ -39,7 +39,7 @@ xlabel('Max degree of LCpf');
 ylabel('RMSE');
 set(gca,'fontsize',32);
 hold on;
-plot(0:10, 1.4980*ones(1,11),'r','linewidth',6);
+plot(0:10, 2.0577*ones(1,11),'r','linewidth',6);
 
 figure();
 set(gcf,'color','white');
@@ -48,18 +48,3 @@ xlabel('Max degree of LCpf');
 ylabel('Total runtime');
 set(gca,'fontsize',32);
 
-% [x,y]=meshgrid(nbEig_vector,maxDegree_vector);
-% scatter(x(:),y(:), 200, RMSE(:), 'filled');
-% colorbar;
-% xlabel('Number of Eigenvectors');
-% ylabel('Number of nearest neighbors');
-% title('Average RMSE for LA filter');
-% 
-% figure();
-% set(gcf,'color','white');
-% set(gca,'fontsize',32);
-% scatter(x(:),y(:), 200, time(:), 'filled');
-% colorbar;
-% xlabel('Number of Eigenvectors');
-% ylabel('Number of nearest neighbors');
-% title('Average runtime for LA filter');

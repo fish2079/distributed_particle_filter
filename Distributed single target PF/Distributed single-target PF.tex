@@ -138,7 +138,7 @@ As in the case of LApf, the Clusterpf requires that all sensors have the same pa
 
 \section{Performance evaluation}
 \subsection{Simulation setup}
-In this section, we evaluate and compare the performance of the four filters presented in Sec.~\ref{sec:pf}. We also include a centralized bootstrap filter as baseline. We construct a network of $S=9$ sensors in a square grid over a $75\text{km} \times 75\text{km}$ area. The target starts near the center sensor and travels in counter-clockwise direction over 50 time steps. The sensors remain static over time. Fig.~\ref{fig:track} shows the target trajectory and sensor positions. 
+In this section, we evaluate and compare the performance of the four filters presented in Sec.~\ref{sec:pf}. We also include a centralized bootstrap filter as baseline. We construct a network of $S=9$ sensors in a square grid over a $75\text{km} \times 75\text{km}$ area. The target starts near the top center sensor and travels in counter-clockwise direction over 50 time steps. The sensors remain static over time. Fig.~\ref{fig:track} shows the target trajectory and sensor positions. 
 
 The target state evolves over time following a discrete-time model:
 \begin{equation}
@@ -186,9 +186,7 @@ For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_
 \beta_9(X) &= x_t^2 y_t^2 
 \end{align*}
 
-For LApf, we construct a $K$-nearest neighbor graph and retain $m< N$ Eigenvectors as the basis of Laplacian transformation. 
-
-For Clusterpf, all particles are grouped into $C$ clusters and a $K$-nearest neighbor graph is constructed to recover individual particle weights. 
+For LApf, we construct a $K$-nearest neighbor graph and retain $m< N$ Eigenvectors as the basis of Laplacian transformation. For Clusterpf, all particles are grouped into $C$ clusters and a $K$-nearest neighbor graph is constructed to recover individual particle weights. 
 
 Finally, the random number generators are synchronized to ensure that the particles remain the same across sensors. All summations are computed exactly without using any distributed algorithms. This ensures that no performance degradation is caused by consensus.
 
@@ -202,72 +200,115 @@ Consider first LCpf. The max degree $d$ should offer a trade-off between trackin
 
 \begin{figure}
 \centering
-\includegraphics[width=0.65\textwidth]{Figures/RMSE_maxDegree}
-\includegraphics[width=0.65\textwidth]{Figures/runtime_maxDegree}
-\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 200 Monte Carlo trials. The red solid line in the left subfig is the average RMSE of BSpf for comparison.}
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.49\textwidth]{Figures/RMSE_maxDegree}}
+\end{subfigure}
+\begin{subfigure}[total runtime]
+{\includegraphics[width=0.49\textwidth]{Figures/runtime_maxDegree}}
+\end{subfigure}
+\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 100 Monte Carlo trials. The red solid line in the subfig a is the average RMSE of BSpf for comparison.}
 \label{fig:results_maxDegree}
 \end{figure}
 
-Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 200 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model $H(X_i)$. 
+Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 100 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model $H(X_i)$. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.55\textwidth]{Figures/LCpf_approx_error.pdf}
+\label{fig:LCpf_approx_error}
+\caption{Boxplot of measurement approximation error with respect to max degree. All results are computed over 100 Monte Carlo trials}
+\end{figure}
 
 To verify our conjecture, we compute the following metric. At each time step, we compute the aggregate approximation error over all $S$ measurements for each particle ($\sum_{s=1}^S H_s(X_i)-\hat(H)_s(X_i)$), and report the average value $\sum_{i=1}^N \sum_{s=1}^S(H_s(X_i)-\hat(H)_s(X_i))/N$. 
 
 Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect to max degree. The approximation error decreases until $d=4$ and increases afterwards; but the difference is rather small with a maximum difference of 1.5 degree (versus the 5 degrees standard deviation of measurement noise). This small difference in approximation error directly translates to negligible difference in tracking performance. Based on the computational overhead, we will select $d=1$ for LCpf in subsequent simulations. 
 
-\begin{figure}
-\centering
-\includegraphics[width=0.65\textwidth]{Figures/LCpf_approx_error.pdf}
-\label{fig:LCpf_approx_error}
-\caption{Boxplot of measurement approximation error with respect to max degree. All results are computed over 200 Monte Carlo trials}
-\end{figure}
+
 
 \subsubsection{Laplacian approximation particle filter}
 The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
 
-Fig.~\ref{fig:RMSE_NbEigen} shows the boxplot of time-averaged RMSE over 200 trials. Note that we start at $K=3$ since lower values do not lead to a connected graph. PLOT NEW FIGURES AND PROVIDE ANALYSIS.
+Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  Higher value of $K$ means higher connectivity of resulting nearest-neighbor graph. We conjecture that, for a highly connected graph, most energy would be concentrated in fewer coefficients corresponding to lower frequency basis vectors. For $m$ large enough, the approximation error would be small enough regardless of graph connectivity. 
 
-For all values of $K$, we do not notice a significant improvement in tracking performance as more Eigenvectors are used. This suggests that most of the graph energy is stored in the first 50 Eigenvectors. 
+To verify our conjecture, we compute and report at each time step the approximation error of particle likelihoods: $|\gamma-\hat{\gamma}|$ where $\gamma$ is the vector of true particle log-likelihood and $\hat{\gamma}$ is the approximation using $m$ Eigenvectors. Table.~\ref{} shows the results. 
 
-Fig.~\ref{fig:runtime_NbEigen} shows the boxplot of total runtime. There is a lot of fluctuations in the runtime; but we do notice an overall decrease as we increase $m$. This result is rather surprising to us and we are still looking into the cause of this behavior. For the subsequent simulations, we will set $K=5$ and $m=500$. 
+%We also plot the boxplots of the results for $m=6, 20, 500, 1000$ in Fig.~\ref{fig:RMSE_LApf_KNN}. 
 
-\begin{figure}
+\begin{table}[H!]
 \centering
-\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN5}}
-\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN10}}
-\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbEigen_KNN20}}
-\caption{Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-\label{fig:RMSE_NbEigen}
-\end{figure}
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+        & m = 6  & 10     & 20     & 100    & 200    & 500    & 1000   \\ \hline
+K = 3 & 5.4804 & 4.4057 & 3.9159 & 2.1505 & 2.1612 & 2.2161 & 2.1646 \\ \hline
+4       & 4.2176 & 3.8376 & 3.6131 & 2.2138 & 2.195  & 2.2501 & 2.1646 \\ \hline
+5       & 4.3284 & 3.6929 & 2.914  & 2.1928 & 2.2302 & 2.2292 & 2.1646 \\ \hline
+6       & 4.1016 & 3.3112 & 2.3407 & 2.2309 & 2.233  & 2.2877 & 2.1646 \\ \hline
+7       & 3.6605 & 2.8502 & 2.2711 & 2.1899 & 2.229  & 2.2864 & 2.1646 \\ \hline
+8       & 3.436  & 2.3306 & 2.1202 & 2.1923 & 2.235  & 2.2655 & 2.1646 \\ \hline
+9       & 3.1273 & 2.2126 & 2.1998 & 2.2885 & 2.2476 & 2.2789 & 2.1646 \\ \hline
+10      & 2.9664 & 2.231  & 2.0918 & 2.1727 & 2.2219 & 2.2215 & 2.1646 \\ \hline
+\end{tabular}
+\caption{RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+\label{tab:RMSE_LApf}
+\end{table}
 
-\begin{figure}
-\centering
-\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN5}}
-\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN10}}
-\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbEigen_KNN20}}
-\caption{Boxplot of total runtime of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-\label{fig:runtime_NbEigen}
-\end{figure}
+%Fig.~\ref{fig:RMSE_LApf_KNN} shows the average RMSE with respect to $K$ for different values of $m$. We also include the results of centralized BSpf as baseline. For $m=6$ (which requires the same amount of communication overhead as CSSpf), the RMSE decreases with increasing $K$. For $m=6$, the RMSE stops decreasing after $K=6$. For larger values of $m$, the approximation error of particle log-likelihoods would be low enough that the RMSE is fairly constant for all values of $K$. 
+%
+%\begin{figure}
+%\centering
+%\subfigure[$m$=6]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m6}}
+%\subfigure[$m$=20]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m20}}
+%\subfigure[$m$=500]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m500}}
+%\subfigure[$m$=1000]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m1000}}
+%\caption{Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+%\label{fig:RMSE_LApf_KNN}
+%\end{figure}
 
-\subsubsection{Cluster particle filter}
-The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
+%Table.~\ref{tab:time_LApf} shows the average total runtime with respect to $K$ for different values of $m$. 
+%
+%\begin{table}[H]
+%\centering
+%\begin{tabular}{|l|l|l|l|l|l|l|l|}
+%\hline
+%        & $m$ = 6   & 10      & 20      & 100     & 200     & 500     & 1000    \\ \hline
+%$K$ = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \hline
+%4       & 47.61   & 45.8321 & 46.9099 & 44.1239 & 46.8175 & 45.7268 & 48.0369 \\ \hline
+%5       & 45.5334 & 45.9404 & 44.9823 & 44.2019 & 47.1917 & 46.8049 & 49.0212 \\ \hline
+%6       & 47.1295 & 48.5234 & 47.4019 & 49.2646 & 50.1962 & 54.1456 & 58.088  \\ \hline
+%7       & 59.0893 & 56.0343 & 58.6746 & 56.3333 & 58.1322 & 55.1389 & 49.3091 \\ \hline
+%8       & 48.8316 & 47.9977 & 47.1873 & 45.6619 & 46.6635 & 47.3256 & 48.1953 \\ \hline
+%9       & 49.4382 & 51.4236 & 48.8129 & 46.9926 & 47.2865 & 51.273  & 57.2445 \\ \hline
+%10      & 46.4701 & 46.178  & 49.3883 & 50.8106 & 51.7062 & 49.7496 & 47.8554 \\ \hline
+%\end{tabular}
+%\caption{Total runtime of LApf with respect to $K$ and $m$. All results area averaged over 50 time steps and 100 Monte-Carlo trials.}
+\label{tab:time_LApf}
+%\end{table}
 
-\begin{figure}
-\centering
-\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN5}}
-\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN10}}
-\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN20}}
-\caption{Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-\label{fig:RMSE_NbClusters}
-\end{figure}
 
-\begin{figure}
-\centering
-\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN5}}
-\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN10}}
-\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN20}}
-\caption{Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-\label{fig:runtime_NbClusters}
-\end{figure}
+
+%
+%\subsubsection{Cluster particle filter}
+%The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
+%
+%\begin{figure}
+%\centering
+%\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN5}}
+%\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN10}}
+%\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN20}}
+%\caption{Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+%\label{fig:RMSE_NbClusters}
+%\end{figure}
+%
+%\begin{figure}
+%\centering
+%\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN5}}
+%\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN10}}
+%\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN20}}
+%\caption{Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
+%\label{fig:runtime_NbClusters}
+%\end{figure}
+%
+
 
 \subsection{Performance comparison between filters}
 To be completed

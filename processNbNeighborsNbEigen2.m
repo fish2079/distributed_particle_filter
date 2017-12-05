@@ -19,7 +19,7 @@ filepath = 'Results_LApf\';
 
 % Number of particles for the filter
 KNN_vector = 3:10;
-nbEig_vector = [6,10, 20, 100, 200, 500, 1000];
+nbEig_vector = [6,10, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 100; 
@@ -39,12 +39,13 @@ xticklabel = {};
 xtick = [];
 groupSeparator = [];
 
-for j=1:numel(nbEig_vector)
-    sim_parameters.nbEig = nbEig_vector(j);
-    for i=1:numel(KNN_vector)
-        % Set number of particles
-        sim_parameters.KNN = KNN_vector(i); 
-
+for i=1:numel(KNN_vector)
+    % Set number of neighbors
+    sim_parameters.KNN = KNN_vector(i); 
+        
+    for j=1:numel(nbEig_vector)
+        sim_parameters.nbEig = nbEig_vector(j);
+        
         filename{i} = [filepath,'LApf_KNN',num2str(sim_parameters.KNN),'_nbEig',num2str(sim_parameters.nbEig),'_trials',num2str(sim_parameters.no_trials),'.mat'];
 
         [RMSE_vector, ~, time_vector, runtimeFull, detail] = extractResults(filename{i});
@@ -61,31 +62,27 @@ for j=1:numel(nbEig_vector)
         steptimeFull = [steptimeFull;squeeze(mean(runtimeFull,2))'];
         
         % Modify as needed depending on actual values
-        xticklabel = [xticklabel, num2str(KNN_vector(i))];
-        xtick = [xtick, (j-1)*numel(KNN_vector)+i];
+        xticklabel = [xticklabel, num2str(nbEig_vector(j))];
+        xtick = [xtick, (i-1)*numel(nbEig_vector)+j];
     end
-    groupSeparator(j) = numel(KNN_vector)*j+0.5;
+    groupSeparator(i) = numel(nbEig_vector)*i+0.5;
 end
 
-% figure();
-% boxplot(RMSEFull');
-% ylabel('RMSE');
-% xlabel('K');
-% hold on;
-% for i=1:numel(groupSeparator)-1
-%     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
-% end
-% hold on;
-% plot(0:10, 2.0577*ones(1,11),'k--','linewidth',6);
-% set(gca,'xtick', xtick);
-% set(gca,'xticklabel', xticklabel);
-% set(gca,'fontsize',32);
-% ylim([0,8]);
+figure();
+boxplot(RMSEFull');
+title('RMSE');
+hold on;
+for i=1:numel(groupSeparator)-1
+    plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
+end
+set(gca,'xtick', xtick);
+set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',32);
+
 
 figure();
 boxplot(timeFull');
-ylabel('total Runtime (s)');
-xlabel('K');
+title('Runtime');
 hold on;
 for i=1:numel(groupSeparator)-1
     plot([groupSeparator(i),groupSeparator(i)],[0,90],'k');
@@ -94,11 +91,9 @@ set(gca,'xtick', xtick);
 set(gca,'xticklabel', xticklabel);
 set(gca,'fontsize',32);
 
-return;
 figure();
 boxplot(steptimeFull');
-ylabel('Runtime per time step (s)');
-xlabel('K');
+title('step time');
 hold on;
 for i=1:numel(groupSeparator)-1
     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
@@ -109,8 +104,7 @@ set(gca,'fontsize',32);
 
 figure();
 boxplot(KNNtimeFull');
-ylabel('KNN graph construction time (s)');
-xlabel('K');
+title('KNN time');
 hold on;
 for i=1:numel(groupSeparator)-1
     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
@@ -121,8 +115,7 @@ set(gca,'fontsize',32);
 
 figure();
 boxplot(eigtimeFull');
-ylabel('Eigendecomposition time (s)');
-xlabel('K');
+title('Eigen time');
 hold on;
 for i=1:numel(groupSeparator)-1
     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
