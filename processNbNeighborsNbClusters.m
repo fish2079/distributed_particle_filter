@@ -15,15 +15,15 @@
 warning('off','all');
 clear;clc;
 
-% filepath = 'Results_Clusterpf\';
-filepath = '';
+filepath = 'Results_Clusterpf\';
+% filepath = '';
 
 % Number of particles for the filter
-KNN_vector = [3:10];
-nbClusters_vector = [10, 20, 50, 100, 200, 500, 1000];
+KNN_vector = [3:10,20,50,100];
+nbClusters_vector = [6, 10, 20, 50, 100, 200, 500, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 8; 
+sim_parameters.no_trials = 100; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbClusters_vector));
 time = zeros(numel(KNN_vector), numel(nbClusters_vector));

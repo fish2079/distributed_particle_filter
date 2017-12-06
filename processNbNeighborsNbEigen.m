@@ -18,14 +18,15 @@ clear;clc;
 filepath = 'Results_LApf\';
 
 % Number of particles for the filter
-KNN_vector = 3:10;
-nbEig_vector = 100; %[6,10, 20, 100, 200, 500, 1000];
+KNN_vector = [3:10, 20, 50, 100];
+nbEig_vector = [6,10, 20, 100, 200, 500, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 100; 
 
 RMSE = zeros(numel(KNN_vector), numel(nbEig_vector));
 time = zeros(numel(KNN_vector), numel(nbEig_vector));
+timeSTDEV = time;
 
 RMSEFull = [];
 timeFull = [];
@@ -56,11 +57,12 @@ for j=1:numel(nbEig_vector)
         
         timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
         time(i,j) = mean(squeeze(sum(runtimeFull,2))');
+        timeSTDEV(i,j) = std(squeeze(sum(runtimeFull,2))');
         
         KNNtimeFull = [KNNtimeFull; sum(detail.LApf.KNN_time,1)];
         eigtimeFull = [eigtimeFull; sum(detail.LApf.eig_time,1)];
         steptimeFull = [steptimeFull;squeeze(sum(runtimeFull,2))'];
-        gammadifFull = [gammadifFull; sum(detail.LApf.weight_dif,1)];
+        gammadifFull = [gammadifFull; mean(detail.LApf.weight_dif,1)];
         
         % Modify as needed depending on actual values
         xticklabel = [xticklabel, num2str(KNN_vector(i))];

@@ -226,7 +226,9 @@ Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect
 \subsubsection{Laplacian approximation particle filter}
 The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
 
-Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m\geq 100$, the RMSE is fairly constant over all values of $K$. To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. Unsurprisingly, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the approximation error actually goes up with as $K$ increases. It is worth noting that the high values of $m$ ensure the approximation error remains small. 
+Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   At $m=1000$, there is no approximation error and the RMSE is constant for all values $K$ and on-par with that of centralized BSpf. For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m= 100, 200, 500$, the RMSE has small fluctuations over $K$. 
+
+To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. As expected, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the approximation error actually goes up with as $K$ increases. It is worth noting that the high values of $m$ ensure the approximation error remains small. 
 
 \begin{table}[h!]
 \centering
@@ -241,6 +243,9 @@ K = 3   & 5.4804 & 4.4057 & 3.9159 & 2.1505 & 2.1612 & 2.2161 & 2.1646 \\ \hline
 8       & 3.436  & 2.3306 & 2.1202 & 2.1923 & 2.235  & 2.2655 & 2.1646 \\ \hline
 9       & 3.1273 & 2.2126 & 2.1998 & 2.2885 & 2.2476 & 2.2789 & 2.1646 \\ \hline
 10      & 2.9664 & 2.231  & 2.0918 & 2.1727 & 2.2219 & 2.2215 & 2.1646 \\ \hline
+20      & 2.5182 & 2.1113 & 2.1180 & 2.3057 & 2.2763 & 2.2745    & 2.1646 \\ \hline
+50      & 2.2559 & 2.0106 & 2.1037 & 2.2813 & 2.3008 & 2.2571    & 2.1646 \\ \hline
+100     & 2.2783 & 2.2772 & 2.3185 & 2.2922 & 2.2950 & 2.3043    & 2.1646 \\ \hline
 \end{tabular}
 \caption{RMSE of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
 \label{tab:RMSE_LApf}
@@ -259,12 +264,15 @@ KNN = 3 & 0.0747 & 0.0589 & 0.0456 & 0.0102 & 0.0088 & 0.0096 & 0    \\ \hline
 8       & 0.0248 & 0.0183 & 0.0141 & 0.0137 & 0.0166 & 0.014  & 0    \\ \hline
 9       & 0.0242 & 0.0171 & 0.0139 & 0.0155 & 0.016  & 0.0144 & 0    \\ \hline
 10      & 0.0224 & 0.0159 & 0.0141 & 0.014  & 0.0165 & 0.0149 & 0    \\ \hline
+20      & 0.0186 & 0.0166 & 0.0150 & 0.0200 & 0.0191 & 0.0174         & 0    \\ \hline
+50      & 0.0193 & 0.0170 & 0.0199 & 0.0214 & 0.0213 & 0.0195         & 0    \\ \hline
+100     & 0.0209 & 0.0223 & 0.0252 & 0.0249 & 0.0230 & 0.0214         & 0 \\ \hline
 \end{tabular}
 \caption{Approximation error of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
 \label{tab:Approx_error_LApf}
 \end{table}
 
-Table.~\ref{tab:runtime_LApf} shows the total runtime of LApf with respect to $K$ and $m$. When $m$ increases, the particle log-likelihoods are encoded using more coefficients. However, since this is a matrix multiplication operation, the difference in computational overhead is negligible and there is no significant variation in computational overhead. On the other hand, at $K=7$, there is a huge spike in runtime for all values of $m$. Fig.~\ref{fig:time_bar_LApf} shows the breakdown of total runtime for $m=10$. It appears that the computational overhead of eigenvalue decomposition spikes at $K=7$. It is not yet clear what causes this sudden spike. We omit the figures for other values of $m$ since they have similar trends. Based on these results, we will select $m=10$ and $K=10$ for subsequent simulations. 
+Table.~\ref{tab:runtime_LApf} shows the total runtime of LApf with respect to $K$ and $m$. For $1\leq K \leq 10$, when $m$ increases, the particle log-likelihoods are encoded using more coefficients. However, since this is a matrix multiplication operation, the difference in computational overhead is negligible and there is no significant variation in computational overhead. For $K=20, 50, 100$, surprisingly, there is a significant fluctuation in runtime as $m$ increases. On the other hand, at $K=7$, there is a huge spike in runtime for all values of $m$. Fig.~\ref{fig:time_bar_LApf} shows the breakdown of total runtime for $m=10$. It appears that the computational overhead of eigenvalue decomposition spikes at $K=7$. It is not yet clear what causes this sudden spike. We omit the figures for other values of $m$ to save space; but it is worth nothing that the eigenvalue decomposition accounts for the overwhelming majority of computational overhead in all cases. 
 
 \begin{table}[h!]
 \centering
@@ -279,6 +287,9 @@ K = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \
 8     & 48.8316 & 47.9977 & 47.1873 & 45.6619 & 46.6635 & 47.3256 & 48.1953 \\ \hline
 9     & 49.4382 & 51.4236 & 48.8129 & 46.9926 & 47.2865 & 51.273  & 57.2445 \\ \hline
 10    & 46.4701 & 46.178  & 49.3883 & 50.8106 & 51.7062 & 49.7496 & 47.8554 \\ \hline
+20    & 45.1474 & 48.0359 & 42.6048 & 29.7810 & 31.1612 & 30.2740 & 30.4691 \\ \hline
+50    & 47.3068 & 53.4298 & 39.3070 & 31.5229 & 31.4748 & 31.1005 & 35.6691 \\ \hline
+100   & 55.7847 & 44.9831 & 39.8943 & 36.4267 & 32.4495 & 33.2130 & 34.6833 \\ \hline
 \end{tabular}
 \caption{Total runtime of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
 \label{tab:runtime_LApf}
