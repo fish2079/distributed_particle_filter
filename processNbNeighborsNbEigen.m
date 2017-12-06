@@ -19,7 +19,7 @@ filepath = 'Results_LApf\';
 
 % Number of particles for the filter
 KNN_vector = 3:10;
-nbEig_vector = [6,10, 20, 100, 200, 500, 1000];
+nbEig_vector = 100; %[6,10, 20, 100, 200, 500, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 100; 
@@ -33,6 +33,7 @@ timeFull = [];
 KNNtimeFull = [];
 eigtimeFull = [];
 steptimeFull = [];
+gammadifFull = [];
 
 % xlabel parameters for the plot
 xticklabel = {};
@@ -56,9 +57,10 @@ for j=1:numel(nbEig_vector)
         timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
         time(i,j) = mean(squeeze(sum(runtimeFull,2))');
         
-        KNNtimeFull = [KNNtimeFull; mean(detail.LApf.KNN_time,1)];
-        eigtimeFull = [eigtimeFull; mean(detail.LApf.eig_time,1)];
-        steptimeFull = [steptimeFull;squeeze(mean(runtimeFull,2))'];
+        KNNtimeFull = [KNNtimeFull; sum(detail.LApf.KNN_time,1)];
+        eigtimeFull = [eigtimeFull; sum(detail.LApf.eig_time,1)];
+        steptimeFull = [steptimeFull;squeeze(sum(runtimeFull,2))'];
+        gammadifFull = [gammadifFull; sum(detail.LApf.weight_dif,1)];
         
         % Modify as needed depending on actual values
         xticklabel = [xticklabel, num2str(KNN_vector(i))];
@@ -67,6 +69,15 @@ for j=1:numel(nbEig_vector)
     groupSeparator(j) = numel(KNN_vector)*j+0.5;
 end
 
+figure();
+set(gcf,'color','white');
+bar([mean(eigtimeFull,2),mean(KNNtimeFull,2), mean(steptimeFull,2)-(mean(KNNtimeFull,2)+mean(eigtimeFull,2))],'stacked');
+xlabel('K');
+ylabel('time (s)');
+legend('Eigenvalue decomposition', 'KNN graph construction', 'Miscellaneous computation');
+set(gca,'fontsize',32);
+ylim([0,65]);
+set(gca,'xticklabel', xticklabel);
 % figure();
 % boxplot(RMSEFull');
 % ylabel('RMSE');
