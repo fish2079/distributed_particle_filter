@@ -336,9 +336,55 @@ K = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \
 
 
 
-%
-%\subsubsection{Cluster particle filter}
-%The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
+
+\subsubsection{Cluster particle filter}
+The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Table~\ref{tab:RMSE_clusterpf} shows the average RMSE of Clusterpf with respect to $C$ and $K$. As $C$ increases, the RMSE decreases. At $C=N=1000$, the Clusterpf is equivalent to the centralized BSpf (assuming distributed summation without error) and the performance is independent of $K$. For any given value of $C$, as $K$ increases, RMSE decreases. Higher value of $C$ requires higher communication overhead whereas the higher $K$ generates a more connected graph with more computational overhead. This suggests that one may opt for a higher value of $K$ in exchange for reduced communication overhead. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+      & C = 6  & 10     & 20     & 50     & 100    & 200    & 500    & 1000  \\ \hline
+K = 3 & 7.2659 & 5.8947 & 4.9396 & 4.2876 & 3.5259 & 2.9242 & 2.1867 & 2.145 \\ \hline
+4     & 5.788  & 4.8958 & 4.2774 & 3.8178 & 3.6676 & 2.7393 & 2.1351 & 2.145 \\ \hline
+5     & 4.8997 & 4.3572 & 4.2338 & 3.6465 & 3.3935 & 2.6175 & 2.082  & 2.145 \\ \hline
+6     & 4.484  & 3.5367 & 3.4824 & 3.3628 & 2.9538 & 2.3805 & 2.2021 & 2.145 \\ \hline
+7     & 3.8512 & 3.8754 & 3.7534 & 3.2243 & 2.6819 & 2.2898 & 2.1499 & 2.145 \\ \hline
+8     & 3.9089 & 3.3702 & 3.3426 & 2.9276 & 2.5027 & 2.2326 & 2.1574 & 2.145 \\ \hline
+9     & 3.5868 & 3.1086 & 3.0701 & 2.8636 & 2.5661 & 2.2189 & 2.161  & 2.145 \\ \hline
+10    & 3.51   & 3.0733 & 2.919  & 2.4383 & 2.3067 & 2.1811 & 2.1323 & 2.145 \\ \hline
+20    & 2.4083 & 2.2209 & 2.2114 & 2.2414 & 2.2362 & 2.2464 & 2.1979 & 2.145 \\ \hline
+50    & 2.2432 & 2.2315 & 2.1922 & 2.274  & 2.2721 & 2.2163 & 2.2494 & 2.145 \\ \hline
+100   & 2.3841 & 2.2779 & 2.2087 & 2.1232 & 2.1998 & 2.2225 & 2.233  & 2.145 \\ \hline
+\end{tabular}
+\caption{RMSE of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}
+\label{tab:RMSE_clusterpf}
+\end{table}
+
+Table.~\ref{tab:runtime_Clusterpf} shows the total runtime of Clusterpf with respect to $K$ and $m$. As $C$ increases, so does the runtime with a huge spike after $C=200$. A detailed breakdown of total runtime shows that clustering of particles is the sole cause of high runtime (i.e., clustering particles requires more than 10 minutes for $C=1000$). For a given value of $C$, increasing $K$ leads to higher runtime which is caused by the higher computational overhead for nearest-neighbor graph construction. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+      & C = 6   & 10      & 20      & 50      & 100     & 200     & 500      & 1000     \\ \hline
+K = 3 & 7.5892  & 7.261   & 7.319   & 11.6321 & 19.1915 & 42.2104 & 194.2847 & 748.8655 \\ \hline
+4     & 5.3822  & 7.376   & 8.1377  & 10.3778 & 20.1636 & 41.0503 & 209.7392 & 745.8139 \\ \hline
+5     & 5.7585  & 7.7351  & 8.5754  & 11.9199 & 22.4751 & 41.4862 & 202.5959 & 737.2755 \\ \hline
+6     & 5.6528  & 6.1532  & 6.9711  & 12.2259 & 21.3191 & 47.8484 & 208.5728 & 731.9177 \\ \hline
+7     & 5.6642  & 6.2151  & 8.2362  & 13.5284 & 21.5673 & 45.5246 & 201.8637 & 735.6102 \\ \hline
+8     & 5.5074  & 7.2165  & 8.6544  & 13.8472 & 22.0559 & 46.9042 & 212.0588 & 752.7881 \\ \hline
+9     & 5.443   & 7.3545  & 8.7816  & 11.9092 & 20.5374 & 48.2595 & 205.2912 & 752.7088 \\ \hline
+10    & 5.47    & 7.4078  & 8.3934  & 13.7549 & 18.4591 & 46.0232 & 205.4603 & 742.8909 \\ \hline
+20    & 9.4839  & 8.0864  & 9.1319  & 13.1057 & 26.0044 & 42.5927 & 215.7453 & 773.2    \\ \hline
+50    & 9.2247  & 10.1492 & 11.2527 & 16.6921 & 24.2699 & 45.6228 & 205.8808 & 769.31   \\ \hline
+100   & 13.7989 & 13.2524 & 13.3149 & 23.1734 & 25.7608 & 54.9912 & 217.2478 & 766.9748 \\ \hline
+\end{tabular}
+\caption{Runtime of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}
+\label{tab:runtime_Clusterpf}
+\end{table}
+
+%Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
 %
 %\begin{figure}
 %\centering
@@ -359,22 +405,37 @@ K = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \
 %\end{figure}
 %
 
-
 \subsection{Performance comparison between filters}
-To be completed
-%Fig.~\ref{fig:MSE} shows the boxplots of mean squared position error with respect to the number of particles. All results are averaged over 100 Monte Carlo trials. At each trial, the trajectory and sensor measurements change. For any trial, all algorithms have the same initial particles and measurements. 
+In this section, we compare the filters against each other. We consider a number of different tracks and investigate several parameters of interest. 
 
-%\begin{figure}
-%\centering
-%\includegraphics[width=0.75\textwidth]{Figures/MSE}
-%\caption{Mean squared position error with respect to number of particles}
-%\label{fig:MSE}
-%\end{figure}
+Fig.~\ref{fig:track1_results} shows the first test track and the boxplot of RMSE with respect to $N$, the number of particles. The CSSpf has the worst performance by a significant margin. For $N\geq 500$, the other four particle filters have similar performance. 
 
-%The BSPF and CSSPF have similar tracking performance; however the LCPF has consistently the worst performance (i.e., almost double the MSE of the other methods). 
+\begin{figure}
+\centering
+\begin{subfigure}[Track]
+{\includegraphics[width=0.45\textwidth]{Figures/track}}
+\end{subfigure}
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track1_N}}
+\end{subfigure}
+\caption{Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
+\label{fig:track1_results}
+\end{figure}
 
-%To understand the poor performance of LCPF, at each time step of BSPF, we compute the particle likelihoods exactly and using likelihood consensus approximation, and then compute the discrepancy between them. Fig.~\ref{} shows the average discrepancy over time. 
+Next, we consider a different track that is completely outside the sensor grid. Fig.~\ref{fig:track2_results} shows the track and the results. Again, CSSpf has the worst performance by far. The other four filters have similar performance for $N\geq 500$; although the RMSE of LCpf has the largest fluctuation. 
+\begin{figure}
+\centering
+\begin{subfigure}[Track]
+{\includegraphics[width=0.45\textwidth]{Figures/track2}}
+\end{subfigure}
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track2_N}}
+\end{subfigure}
+\caption{2nd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
+\label{fig:track2_results}
+\end{figure}
 
+In the third track, we expand the size of sensor grid to ensure that the target trajectory remains within the grid. 
 \section{Conclusion}
 \label{sec:conclusion}
 To be completed

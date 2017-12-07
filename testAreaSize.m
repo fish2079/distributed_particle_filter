@@ -21,11 +21,11 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = [1:10, 20, 50, 100];
-nbClusters_vector = [10, 20, 50, 100, 200, 500, 1000];
+areaLength_vector = 20; %[50, 100, 150, 300];
 
 % Number of random trials
-sim_parameters.no_trials = 8; 
+sim_parameters.no_trials = 100; 
+
 
 % Flag for parallel run
 sim_parameters.parallel = true;
@@ -39,23 +39,20 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists([5]);
+sim_parameters.algorithms = alg_lists(1:5);
 
-for j=1:numel(nbClusters_vector)
-    sim_parameters.nbClusters = nbClusters_vector(j);
-    for i=1:numel(KNN_vector)
-        % Set number of particles
-        sim_parameters.KNN = KNN_vector(i); 
+% Loop through each choice of particle number
+for i=1:numel(areaLength_vector)
+    % Set number of particles
+    sim_parameters.areaLength = areaLength_vector(i); 
+    
+    % Run the simulated track with all selected tracking algorithms 
+    % Each filter uses N particles   
+    [results, parameters]= runSimulatedTrack(sim_parameters);
 
-        filename = ['Clusterpf_KNN',num2str(sim_parameters.KNN),'_nbClusters',num2str(sim_parameters.nbClusters),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-
-        % Run the simulated track with all selected tracking algorithms 
-        % Each filter uses N particles   
-        [results, parameters]= runSimulatedTrack(sim_parameters);
-
-        % Store the tracking results
-        save(filename, 'results','parameters');
-    end
+    % Store the tracking results
+    filename{i} = ['2AreaLength',num2str(sim_parameters.areaLength),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    save(filename{i}, 'results','parameters');
 end
 
 % Plot the results

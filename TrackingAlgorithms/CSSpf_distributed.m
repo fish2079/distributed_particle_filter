@@ -47,6 +47,16 @@ if ~isempty(D.measurements)
     % Compute the posterior particle weights
     particle_weights = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
+    [gamma_particle_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    
+    weight_error = norm(particle_weights-gamma_particle_weights);
+    
+    if (isfield(details,'weight_error'))
+        details.weight_error = [details.weight_error, weight_error];
+    else
+        details.weight_error = weight_error;
+    end
+    
     if (1/sum(particle_weights.^2)<F.N_eff)
         % Sample according to weights with replacement
         I = randsample((1:N)', N, true, particle_weights);

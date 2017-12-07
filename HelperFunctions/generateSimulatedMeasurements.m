@@ -35,6 +35,7 @@ for t=1:S.nb_steps
     D.measurements{t} = [];
     D.sensorID{t} = [];
     D.sensorLoc{t} = [];
+    D.noise{t} = [];
     
     % Loop over sensors and generate measurements
     for s=1:S.nb_sensors
@@ -47,6 +48,7 @@ for t=1:S.nb_steps
             D.measurements{t} = [D.measurements{t}, bsxfun(@plus, z_noiseless, noise)];
             D.sensorID{t} = [D.sensorID{t}, s*ones(1,numMeas(s))];
             D.sensorLoc{t} = [D.sensorLoc{t}, repmat(obs.sensorPos(:,s), 1, numMeas(s))];
+            D.noise{t} = [D.noise{t}, noise];
         end        
     end
 end

@@ -37,6 +37,8 @@ for k = 1:S.nb_steps
     D_single.sensorID = D.sensorID{k};
     D_single.sensorLoc = D.sensorLoc{k};
         
+%     k
+%     D.noise{k}/pi*180
     % Skip the predict step for time step 1
     if (k==1)
         F.initial = true;

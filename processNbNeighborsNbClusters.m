@@ -33,6 +33,8 @@ timeFull = [];
 KNNtimeFull = [];
 clustertimeFull = [];
 gammatimeFull = [];
+steptimeFull = [];
+
 for j=1:numel(nbClusters_vector)
     sim_parameters.nbClusters = nbClusters_vector(j);
     xticklabel{j} = num2str(sim_parameters.nbClusters);
@@ -50,9 +52,10 @@ for j=1:numel(nbClusters_vector)
         timeFull = [timeFull; squeeze(sum(runtimeFull,2))'];
         time(i,j) = mean(squeeze(sum(runtimeFull,2))');
         
-        KNNtimeFull = [KNNtimeFull; mean(detail.Clusterpf.KNN_time,1)];
-        clustertimeFull = [clustertimeFull; mean(detail.Clusterpf.cluster_time,1)];
-        gammatimeFull = [gammatimeFull; mean(detail.Clusterpf.gamma_time,1)];
+        KNNtimeFull = [KNNtimeFull; sum(detail.Clusterpf.KNN_time,1)];
+        clustertimeFull = [clustertimeFull; sum(detail.Clusterpf.cluster_time,1)];
+        gammatimeFull = [gammatimeFull; sum(detail.Clusterpf.gamma_time,1)];
+        steptimeFull = [steptimeFull;squeeze(sum(runtimeFull,2))'];
     end
 end
 

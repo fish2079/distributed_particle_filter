@@ -23,10 +23,10 @@ function particle_weights = CSSLikelihoodExact(x_predicted, F, D, obs)
 
 d = size(x_predicted,1)-1;
 
-z = D.measurements/180*pi;
+z = D.measurements;
 
 % Extra parameters
-sigma_theta = sqrt(obs.R)/180*pi;
+sigma_theta = sqrt(obs.R);
 % sigma_a = dynamic.sigma_a;
 x_o = D.sensorLoc;
 
@@ -39,11 +39,11 @@ for i= 1:size(z,2)
     Z_exp(i,:) = sum(bsxfun(@times,[-cos(z(i));sin(z(i))],x_predicted(1:2,:)),1);
    
 %     % distance between sensor and particles
-%     particle_dist = bsxfun(@minus, x_predicted(1:2,:), x_o(:,i));
+    particle_dist = bsxfun(@minus, x_predicted(1:2,:), x_o(:,i));
 %     particle_dist_squared = particle_dist.^2;
 
     % new per-particle measurement variance
-    R(i,:) = sum(x_predicted(1:2,:).^2,1).*0.5*(1-exp(-2*sigma_theta^2)); 
+    R(i,:) = sum(particle_dist.^2,1).*0.5*(1-exp(-2*sigma_theta^2)); 
 
     gamma = gamma-(bsxfun(@minus, Z(i), Z_exp(i,:))).^2/2./R(i,:)-log(sqrt(2*pi*R(i,:)));
 end
@@ -62,20 +62,3 @@ end
 
 % Normalize the weights
 particle_weights = particle_weights./sum(particle_weights); 
-
-% function CSS  = calculate_CSS(y, x_o, variance_theta)
-% % function to calculate the constraint sufficient statitsics for the
-% % distributed particle using the measurement and measurement noise
-% x_o = x_o(1:2,:);
-% Z = bsxfun(@times,[-cos(y);sin(y)],x_o);
-% Z = sum(Z,1);
-% 
-% G1 = Z.^2./variance_theta;
-% G2 = (cos(y)).^2./variance_theta;
-% G3 = (sin(y)).^2./variance_theta;
-% G4 = sin(y).*cos(y)./variance_theta;
-% G5 = Z.*cos(y)./variance_theta;
-% G6 = Z.*sin(y)./variance_theta;
-% 
-% CSS = [G1; G2; G3; G4; G5; G6;]';
-% 

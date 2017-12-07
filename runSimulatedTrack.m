@@ -47,7 +47,11 @@ dynamic.sigma_a = 0.05; % process noise standard deviation
 % The struct S contains all relevant parameters for the target track
 S.nb_steps = 50; % total number of time steps
 S.initial = [45,45,5,0]';
-S.area_length = 75; % tracking area size = area_length^2 (km^2)
+if(isfield(sim_parameters,'areaLength'))
+    S.area_length = sim_parameters.areaLength;
+else
+    S.area_length = 75; % tracking area size = area_length^2 (km^2)
+end
 S.nb_sensors = 9; % number of sensors
 S.grid_sensor = true; % boolean flag to put the sensors in a grid
 % Generate the track, sensors and corresponding noise-free measurements
@@ -97,18 +101,18 @@ end
 if(isfield(sim_parameters, 'KNN'))
     F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
 else
-    F.LA.KNN = 10; 
+    F.LA.KNN = 100; 
 end
 if(isfield(sim_parameters, 'nbEig'))
     F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
 else
-    F.LA.m = 50;
+    F.LA.m = 6;
 end
 % Clustering specific parameters
 if(isfield(sim_parameters,'nbClusters'))
     F.cluster.k = sim_parameters.nbClusters;
 else
-    F.cluster.k = 50;
+    F.cluster.k = 6;
 end
 
 F.cluster.KNN = F.LA.KNN;
