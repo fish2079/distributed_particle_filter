@@ -21,14 +21,14 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N_vector = 1000;% [100, 250, 500, 750, 1000];
+sigma_vector = 5; %[1, 2.5, 5, 7.5, 10];
 
 % Number of random trials
-sim_parameters.no_trials = 4; 
+sim_parameters.no_trials = 100; 
 
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -39,20 +39,19 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists([3]);
+sim_parameters.algorithms = alg_lists([4]);
 
-% sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
-for i=1:numel(N_vector)
+for i=1:numel(sigma_vector)
     % Set number of particles
-    sim_parameters.N = N_vector(i); 
+    sim_parameters.sigma = sigma_vector(i); 
     
     % Run the simulated track with all selected tracking algorithms 
     % Each filter uses N particles   
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track3_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = ['Track3_sigma',num2str(sim_parameters.sigma*10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
 end
 

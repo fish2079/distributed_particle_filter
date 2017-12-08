@@ -4,7 +4,7 @@ clear;clc;
 % path = 'Results_N\Track1\';
 path = '';
 % Number of particles for the filter
-N_vector = [250, 500, 750, 1000];
+N_vector = [100, 250, 500, 750, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 500; 

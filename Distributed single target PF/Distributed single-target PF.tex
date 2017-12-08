@@ -7,13 +7,14 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{fullpage}
 \usepackage{subfigure}
+\usepackage{multicol}
 \author{Jun Ye Yu}
 \title{Distributed particle filter for bearing-only tracking}
 \begin{document}
 \maketitle
 
 \section{Introduction}
-In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the joint log-likelihood function using six global sufficient statistics that can be computed using distributed summation. The second filter uses likelihood consensus to approximate the measurement function with a number of basis functions. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are then recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}, \textbf{LCpf}, \textbf{LApf} and \textbf{Clusterpf} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
+In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the joint log-likelihood function using six global sufficient statistics that can be computed using distributed summation. The second filter uses likelihood consensus to approximate the measurement function with a number of basis functions. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are then recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}~\cite{Mohammadi2012}, \textbf{LCpf}~\cite{Hlinka2012}, \textbf{LApf}~\cite{Rabbat2016} and \textbf{Clusterpf}~\cite{Chao2015} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
 
 The remainder of the report is organized as follows. Sec.~\ref{sec:problem} defines the tracking problem. Sec.~\ref{sec:pf} presents the particle filters. Sec.~\ref{sec:evaluation} compares the filters' performance and Sec.~\ref{sec:conclusion} concludes the report. 
 
@@ -23,7 +24,7 @@ A network of $S$ sensors collaboratively track a single moving target over time.
 
 At time $k$, the target transitions to new state $X(k)$ with probability $f(X(k)|X(k-1))$ which depends on the target dynamic model. Each sensor $s$ also receives a noisy measurement $z_s(k)$ with likelihood $f(z_s(k)|H_s(X(k))$ where $H_s(\cdot)$ is the (possibly sensor-dependent) measurement function. The sensors have unity target detection probability and receive no clutter measurement. 
 
-In this report, we focus on bearing-only tracking. Each sensor receive a bearing measurement corrupted by additive zero-mean Gaussian noise, and have the following measurement model:
+In this report, we focus on bearing-only tracking. Each sensor receive a bearing measurement corrupted by additive zero-mean Gaussian noise, and has the following measurement model:
 \begin{equation}
 H_s(X)= \arctan2 \left( \frac{x_t-x_s}{y_t-y_s} \right) + \eta_s
 \label{eqn:bearing}
@@ -46,7 +47,30 @@ In the CSSpf, the likelihood function is approximated as follows:
 \begin{equation}
 \log(f(z_s|X) \approx \sum_{j=1}^6 G_{s,j}F_j(X)
 \end{equation}
-where the functions $F_j(X)$ depend only on $X$ and are known to all sensors. The sufficient statistics $G_{s,j}$ depend only on local information from sensor $s$. In other words, we approximate the log-likelihood function by the combination of six basis functions $F_j(X)$ with corresponding coefficients $G_{s,j}$. We omit the detailed expressions for $G_{s,j}$ and $F_j(X)$, and refer interested readers to ~\cite{}. 
+\begin{multicols}{3}
+\begin{align*}
+G_{s,1} &= (Z_{s,\theta})^2/R_\theta\\
+G_{s,2} &= \cos^2(Z_{s,\theta})/R_\theta\\
+G_{s,3} &= \sin^2(Z_{s,\theta})/R_\theta\\
+G_{s,4} &= \sin(Z_{s,\theta})\cos(Z_{s,\theta})/R_\theta\\
+G_{s,5} &= Z_{s,\theta}\cos(Z_{s,\theta})/R_\theta\\
+G_{s,6} &= Z_{s,\theta}\sin(Z_{s,\theta})/R_\theta \\
+Z_{s,\theta} &= y_s\sin(z_s)-x_s\cos(z_s) \\
+R_\theta &= E((x_t-x_s)^2+(y_t-y_s)^2)(1-\exp^{-2\sigma_\theta^2})/2
+\end{align*}
+\vfill\null
+\columnbreak
+\begin{align*}
+F_1(X) &= 1\\
+F_2(X) &= x_t^2 \\
+F_3(X) &= y_t^2\\
+F_4(X) &= -2x_ty_t\\
+F_5(X) &= 2x_t\\
+F_6(X) &= -2y_t 
+\end{align*}
+\end{multicols}
+
+The functions $F_j(X)$ depend only on $X$ and are known to all sensors. The sufficient statistics $G_{s,j}$ depend only on local information from sensor $s$. In other words, we approximate the log-likelihood function by the combination of six basis functions $F_j(X)$ with corresponding coefficients $G_{s,j}$. 
 
 This formulation leads to the following approximate log-likelihood function
 \begin{equation}
@@ -117,34 +141,66 @@ The global coefficients are the summation of local coefficients across all $S$ s
 \hat{\gamma} = E_m\alpha = E_m \sum_s \alpha_s
 \end{equation}
 
-Since the particle log-likelihoods can be considered as a smooth signal over the graph (i.e., nearby particles have similar log-likelihoods), most of their energy should be concentrated in the coefficients corresponding to lower frequency basis vectors. In other words, we should retain the $m$ eigenvectors corresponding to the $m$ smallest eigenvalues. 
+Since the particle log-likelihoods can be considered as a smooth signal over the graph (i.e., particles close to each other have similar log-likelihoods), most of their energy should be concentrated in the coefficients corresponding to lower frequency basis vectors. In other words, we should retain the $m$ eigenvectors corresponding to the $m$ smallest eigenvalues. 
 
-We note that the basis vectors of LApf are flexible and adapted to the particle locations whereas the LCpf requires fixed basis vectors. On the other hand, LApf requires synchronization of random number generator to ensure that all sensors have the same particle set. 
+We note that LApf is similar to CSSpf in that both filters encode the particle log-likelihoods directly using a minimal number of coefficients. 
+
+%We note that the basis vectors of LApf are flexible and adapted to the particle locations whereas the LCpf requires fixed basis vectors. On the other hand, LApf requires synchronization of random number generator to ensure that all sensors have the same particle set. 
 
 \subsection{Clustering particle filter}
 \label{sec:evaluation}
-In Clusterpf, the particles are grouped into $N_c$ clusters based on their position. The sensors just need to reach consensus on the cluster log-likelihoods rather than individual particle log-likelihoods. For $c \ll N$, significant reduction in communication overhead can be achieved. 
+In Clusterpf, the particles are grouped into $N_c$ clusters based on their position. The sensors reach consensus on the cluster log-likelihoods rather than individual particle log-likelihoods. For $c \ll N$, significant reduction in communication overhead can be achieved. 
 
-We follow the approach in~\cite{}. The log-likelihood of each cluster is equal to the aggregate log-likelihood of its constituent particles. Let $\gamma^c$ denote the joint log-likelihood of the clusters after consensus. Let $C$ denote the $N_c \times N$ cluster assignment matrix where $C(i,j)=1$ denotes that particle $j$ belongs to cluster $i$. 
+We follow the approach in~\cite{Hlinka2012}. The log-likelihood of each cluster is equal to the aggregate log-likelihood of its constituent particles. Let $\gamma^c$ denote the joint log-likelihood of the clusters after consensus. Let $C$ denote the $N_c \times N$ cluster assignment matrix where $C(i,j)=1$ denotes that particle $j$ belongs to cluster $i$. 
 
-In order to recover the individual particle joint log-likelihoods $\gamma$, we again construct the $K$-nearest-neighbor, compute the Laplacian matrix $L$, and then solve the following convex minimization problem:
+In order to recover the individual particle joint log-likelihoods $\gamma$, we again construct the $K$-nearest-neighbor graph, compute the Laplacian matrix $L$, and then solve the following convex minimization problem:
 \begin{align*}
 \underset{\gamma}{\text{minimize}}& \quad \gamma^TL\gamma  \\
 \text{subject to}& \quad C\gamma = \gamma^c
 \end{align*}
 In other words, we seek to assign particle log-likelihood values that are smooth with respect to particle proximity while ensuring the aggregate particle values are equal to the cluster value. 
 
-As in the case of LApf, the Clusterpf requires that all sensors have the same particles. 
+%Both LApf and Clusterpf require construction of $K$-nearest-neighbor graph; however Clusterpf requires convex minimization in lieu of eigenvalue decomposition. 
+%As in the case of LApf, the Clusterpf requires that all sensors have the same particles. 
 
 \section{Performance evaluation}
 \subsection{Simulation setup}
-In this section, we evaluate and compare the performance of the four filters presented in Sec.~\ref{sec:pf}. We also include a centralized bootstrap filter as baseline. We construct a network of $S=9$ sensors in a square grid over a $75\text{km} \times 75\text{km}$ area. The target starts near the top center sensor and travels in counter-clockwise direction over 50 time steps. The sensors remain static over time. Fig.~\ref{fig:track} shows the target trajectory and sensor positions. 
+In this section, we evaluate and compare the performance of the four filters presented in Sec.~\ref{sec:pf}. We also include a centralized bootstrap filter as baseline. We construct a network of $S=9$ sensors in a square grid over a $75\text{km} \times 75\text{km}$ area and track a target traveling in counter-clockwise direction over 50 time steps. The sensors remain static over time. Fig.~\ref{fig:track} shows the target trajectory and sensor positions. 
 
 The target state evolves over time following a discrete-time model:
 \begin{equation}
 X(k+1) = F(X(k))+\xi(k)
 \end{equation}
-where $F(X(k))$ is the dynamic model and $\xi(k)$ is zero-mean Gaussian process noise. The simulated target randomly switches between two different motion models: constant velocity with probability $P_{cv} = 0.05$ and coordinated turn with probability $1-P_{cv}=0.95$. 
+where $F(X(k))$ is the dynamic model and $\xi(k)$ is the zero-mean Gaussian process noise. The simulated target randomly switches between two different motion models: constant velocity with probability $P_{cv} = 0.05$ and coordinated turn with probability $1-P_{cv}=0.95$. 
+
+For constant velocity, we have
+\begin{equation}
+F(X(k)) = 
+\begin{array}{cccc}
+1 & 0 & 1 & 0 \\
+0 & 1 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{array}
+\end{equation}
+
+For coordinated turn, we have 
+\begin{equation}
+F(X(k)) = 
+\left[
+\begin{array}{cccc}
+1 & 0 & \frac{\sin(\Omega)}{\Omega (k)} & -\frac{1-\cos(\Omega (k))}{\Omega (k)} \\
+0 & 1 & \frac{1-\cos(\Omega (k))}{\Omega (k)} & \frac{\sin(\Omega (k))}{\Omega (k)} \\
+0 & 0 & \cos(\Omega (k)) & -\sin(\Omega (k)) \\
+0 & 0 & \sin(\Omega (k)) & \cos(\Omega (k)) 
+\end{array}
+\right]
+\end{equation}
+where $\Omega (k)$ is the turning rate
+\begin{equation}
+\Omega (k) = \frac{a}{\sqrt{\dot{x}^2(k)+\dot{y}^2(k)}}
+\end{equation}
+with $a \in \mathbb{R}$ being the maneuver acceleration parameter. 
 
 All sensors receive noisy bearing measurements (in radians) from the target.
 \begin{equation}
@@ -156,20 +212,20 @@ The process and measurement noises $\xi(k)$ and $\eta(k)$ have covariance matric
 Q &= \sigma_a^2
 \left[
 \begin{array}{cccc}
-\frac{T^3}{3} & 0 \frac{T^2}{2} & 0 \\
-0 & \frac{T^3}{3} & 0 \frac{T^2}{2} \\
-\frac{T^2}{2} & 0 T & 0 \\
-0 & \frac{T^2}{2} & 0 T \\
+\frac{1}{3} & 0 & \frac{1}{2} & 0 \\
+0 & \frac{1}{3} & 0 & \frac{1}{2} \\
+\frac{1}{2} & 0 & 1 & 0 \\
+0 & \frac{1}{2} & 0 & 1 \\
 \end{array}
 \right]\\
 R &= \sigma_{\theta}^2
 \end{align}
-where $\sigma_a=10^{-4}$, $T=1$ and $\sigma_{\theta}=0.0873\text{ rad} = 5 \text{ degree}$.
+where $\sigma_a=10^{-4}$, and $\sigma_{\theta}=0.0873\text{ rad} = 5 \text{ degree}$.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.65\textwidth]{Figures/track}
-\caption{Target trajectory (blue curve) and sensor positions (red diamond)}
+\caption{Target trajectory (blue curve) and sensor positions (black diamond)}
 \label{fig:track}
 \end{figure}
 
@@ -180,23 +236,19 @@ For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_
 \begin{align*}
 \beta_1(X) &= x_t^0 y_t^0 = 1 \\
 \beta_2(X) &= x_t^0 y_t^1 = y_t \\
-\beta_3(X) &= x_t^0 y_t^2 = y_t^2 \\
-\beta_4(X) &= x_t^1 y_t^0 = x_t \\
 ... \\
 \beta_9(X) &= x_t^2 y_t^2 
 \end{align*}
+Note that, due to our choice of basis functions, all particles must remain synchronized across all sensors as in the case of LApf and Clusterpf. 
 
 For LApf, we construct a $K$-nearest neighbor graph and retain $m< N$ Eigenvectors as the basis of Laplacian transformation. For Clusterpf, all particles are grouped into $C$ clusters and a $K$-nearest neighbor graph is constructed to recover individual particle weights. 
 
 Finally, the random number generators are synchronized to ensure that the particles remain the same across sensors. All summations are computed exactly without using any distributed algorithms. This ensures that no performance degradation is caused by consensus.
 
-\subsection{Individual algorithm performance}
-In this section, we evaluate the performance of individual algorithms with respect to their specific parameters. We run a number of Monte Carlo simulations on each algorithm while varying one single parameter. The track remains the same in each trial; but the measurements differ. 
+In the remainder of the section, we run a number of Monte Carlo simulations to evaluate the performance of individual algorithms. The track remains the same in each trial; but the measurements differ. We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate and total runtime (from initialization to end of time step 50). 
 
-We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate and total runtime (from initialization to end of time step 50). Our objective is to select a set of parameters that offer optimal trade-off between tracking performance and computational load. 
-
-\subsubsection{Likelihood consensus particle filter}
-Consider first LCpf. The max degree $d$ should offer a trade-off between tracking performance and total runtime. Higher degree $d$ leads to more basis functions and likely better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. 
+\subsection{Likelihood consensus particle filter}
+Consider first LCpf. The max degree $d$ should offer a trade-off between tracking performance and total runtime. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. In fact, the total number of basis functions grows exponentially with $d$ (i.e., $(d+1)^2$). 
 
 \begin{figure}
 \centering
@@ -210,7 +262,7 @@ Consider first LCpf. The max degree $d$ should offer a trade-off between trackin
 \label{fig:results_maxDegree}
 \end{figure}
 
-Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 100 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not yield a better approximation of the measurement model $H(X_i)$. 
+Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 100 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. 
 
 \begin{figure}
 \centering
@@ -219,9 +271,9 @@ Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and tot
 \caption{Boxplot of measurement approximation error with respect to max degree. All results are computed over 100 Monte Carlo trials}
 \end{figure}
 
-To verify our conjecture, we compute the following metric. At each time step, we compute the aggregate approximation error over all $S$ measurements for each particle ($\sum_{s=1}^S H_s(X_i)-\hat(H)_s(X_i)$), and report the average value $\sum_{i=1}^N \sum_{s=1}^S(H_s(X_i)-\hat(H)_s(X_i))/N$. 
+To verify our conjecture, we compute the following metric. At each time step, we compute the aggregate approximation error over all $S$ measurements for each particle ($\sum_{s=1}^S H_s(X_i)-\hat{H}_s(X_i)$), and report the average value $\frac{1}{N}\sum_{i=1}^N \sum_{s=1}^S(H_s(X_i)-\hat(H)_s(X_i))$. 
 
-Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect to max degree. The approximation error decreases until $d=4$ and increases afterwards; but the difference is rather small with a maximum difference of 1.5 degree (versus the 5 degrees standard deviation of measurement noise). This small difference in approximation error directly translates to negligible difference in tracking performance. Based on the computational overhead, we will select $d=1$ for LCpf in subsequent simulations. 
+Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect to max degree. The approximation error decreases until $d=4$ and increases afterwards; but the difference is rather small with a maximum difference of 1.5 degree (versus the 5 degrees standard deviation of measurement noise). This small difference in approximation error directly translates to negligible difference in tracking performance. %Based on the computational overhead, we will select $d=1$ for LCpf in subsequent simulations. 
 
 \subsubsection{Laplacian approximation particle filter}
 The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
@@ -435,9 +487,27 @@ Next, we consider a different track that is completely outside the sensor grid. 
 \label{fig:track2_results}
 \end{figure}
 
-In the third track, we expand the size of sensor grid to ensure that the target trajectory remains within the grid. 
+In the third track, target trajectory remains mostly within the grid. Again, CSSpf has the highest RMSE; although the gap is considerably smaller compared to the other two tracks. For all values of $N$, BSpf, LCpf and Clusterpf have similar performance. 
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[Track]
+{\includegraphics[width=0.45\textwidth]{Figures/track3}}
+\end{subfigure}
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track3_N}}
+\end{subfigure}
+\caption{3rd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
+\label{fig:track3_results}
+\end{figure}
+
+
+
 \section{Conclusion}
 \label{sec:conclusion}
 To be completed
+
+\bibliographystyle{IEEEtran}
+\bibliography{Refs}
 
 \end{document}

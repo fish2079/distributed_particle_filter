@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  7 DEC 2017 15:16
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  8 DEC 2017 16:03
 entering extended mode
 **Distributed*single-target*PF.tex
 
@@ -401,33 +401,81 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 \subfig@top=\skip51
 \subfig@bottom=\skip52
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\multicol.sty"
+Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
+\c@tracingmulticols=\count107
+\mult@box=\box28
+\multicol@leftmargin=\dimen124
+\c@unbalance=\count108
+\c@collectmore=\count109
+\doublecol@number=\count110
+\multicoltolerance=\count111
+\multicolpretolerance=\count112
+\full@width=\dimen125
+\page@free=\dimen126
+\premulticols=\dimen127
+\postmulticols=\dimen128
+\multicolsep=\skip53
+\multicolbaselineskip=\skip54
+\partial@page=\box29
+\last@line=\box30
+\mult@rightbox=\box31
+\mult@grightbox=\box32
+\mult@gfirstbox=\box33
+\mult@firstbox=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\c@columnbadness=\count113
+\c@finalcolumnbadness=\count114
+\last@try=\dimen129
+\multicolovershoot=\dimen130
+\multicolundershoot=\dimen131
+\mult@nat@firstbox=\box52
+\colbreak@box=\box53
+\multicol@sort@counter=\count115
+)
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
  target PF\Distributed single-target PF.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
 
 (C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count107
-\scratchdimen=\dimen124
-\scratchbox=\box28
-\nofMPsegments=\count108
-\nofMParguments=\count109
+\scratchcounter=\count116
+\scratchdimen=\dimen132
+\scratchbox=\box54
+\nofMPsegments=\count117
+\nofMParguments=\count118
 \everyMPshowfont=\toks23
-\MPscratchCnt=\count110
-\MPscratchDim=\dimen125
-\MPnumerator=\count111
-\makeMPintoPDFobject=\count112
+\MPscratchCnt=\count119
+\MPscratchDim=\dimen133
+\MPnumerator=\count120
+\makeMPintoPDFobject=\count121
 \everyMPtoPDFconversion=\toks24
 )
 *geometry* driver: auto-detecting
@@ -464,44 +512,109 @@ LaTeX Font Info:    ... okay on input line 12.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 13.
+LaTeX Font Info:    Try loading font information for U+msa on input line 14.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 13.
+LaTeX Font Info:    Try loading font information for U+msb on input line 14.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3] [4]
-<Figures/track.pdf, id=28, 1103.12125pt x 656.4525pt>
-File: Figures/track.pdf Graphic file (type pdf)
- <use Figures/track.pdf>
-Package pdftex.def Info: Figures/track.pdf used on input line 171.
-(pdftex.def)             Requested size: 305.33789pt x 181.70195pt.
+{C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (65.4716pt too wide) in paragraph at lines 60--60
+[] 
+ []
 
-[5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
-le target PF/Figures/track.pdf>]
-<Figures/RMSE_maxDegree.pdf, id=37, 1077.02374pt x 653.44125pt>
+
+Overfull \vbox (55.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (54.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (53.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (52.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (51.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (50.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (49.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (48.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (47.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (46.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (45.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (44.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (43.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (42.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (41.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (40.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (39.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (38.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (37.52657pt too high) has occurred while \output is active []
+
+
+Overfull \vbox (36.52657pt too high) has occurred while \output is active []
+
+
+[2] [3] [4] <Figures/track.pdf, id=28, 1103.12125pt x 656.4525pt>
+File: Figures/track.pdf Graphic file (type pdf)
+
+<use Figures/track.pdf>
+Package pdftex.def Info: Figures/track.pdf used on input line 227.
+(pdftex.def)             Requested size: 305.33789pt x 181.70195pt.
+ [5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
+gle target PF/Figures/track.pdf>]
+<Figures/RMSE_maxDegree.pdf, id=38, 1077.02374pt x 653.44125pt>
 File: Figures/RMSE_maxDegree.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_maxDegree.pdf>
-Package pdftex.def Info: Figures/RMSE_maxDegree.pdf used on input line 204.
+Package pdftex.def Info: Figures/RMSE_maxDegree.pdf used on input line 256.
 (pdftex.def)             Requested size: 230.18253pt x 139.64958pt.
 
-<Figures/runtime_maxDegree.pdf, id=38, 1066.98625pt x 653.44125pt>
+<Figures/runtime_maxDegree.pdf, id=39, 1066.98625pt x 653.44125pt>
 File: Figures/runtime_maxDegree.pdf Graphic file (type pdf)
 
 <use Figures/runtime_maxDegree.pdf>
-Package pdftex.def Info: Figures/runtime_maxDegree.pdf used on input line 207.
+Package pdftex.def Info: Figures/runtime_maxDegree.pdf used on input line 259.
 (pdftex.def)             Requested size: 230.18253pt x 140.96571pt.
 
-<Figures/LCpf_approx_error.pdf, id=39, 1077.02374pt x 653.44125pt>
+<Figures/LCpf_approx_error.pdf, id=40, 1077.02374pt x 653.44125pt>
 File: Figures/LCpf_approx_error.pdf Graphic file (type pdf)
 
 <use Figures/LCpf_approx_error.pdf>
-Package pdftex.def Info: Figures/LCpf_approx_error.pdf used on input line 217.
+Package pdftex.def Info: Figures/LCpf_approx_error.pdf used on input line 269.
 (pdftex.def)             Requested size: 258.36668pt x 156.74933pt.
  [6 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/RMSE_maxDegree.pdf> <C:/Users/Jay/Desktop/distributed_par
@@ -513,62 +626,83 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<Figures/time_bar_LApf.pdf, id=54, 884.30376pt x 479.7925pt>
+[7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
+le target PF/Figures/LCpf_approx_error.pdf>]
+<Figures/time_bar_LApf.pdf, id=64, 884.30376pt x 479.7925pt>
 File: Figures/time_bar_LApf.pdf Graphic file (type pdf)
 
 <use Figures/time_bar_LApf.pdf>
-Package pdftex.def Info: Figures/time_bar_LApf.pdf used on input line 300.
+Package pdftex.def Info: Figures/time_bar_LApf.pdf used on input line 352.
 (pdftex.def)             Requested size: 352.31625pt x 191.15219pt.
- [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/LCpf_approx_error.pdf>]
+ [8]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
+[9 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
+le target PF/Figures/time_bar_LApf.pdf>]
 File: Figures/track.pdf Graphic file (type pdf)
-<use Figures/track.pdf>
-Package pdftex.def Info: Figures/track.pdf used on input line 416.
+ <use Figures/track.pdf>
+Package pdftex.def Info: Figures/track.pdf used on input line 468.
 (pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
 
-<Figures/RMSE_track1_N.pdf, id=64, 1067.99pt x 645.41125pt>
+<Figures/RMSE_track1_N.pdf, id=76, 1067.99pt x 645.41125pt>
 File: Figures/RMSE_track1_N.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_track1_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track1_N.pdf used on input line 419.
+Package pdftex.def Info: Figures/RMSE_track1_N.pdf used on input line 471.
 (pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
- [8]
-<Figures/track2.pdf, id=68, 1103.12125pt x 656.4525pt>
+
+<Figures/track2.pdf, id=77, 1103.12125pt x 656.4525pt>
 File: Figures/track2.pdf Graphic file (type pdf)
 
 <use Figures/track2.pdf>
-Package pdftex.def Info: Figures/track2.pdf used on input line 429.
+Package pdftex.def Info: Figures/track2.pdf used on input line 481.
 (pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
 
-<Figures/RMSE_track2_N.pdf, id=69, 1067.99pt x 645.41125pt>
+<Figures/RMSE_track2_N.pdf, id=78, 1067.99pt x 645.41125pt>
 File: Figures/RMSE_track2_N.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_track2_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track2_N.pdf used on input line 432.
+Package pdftex.def Info: Figures/RMSE_track2_N.pdf used on input line 484.
 (pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
- [9 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/time_bar_LApf.pdf>]
-[10 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/RMSE_track1_N.pdf> <C:/Users/Jay/Desktop/distributed_part
-icle_filter.git/trunk/Distributed single target PF/Figures/track2.pdf> <C:/User
-s/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target P
-F/Figures/RMSE_track2_N.pdf>]
+
+<Figures/track3.pdf, id=79, 1103.12125pt x 656.4525pt>
+File: Figures/track3.pdf Graphic file (type pdf)
+
+<use Figures/track3.pdf>
+Package pdftex.def Info: Figures/track3.pdf used on input line 495.
+(pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
+
+<Figures/RMSE_track3_N.pdf, id=80, 1067.99pt x 645.41125pt>
+File: Figures/RMSE_track3_N.pdf Graphic file (type pdf)
+
+<use Figures/RMSE_track3_N.pdf>
+Package pdftex.def Info: Figures/RMSE_track3_N.pdf used on input line 498.
+(pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
+ target PF\Distributed single-target PF.bbl" [10 <C:/Users/Jay/Desktop/distribu
+ted_particle_filter.git/trunk/Distributed single target PF/Figures/RMSE_track1_
+N.pdf>]) [11 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distri
+buted single target PF/Figures/track2.pdf> <C:/Users/Jay/Desktop/distributed_pa
+rticle_filter.git/trunk/Distributed single target PF/Figures/RMSE_track2_N.pdf>
+ <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single
+ target PF/Figures/track3.pdf> <C:/Users/Jay/Desktop/distributed_particle_filte
+r.git/trunk/Distributed single target PF/Figures/RMSE_track3_N.pdf>]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
  target PF\Distributed single-target PF.aux") ) 
 Here is how much of TeX's memory you used:
- 2972 strings out of 493921
- 38729 string characters out of 3147289
- 126993 words of memory out of 3000000
- 6219 multiletter control sequences out of 15000+200000
+ 3091 strings out of 493921
+ 40834 string characters out of 3147289
+ 120621 words of memory out of 3000000
+ 6329 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,14n,24p,1050b,269s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,14n,24p,1123b,269s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
@@ -582,10 +716,11 @@ onts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Distributed single-target PF.pdf" (10 pages, 276162 bytes).
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on "Distributed single-target PF.pdf" (11 pages, 304058 bytes).
 PDF statistics:
- 143 PDF objects out of 1000 (max. 8388607)
+ 162 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

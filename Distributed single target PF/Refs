@@ -1,0 +1,18 @@
+% This file was created with JabRef 2.10.
+% Encoding: Cp1252
+
+
+@InProceedings{Mohammadi2012,
+  Title                    = {A constraint sufficient statistics based distributed particle filter for bearing only tracking},
+  Author                   = {A. Mohammadi and A. Asif},
+  Booktitle                = {IEEE Int. Conf. Communications (ICC)},
+  Year                     = {2012},
+
+  Address                  = {Ottawa, ON, Canada},
+  Month                    = {Jun},
+  Pages                    = {3670-3675},
+
+  Owner                    = {Jay},
+  Timestamp                = {2017.12.08}
+}
+

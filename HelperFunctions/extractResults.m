@@ -34,6 +34,8 @@ for tr=1:parameters.no_trials
             runtimeFull(alg,:,tr) = results.details{tr}{alg}.step_time;
             try
                 switch func2str(parameters.algorithms{alg})
+                    case 'CSSpf_distributed'
+                        detail.CSSpf.weight_error(:,tr) = results.details{tr}{alg}.weight_error';
                     case 'LCpf_distributed'
                         detail.LCpf.Hx_ss_dif(:,tr,:) = results.details{tr}{alg}.Hx_ss_dif;
                     case 'LApf_distributed'
@@ -45,6 +47,8 @@ for tr=1:parameters.no_trials
                         detail.Clusterpf.KNN_time(:,tr) = results.details{tr}{alg}.KNN_time';
                         detail.Clusterpf.cluster_time(:,tr) = results.details{tr}{alg}.cluster_time';
                         detail.Clusterpf.gamma_time(:,tr) = results.details{tr}{alg}.gamma_time';
+                    case 'Debugpf'
+                        detail.Debugpf.weight_error(:,:,tr) = results.details{tr}{alg}.weight_error;
                 end
             end
         end
