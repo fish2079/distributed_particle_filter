@@ -1,24 +1,13 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  8 DEC 2017 16:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.4.13)  12 DEC 2017 00:04
 entering extended mode
-**Distributed*single-target*PF.tex
-
-("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.tex"
-LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
- lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
-german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
-ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
-an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
-ishmax, welsh, loaded.
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
-Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
-File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+**"./Distributed single-target PF.tex"
+("Distributed single-target PF.tex"
+LaTeX2e <2015/10/01> patch level 2
+Babel <3.9n> and hyphenation patterns for 69 languages loaded.
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -32,23 +21,25 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
-Package: inputenc 2008/03/30 v1.1d Input encoding file
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
-File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+File: t1enc.dfu 2015/09/07 v1.1p UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
    defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00AD (decimal 173)
    defining Unicode char U+00BB (decimal 187)
    defining Unicode char U+00BF (decimal 191)
    defining Unicode char U+00C0 (decimal 192)
@@ -169,6 +160,10 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+016F (decimal 367)
    defining Unicode char U+0170 (decimal 368)
    defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
    defining Unicode char U+0178 (decimal 376)
    defining Unicode char U+0179 (decimal 377)
    defining Unicode char U+017A (decimal 378)
@@ -176,6 +171,10 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+017C (decimal 380)
    defining Unicode char U+017D (decimal 381)
    defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
    defining Unicode char U+200C (decimal 8204)
    defining Unicode char U+2013 (decimal 8211)
    defining Unicode char U+2014 (decimal 8212)
@@ -194,10 +193,12 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
-File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+File: ot1enc.dfu 2015/09/07 v1.1p UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AD (decimal 173)
    defining Unicode char U+00B8 (decimal 184)
    defining Unicode char U+00BF (decimal 191)
    defining Unicode char U+00C5 (decimal 197)
@@ -215,6 +216,14 @@ File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+0142 (decimal 322)
    defining Unicode char U+0152 (decimal 338)
    defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
    defining Unicode char U+2013 (decimal 8211)
    defining Unicode char U+2014 (decimal 8212)
    defining Unicode char U+2018 (decimal 8216)
@@ -225,8 +234,8 @@ File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
-File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+File: omsenc.dfu 2015/09/07 v1.1p UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
    defining Unicode char U+00B7 (decimal 183)
@@ -249,24 +258,22 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip43
-
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks16
 \ex@=\dimen103
-))
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+)) ("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.st
+y"
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen104
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+) ("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty
+"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count87
@@ -307,41 +314,48 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.st
+y"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty
+"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.st
+y"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.st
+y"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+ ("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\graphics.cf
+g"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 94.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.de
+f"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infwarerr
+.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.s
+ty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count99
@@ -349,18 +363,22 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.st
+y"
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty
+"
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.st
+y"
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.st
+y"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count100
@@ -376,12 +394,15 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen121
 \Gm@dimlist=\toks22
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-(C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\latex\preprint\fullpage.sty
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.cf
+g"))
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\preprint\fullpage.st
+y"
 Package: fullpage 1999/02/23 1.1 (PWD)
 \FP@margin=\skip46
 )
-(C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfigure.sty
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\subfigure\subfigure.
+sty"
 Package: subfigure 2002/07/30 v2.1.4 subfigure package
 \subfigtopskip=\skip47
 \subfigcapskip=\skip48
@@ -397,12 +418,14 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
-(C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfigure.cfg)
+
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\subfigure\subfigure.
+cfg")
 \subfig@top=\skip51
 \subfig@bottom=\skip52
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\multicol.sty"
-Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\multicol.sty"
+Package: multicol 2015/08/19 v1.8n multicolumn formatting (FMi)
 \c@tracingmulticols=\count107
 \mult@box=\box28
 \multicol@leftmargin=\dimen124
@@ -419,6 +442,7 @@ Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \multicolbaselineskip=\skip54
 \partial@page=\box29
 \last@line=\box30
+\maxbalancingoverflow=\dimen129
 \mult@rightbox=\box31
 \mult@grightbox=\box32
 \mult@gfirstbox=\box33
@@ -442,15 +466,15 @@ Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \@tempa=\box51
 \c@columnbadness=\count113
 \c@finalcolumnbadness=\count114
-\last@try=\dimen129
-\multicolovershoot=\dimen130
-\multicolundershoot=\dimen131
+\last@try=\dimen130
+\multicolovershoot=\dimen131
+\multicolundershoot=\dimen132
 \mult@nat@firstbox=\box52
 \colbreak@box=\box53
-\multicol@sort@counter=\count115
-)
-("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.aux")
+\mc@col@check@num=\count115
+) ("Distributed single-target PF.aux")
+\openout1 = `"Distributed single-target PF.aux"'.
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
@@ -464,16 +488,17 @@ LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 
-(C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mkii
+"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count116
-\scratchdimen=\dimen132
+\scratchdimen=\dimen133
 \scratchbox=\box54
 \nofMPsegments=\count117
 \nofMParguments=\count118
 \everyMPshowfont=\toks23
 \MPscratchCnt=\count119
-\MPscratchDim=\dimen133
+\MPscratchDim=\dimen134
 \MPnumerator=\count120
 \makeMPintoPDFobject=\count121
 \everyMPtoPDFconversion=\toks24
@@ -513,80 +538,20 @@ LaTeX Font Info:    ... okay on input line 13.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Try loading font information for U+msa on input line 14.
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 14.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+("C:\Users\Jay\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+[1
 
 {C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 Overfull \hbox (65.4716pt too wide) in paragraph at lines 60--60
 [] 
  []
-
-
-Overfull \vbox (55.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (54.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (53.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (52.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (51.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (50.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (49.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (48.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (47.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (46.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (45.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (44.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (43.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (42.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (41.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (40.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (39.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (38.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (37.52657pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (36.52657pt too high) has occurred while \output is active []
-
 
 [2] [3] [4] <Figures/track.pdf, id=28, 1103.12125pt x 656.4525pt>
 File: Figures/track.pdf Graphic file (type pdf)
@@ -594,8 +559,7 @@ File: Figures/track.pdf Graphic file (type pdf)
 <use Figures/track.pdf>
 Package pdftex.def Info: Figures/track.pdf used on input line 227.
 (pdftex.def)             Requested size: 305.33789pt x 181.70195pt.
- [5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/track.pdf>]
+ [5 <./Figures/track.pdf>]
 <Figures/RMSE_maxDegree.pdf, id=38, 1077.02374pt x 653.44125pt>
 File: Figures/RMSE_maxDegree.pdf Graphic file (type pdf)
 
@@ -616,111 +580,140 @@ File: Figures/LCpf_approx_error.pdf Graphic file (type pdf)
 <use Figures/LCpf_approx_error.pdf>
 Package pdftex.def Info: Figures/LCpf_approx_error.pdf used on input line 269.
 (pdftex.def)             Requested size: 258.36668pt x 156.74933pt.
- [6 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/RMSE_maxDegree.pdf> <C:/Users/Jay/Desktop/distributed_par
-ticle_filter.git/trunk/Distributed single target PF/Figures/runtime_maxDegree.p
-df>]
+ [6 <./Figures/RMSE_maxDegree.pdf> <./Figures/runtime_maxDegree.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+<Figures/RMSE_LApf_boxplot.pdf, id=55, 866.23625pt x 460.72125pt>
+File: Figures/RMSE_LApf_boxplot.pdf Graphic file (type pdf)
+
+<use Figures/RMSE_LApf_boxplot.pdf>
+Package pdftex.def Info: Figures/RMSE_LApf_boxplot.pdf used on input line 306.
+(pdftex.def)             Requested size: 352.31625pt x 187.38547pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
-le target PF/Figures/LCpf_approx_error.pdf>]
-<Figures/time_bar_LApf.pdf, id=64, 884.30376pt x 479.7925pt>
+<Figures/Approx_error_LApf_boxplot.pdf, id=56, 910.40125pt x 460.72125pt>
+File: Figures/Approx_error_LApf_boxplot.pdf Graphic file (type pdf)
+
+<use Figures/Approx_error_LApf_boxplot.pdf>
+Package pdftex.def Info: Figures/Approx_error_LApf_boxplot.pdf used on input li
+ne 336.
+(pdftex.def)             Requested size: 352.31625pt x 178.29564pt.
+ [7 <./Figures/LCpf_approx_error.pdf>] [8 <./Figures/RMSE_LApf_boxplot.pdf> <./
+Figures/Approx_error_LApf_boxplot.pdf>] <Figures/time_bar_LApf.pdf, id=79, 884.
+30376pt x 479.7925pt>
 File: Figures/time_bar_LApf.pdf Graphic file (type pdf)
 
 <use Figures/time_bar_LApf.pdf>
-Package pdftex.def Info: Figures/time_bar_LApf.pdf used on input line 352.
+Package pdftex.def Info: Figures/time_bar_LApf.pdf used on input line 366.
 (pdftex.def)             Requested size: 352.31625pt x 191.15219pt.
- [8]
+ [9] [10 <./Figures/time_bar_LApf.pdf>]
+<Figures/time_Clusterpf_bar_C.pdf, id=91, 884.30376pt x 418.56375pt>
+File: Figures/time_Clusterpf_bar_C.pdf Graphic file (type pdf)
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+<use Figures/time_Clusterpf_bar_C.pdf>
+Package pdftex.def Info: Figures/time_Clusterpf_bar_C.pdf used on input line 42
+2.
+(pdftex.def)             Requested size: 211.38832pt x 100.05498pt.
 
-[9 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
-le target PF/Figures/time_bar_LApf.pdf>]
-File: Figures/track.pdf Graphic file (type pdf)
- <use Figures/track.pdf>
-Package pdftex.def Info: Figures/track.pdf used on input line 468.
-(pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
+<Figures/time_Clusterpf_bar_K.pdf, id=92, 884.30376pt x 408.52625pt>
+File: Figures/time_Clusterpf_bar_K.pdf Graphic file (type pdf)
 
-<Figures/RMSE_track1_N.pdf, id=76, 1067.99pt x 645.41125pt>
+<use Figures/time_Clusterpf_bar_K.pdf>
+Package pdftex.def Info: Figures/time_Clusterpf_bar_K.pdf used on input line 42
+3.
+(pdftex.def)             Requested size: 211.38832pt x 97.65558pt.
+
+<Figures/RMSE_track1_N.pdf, id=93, 884.30376pt x 450.68375pt>
 File: Figures/RMSE_track1_N.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_track1_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track1_N.pdf used on input line 471.
-(pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
+Package pdftex.def Info: Figures/RMSE_track1_N.pdf used on input line 435.
+(pdftex.def)             Requested size: 352.31625pt x 179.5551pt.
 
-<Figures/track2.pdf, id=77, 1103.12125pt x 656.4525pt>
-File: Figures/track2.pdf Graphic file (type pdf)
+<Figures/RMSE_track1_time.pdf, id=94, 900.36375pt x 467.7475pt>
+File: Figures/RMSE_track1_time.pdf Graphic file (type pdf)
 
-<use Figures/track2.pdf>
-Package pdftex.def Info: Figures/track2.pdf used on input line 481.
-(pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
+<use Figures/RMSE_track1_time.pdf>
+Package pdftex.def Info: Figures/RMSE_track1_time.pdf used on input line 438.
+(pdftex.def)             Requested size: 352.31625pt x 183.03458pt.
 
-<Figures/RMSE_track2_N.pdf, id=78, 1067.99pt x 645.41125pt>
-File: Figures/RMSE_track2_N.pdf Graphic file (type pdf)
+<Figures/est_track_CSSpf_N1000.pdf, id=95, 919.435pt x 460.72125pt>
+File: Figures/est_track_CSSpf_N1000.pdf Graphic file (type pdf)
 
-<use Figures/RMSE_track2_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track2_N.pdf used on input line 484.
-(pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
+<use Figures/est_track_CSSpf_N1000.pdf>
+Package pdftex.def Info: Figures/est_track_CSSpf_N1000.pdf used on input line 4
+46.
+(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
 
-<Figures/track3.pdf, id=79, 1103.12125pt x 656.4525pt>
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 451.
+
+[11 <./Figures/time_Clusterpf_bar_C.pdf> <./Figures/time_Clusterpf_bar_K.pdf>]
+[12 <./Figures/RMSE_track1_N.pdf> <./Figures/RMSE_track1_time.pdf>]
+<Figures/track3.pdf, id=123, 919.435pt x 460.72125pt>
 File: Figures/track3.pdf Graphic file (type pdf)
+ <use Figures/track3.pdf>
+Package pdftex.def Info: Figures/track3.pdf used on input line 471.
+(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
 
-<use Figures/track3.pdf>
-Package pdftex.def Info: Figures/track3.pdf used on input line 495.
-(pdftex.def)             Requested size: 211.38832pt x 125.78903pt.
-
-<Figures/RMSE_track3_N.pdf, id=80, 1067.99pt x 645.41125pt>
+<Figures/RMSE_track3_N.pdf, id=124, 866.23625pt x 450.68375pt>
 File: Figures/RMSE_track3_N.pdf Graphic file (type pdf)
 
 <use Figures/RMSE_track3_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track3_N.pdf used on input line 498.
-(pdftex.def)             Requested size: 211.38832pt x 127.74062pt.
+Package pdftex.def Info: Figures/RMSE_track3_N.pdf used on input line 474.
+(pdftex.def)             Requested size: 352.31625pt x 183.303pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+File: Figures/est_track_CSSpf_N1000.pdf Graphic file (type pdf)
+<use Figures/est_track_CSSpf_N1000.pdf>
+Package pdftex.def Info: Figures/est_track_CSSpf_N1000.pdf used on input line 4
+82.
+(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
 
-("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.bbl" [10 <C:/Users/Jay/Desktop/distribu
-ted_particle_filter.git/trunk/Distributed single target PF/Figures/RMSE_track1_
-N.pdf>]) [11 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distri
-buted single target PF/Figures/track2.pdf> <C:/Users/Jay/Desktop/distributed_pa
-rticle_filter.git/trunk/Distributed single target PF/Figures/RMSE_track2_N.pdf>
- <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single
- target PF/Figures/track3.pdf> <C:/Users/Jay/Desktop/distributed_particle_filte
-r.git/trunk/Distributed single target PF/Figures/RMSE_track3_N.pdf>]
-("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.aux") ) 
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 487.
+
+("Distributed single-target PF.bbl" [13 <./Figures/est_track_CSSpf_N1000.pdf>])
+[14 <./Figures/track3.pdf> <./Figures/RMSE_track3_N.pdf>] [15]
+("Distributed single-target PF.aux") ) 
 Here is how much of TeX's memory you used:
- 3091 strings out of 493921
- 40834 string characters out of 3147289
- 120621 words of memory out of 3000000
- 6329 multiletter control sequences out of 15000+200000
+ 3160 strings out of 493634
+ 43056 string characters out of 3136055
+ 125107 words of memory out of 3000000
+ 6486 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
- 841 hyphenation exceptions out of 8191
- 27i,14n,24p,1123b,269s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on "Distributed single-target PF.pdf" (11 pages, 304058 bytes).
+ 1025 hyphenation exceptions out of 8191
+ 27i,14n,24p,1127b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Jay/AppData/Local/Programs/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Jay/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jay/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/User
+s/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.p
+fb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmmi5.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmmi7.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jay/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Jay/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jay/Ap
+pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Use
+rs/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pf
+b><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmr8.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Jay/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Jay/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on "Distributed single-target PF.pdf" (15 pages, 347759 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
+ 203 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -20,7 +20,7 @@ filepath = 'Results_Clusterpf\';
 
 % Number of particles for the filter
 KNN_vector = [3:10,20,50,100];
-nbClusters_vector = [6, 10, 20, 50, 100, 200, 500, 1000];
+nbClusters_vector = 6; %[6, 10, 20, 50, 100, 200];%, 500, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 100; 
@@ -58,6 +58,16 @@ for j=1:numel(nbClusters_vector)
         steptimeFull = [steptimeFull;squeeze(sum(runtimeFull,2))'];
     end
 end
+
+figure();
+set(gcf,'color','white');
+bar([mean(clustertimeFull,2),mean(KNNtimeFull,2), mean(gammatimeFull, 2), mean(steptimeFull,2)-(mean(KNNtimeFull,2)+mean(clustertimeFull,2)+mean(gammatimeFull, 2))],'stacked');
+xlabel('K');
+ylabel('time (s)');
+legend('Particle clustering', 'KNN graph construction', 'Convex minimization', 'Miscellaneous computation');
+set(gca,'fontsize',32);
+ylim([0,65]);
+set(gca,'xticklabel', xticklabel);
 
 figure();
 boxplot(RMSEFull');

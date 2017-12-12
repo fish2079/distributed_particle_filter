@@ -16,19 +16,21 @@ linewidth = 6;
 scatterSize = 500;
 figure();
 set(gcf,'color','white');
-set(gca,'fontsize',32);
-try
-    plot(x_estimate(1,:), x_estimate(2,:), 'r--','linewidth',linewidth);
-catch ME
-end
-hold on;
 try
     plot(S.x_t(1,:), S.x_t(2,:),'b','linewidth',linewidth);
+    hold on;
     scatter(S.sensorPos(1,:), S.sensorPos(2,:), scatterSize,'kd','filled');
 catch ME
 end
+try
+    plot(x_estimate(1,:), x_estimate(2,:), 'r--','linewidth',linewidth);
+    legend('True track', 'Sensor', 'Estimated track');
+catch ME
+    legend('True track', 'Sensor');
+end
 
-legend('Estimated track', 'True track', 'Sensor');
+
 
 xlabel('x');
 ylabel('y');
+set(gca,'fontsize',32);

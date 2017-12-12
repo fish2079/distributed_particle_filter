@@ -21,17 +21,17 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-sigma_vector = 5; %[1, 2.5, 5, 7.5, 10];
+sigma_vector = 5;%[1, 2.5, 5, 7.5, 10];
 
 % Number of random trials
-sim_parameters.no_trials = 100; 
+sim_parameters.no_trials = 500; 
 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
-sim_parameters.visualizeParticles = false;
+sim_parameters.visualizeParticles = true;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -39,8 +39,9 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists([4]);
+sim_parameters.algorithms = alg_lists([3]);
 
+sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
 for i=1:numel(sigma_vector)
     % Set number of particles

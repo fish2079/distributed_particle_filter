@@ -1,10 +1,10 @@
 warning('off','all');
 clear;clc;
 
-% path = 'Results_N\Track1\';
-path = '';
+path = 'Results_N\Track3\';
+% path = '';
 % Number of particles for the filter
-N_vector = [100, 250, 500, 750, 1000];
+N_vector = [500, 750, 1000, 1250, 1500];
 
 % Number of random trials
 sim_parameters.no_trials = 500; 
@@ -44,6 +44,7 @@ for i=1:numel(N_vector)
 end
 
 figure();
+set(gcf,'color','white');
 boxplot(RMSE', 'colorgroup', colorgroup);
 ylabel('RMSE');
 xlabel('N');

@@ -278,9 +278,7 @@ Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect
 \subsubsection{Laplacian approximation particle filter}
 The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
 
-Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   At $m=1000$, there is no approximation error and the RMSE is constant for all values $K$ and on-par with that of centralized BSpf. For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m= 100, 200, 500$, the RMSE has small fluctuations over $K$. 
-
-To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. As expected, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the approximation error actually goes up with as $K$ increases. It is worth noting that the high values of $m$ ensure the approximation error remains small. 
+Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   At $m=1000$, there is no approximation error and the RMSE is constant for all values $K$ and on-par with that of centralized BSpf. For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m= 100, 200, 500$, the RMSE has small fluctuations over $K$. To get a closer look at the results, Fig.~\ref{fig:RMSE_LApf_boxplot} shows the boxplot of RMSE for select values of $m$. For small value of $m$, we do see a steady decrease in average RMSE with increasing $K$; although the results can vary greatly from one trial to the nxt. For larger $m$, the RMSE is fairly consistent across $K$ and independent MC trials. 
 
 \begin{table}[h!]
 \centering
@@ -303,6 +301,15 @@ K = 3   & 5.4804 & 4.4057 & 3.9159 & 2.1505 & 2.1612 & 2.2161 & 2.1646 \\ \hline
 \label{tab:RMSE_LApf}
 \end{table}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{Figures/RMSE_LApf_boxplot}
+\caption{Boxplot of LApf RMSE for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}
+\label{fig:RMSE_LApf_boxplot}
+\end{figure}
+
+To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. As expected, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the average approximation error actually goes up with as $K$ increases. We observe the same trends in Fig.~\ref{fig:Approx_error_LApf_boxplot}. However, since the error remains small in case of high $m$, there is no significant impact on the overall tracking performance. 
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|}
@@ -323,6 +330,13 @@ KNN = 3 & 0.0747 & 0.0589 & 0.0456 & 0.0102 & 0.0088 & 0.0096 & 0    \\ \hline
 \caption{Approximation error of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
 \label{tab:Approx_error_LApf}
 \end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{Figures/Approx_error_LApf_boxplot}
+\caption{Boxplot of measurement approximation error for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}
+\label{fig:Approx_error_LApf_boxplot}
+\end{figure}
 
 Table.~\ref{tab:runtime_LApf} shows the total runtime of LApf with respect to $K$ and $m$. For $1\leq K \leq 10$, when $m$ increases, the particle log-likelihoods are encoded using more coefficients. However, since this is a matrix multiplication operation, the difference in computational overhead is negligible and there is no significant variation in computational overhead. For $K=20, 50, 100$, surprisingly, there is a significant fluctuation in runtime as $m$ increases. On the other hand, at $K=7$, there is a huge spike in runtime for all values of $m$. Fig.~\ref{fig:time_bar_LApf} shows the breakdown of total runtime for $m=10$. It appears that the computational overhead of eigenvalue decomposition spikes at $K=7$. It is not yet clear what causes this sudden spike. We omit the figures for other values of $m$ to save space; but it is worth nothing that the eigenvalue decomposition accounts for the overwhelming majority of computational overhead in all cases. 
 
@@ -354,43 +368,10 @@ K = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \
 \label{fig:time_bar_LApf}
 \end{figure}
 
-%Fig.~\ref{fig:RMSE_LApf_KNN} shows the average RMSE with respect to $K$ for different values of $m$. We also include the results of centralized BSpf as baseline. For $m=6$ (which requires the same amount of communication overhead as CSSpf), the RMSE decreases with increasing $K$. For $m=6$, the RMSE stops decreasing after $K=6$. For larger values of $m$, the approximation error of particle log-likelihoods would be low enough that the RMSE is fairly constant for all values of $K$. 
-%
-%\begin{figure}
-%\centering
-%\subfigure[$m$=6]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m6}}
-%\subfigure[$m$=20]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m20}}
-%\subfigure[$m$=500]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m500}}
-%\subfigure[$m$=1000]{\includegraphics[width=0.45\textwidth]{Figures/RMSE_LApf_KNN_m1000}}
-%\caption{Boxplot of time-averaged RMSE of LApf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-%\label{fig:RMSE_LApf_KNN}
-%\end{figure}
-
-%Table.~\ref{tab:time_LApf} shows the average total runtime with respect to $K$ for different values of $m$. 
-%
-%\begin{table}[H]
-%\centering
-%\begin{tabular}{|l|l|l|l|l|l|l|l|}
-%\hline
-%        & $m$ = 6   & 10      & 20      & 100     & 200     & 500     & 1000    \\ \hline
-%$K$ = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \hline
-%4       & 47.61   & 45.8321 & 46.9099 & 44.1239 & 46.8175 & 45.7268 & 48.0369 \\ \hline
-%5       & 45.5334 & 45.9404 & 44.9823 & 44.2019 & 47.1917 & 46.8049 & 49.0212 \\ \hline
-%6       & 47.1295 & 48.5234 & 47.4019 & 49.2646 & 50.1962 & 54.1456 & 58.088  \\ \hline
-%7       & 59.0893 & 56.0343 & 58.6746 & 56.3333 & 58.1322 & 55.1389 & 49.3091 \\ \hline
-%8       & 48.8316 & 47.9977 & 47.1873 & 45.6619 & 46.6635 & 47.3256 & 48.1953 \\ \hline
-%9       & 49.4382 & 51.4236 & 48.8129 & 46.9926 & 47.2865 & 51.273  & 57.2445 \\ \hline
-%10      & 46.4701 & 46.178  & 49.3883 & 50.8106 & 51.7062 & 49.7496 & 47.8554 \\ \hline
-%\end{tabular}
-%\caption{Total runtime of LApf with respect to $K$ and $m$. All results area averaged over 50 time steps and 100 Monte-Carlo trials.}
-%\label{tab:time_LApf}
-%\end{table}
-
-
-
+In a distributed implementation of LApf, our objective is to minimize communication overhead without sacrificing tracking accuracy. Our simulation results suggest that this can be achieved by minimizing $m$ and maximizing $K$. 
 
 \subsubsection{Cluster particle filter}
-The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Table~\ref{tab:RMSE_clusterpf} shows the average RMSE of Clusterpf with respect to $C$ and $K$. As $C$ increases, the RMSE decreases. At $C=N=1000$, the Clusterpf is equivalent to the centralized BSpf (assuming distributed summation without error) and the performance is independent of $K$. For any given value of $C$, as $K$ increases, RMSE decreases. Higher value of $C$ requires higher communication overhead whereas the higher $K$ generates a more connected graph with more computational overhead. This suggests that one may opt for a higher value of $K$ in exchange for reduced communication overhead. 
+The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Table~\ref{tab:RMSE_clusterpf} shows the average RMSE of Clusterpf with respect to $C$ and $K$. As $C$ increases, the RMSE decreases. At $C=N=1000$, the Clusterpf is equivalent to the centralized BSpf (assuming distributed summation without error) and the performance is independent of $K$. For any given value of $C$, as $K$ increases, RMSE decreases. We note that these trends are similar to those shown in LApf. In fact, the parameter $C$ serves the same role as $m$ in LApf. Higher value of $C$ requires higher communication overhead but reduces the approximation error of particle log-likelihoods. These results suggest that, as in the case of LApf, one may opt for a higher value of $K$ in exchange for reduced communication overhead without significantly degrading tracking performance.
 
 \begin{table}[h!]
 \centering
@@ -413,7 +394,7 @@ K = 3 & 7.2659 & 5.8947 & 4.9396 & 4.2876 & 3.5259 & 2.9242 & 2.1867 & 2.145 \\ 
 \label{tab:RMSE_clusterpf}
 \end{table}
 
-Table.~\ref{tab:runtime_Clusterpf} shows the total runtime of Clusterpf with respect to $K$ and $m$. As $C$ increases, so does the runtime with a huge spike after $C=200$. A detailed breakdown of total runtime shows that clustering of particles is the sole cause of high runtime (i.e., clustering particles requires more than 10 minutes for $C=1000$). For a given value of $C$, increasing $K$ leads to higher runtime which is caused by the higher computational overhead for nearest-neighbor graph construction. 
+Table.~\ref{tab:runtime_Clusterpf} shows the total runtime of Clusterpf with respect to $K$ and $m$. As $C$ increases, so does the runtime with a huge spike after $C=200$. A detailed breakdown of total runtime shows (Fig.~\ref{fig:time_Clusterpf_bar_C} ) that the computational overhead of particle clusters increases significantly with higher $C$. For a given value of $C$ (Fig.~\ref{fig:time_Clusterpf_bar_K}), increasing $K$ leads to higher runtime which is caused by the higher computational overhead for nearest-neighbor graph construction and convex optimization. 
 
 \begin{table}[h!]
 \centering
@@ -436,76 +417,93 @@ K = 3 & 7.5892  & 7.261   & 7.319   & 11.6321 & 19.1915 & 42.2104 & 194.2847 & 7
 \label{tab:runtime_Clusterpf}
 \end{table}
 
-%Fig.~\ref{fig:RMSE_NbClusters} and Fig.~\ref{fig:runtime_NbClusters} show the boxplots of time-averaged RMSE and total runtime of Clusterpf with respect to $C$. With increasing $C$, the total runtime increases linearly but the RMSE does not differ significantly. For subsequent simulations, we set $K=5$ and $C=50$. 
-%
-%\begin{figure}
-%\centering
-%\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN5}}
-%\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN10}}
-%\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/RMSE_NbClusters_KNN20}}
-%\caption{Boxplot of time-averaged RMSE of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-%\label{fig:RMSE_NbClusters}
-%\end{figure}
-%
-%\begin{figure}
-%\centering
-%\subfigure[$K$=5]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN5}}
-%\subfigure[$K$=10]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN10}}
-%\subfigure[$K$=20]{\includegraphics[width=0.3\textwidth]{Figures/runtime_NbClusters_KNN20}}
-%\caption{Boxplot of total runtime of Clusterpf with respect to the number of eigenvectors over 100 Monte Carlo trials for different values of $K$.}
-%\label{fig:runtime_NbClusters}
-%\end{figure}
-%
+\begin{figure}
+\centering
+\subfigure[$K$=100]{\includegraphics[width=0.45\textwidth]{Figures/time_Clusterpf_bar_C}\label{fig:time_Clusterpf_bar_C}}
+\subfigure[$C$=6]{\includegraphics[width=0.45\textwidth]{Figures/time_Clusterpf_bar_K}\label{fig:time_Clusterpf_bar_K}}
+\caption{Breakdown of runtime of Clusterpf over 100 Monte Carlo trials.}
+\end{figure}
 
 \subsection{Performance comparison between filters}
-In this section, we compare the filters against each other. We consider a number of different tracks and investigate several parameters of interest. 
+In this section, we compare the filters against each other. We use the same test track from the previous section. Based on our results from previous sections, we use the following algorithm-specific parameters: $d=1$ (LCpf), $K=100$, $m=6$ (LApf) and $K=100$, $C=6$ (Clusterpf). These parameters are chosen to minimize the communication overhead without significantly degrading tracking performance. We note that CSSpf, LApf and Clusterpf have the same communication overhead (i.e., distributed aggregation of six statistics) whereas LCpf has a much higher overhead (i.e., aggregation of twenty scalars across sensors). 
 
-Fig.~\ref{fig:track1_results} shows the first test track and the boxplot of RMSE with respect to $N$, the number of particles. The CSSpf has the worst performance by a significant margin. For $N\geq 500$, the other four particle filters have similar performance. 
+Fig.~\ref{fig:track1_results} shows the boxplot of RMSE with respect to $N$, the number of particles and the time-averaged RMSE for $N=1000$. The CSSpf has the worst performance by a significant margin while the other four particle filters have similar performance and the performance of CSSpf starts degrading around time step $k=15$. Fig.~\ref{fig:est_track_CSSpf_N1000} shows the estimated trajectory of CSSpf from one trial and we can clearly see where the estimated track diverges from the true track. Table.~\ref{tab:runtime_track1_N} shows the average total runtime of all filters. BSpf, CSSpf and LCpf have similar runtime and are considerably faster than LApf and Clusterpf. The LApf has the longest runtime by far with the gap increasing at higher $N$ which can be attributed to the eigenvalue decomposition. 
 
 \begin{figure}
 \centering
-\begin{subfigure}[Track]
-{\includegraphics[width=0.45\textwidth]{Figures/track}}
+\begin{subfigure}[Boxplot of RMSE]
+{\includegraphics[width=0.75\textwidth]{Figures/RMSE_track1_N}\label{fig:RMSE_track1_N}}
 \end{subfigure}
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track1_N}}
+\begin{subfigure}[time-averaged RMSE for $N=1000$]
+{\includegraphics[width=0.75\textwidth]{Figures/RMSE_track1_time}\label{fig:RMSE_track1_time}}
 \end{subfigure}
-\caption{Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
+\caption{RMSE comparison of all particle filters. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
 \label{fig:track1_results}
 \end{figure}
 
-Next, we consider a different track that is completely outside the sensor grid. Fig.~\ref{fig:track2_results} shows the track and the results. Again, CSSpf has the worst performance by far. The other four filters have similar performance for $N\geq 500$; although the RMSE of LCpf has the largest fluctuation. 
 \begin{figure}
 \centering
-\begin{subfigure}[Track]
-{\includegraphics[width=0.45\textwidth]{Figures/track2}}
-\end{subfigure}
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track2_N}}
-\end{subfigure}
-\caption{2nd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
-\label{fig:track2_results}
+\includegraphics[width=0.75\textwidth]{Figures/est_track_CSSpf_N1000.pdf}
+\caption{Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}
+\label{fig:est_track_CSSpf_N1000}
 \end{figure}
 
-In the third track, target trajectory remains mostly within the grid. Again, CSSpf has the highest RMSE; although the gap is considerably smaller compared to the other two tracks. For all values of $N$, BSpf, LCpf and Clusterpf have similar performance. 
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+          & N=500  & N=750   & N=1000  & N=1250   & N=1500   \\ \hline
+BSpf      & 0.2029 & 0.2425  & 0.2869  & 0.5624   & 0.5639   \\ \hline
+CSSpf     & 0.1265 & 0.1521  & 0.1825  & 0.6723   & 0.7253   \\ \hline
+LCpf      & 0.3053 & 0.3539  & 0.4112  & 0.7455   & 0.7796   \\ \hline
+LApf      & 7.6591 & 19.6260 & 39.5854 & 136.5413 & 247.4128 \\ \hline
+Clusterpf & 5.0266 & 7.4632  & 10.4339 & 22.5435  & 29.3879  \\ \hline
+\end{tabular}
+\caption{Average total runtime of all filters with respect to $N$ for 1st track}
+\label{tab:runtime_track1_N}
+\end{table}
+
+In our next test, we shift the target trajectory and repeat the simulations. As Fig.~\ref{fig:track3_results} shows, all algorithms achieve lower RMSE compared to the first track. The CSSpf again has the highest RMSE; although the performance gap is considerably smaller. For all values of $N$, all other filters have similar performance. Fig.~\ref{fig:est_track2_CSSpf_N1000} shows the estimated trajectory of CSSpf for one random trial and the divergence between estimated and true tracks again occur around the outer corner turn. Table~\ref{tab:runtime_track2_N} shows the average runtime. Again, BSpf, CSSpf and LCpf have similar short runtime while LApf has the highest runtime. 
 
 \begin{figure}[h]
 \centering
 \begin{subfigure}[Track]
-{\includegraphics[width=0.45\textwidth]{Figures/track3}}
+{\includegraphics[width=0.75\textwidth]{Figures/track3}}
 \end{subfigure}
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.45\textwidth]{Figures/RMSE_track3_N}}
+{\includegraphics[width=0.75\textwidth]{Figures/RMSE_track3_N}}
 \end{subfigure}
-\caption{3rd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
+\caption{2nd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}
 \label{fig:track3_results}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{Figures/est_track_CSSpf_N1000.pdf}
+\caption{Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}
+\label{fig:est_track2_CSSpf_N1000}
+\end{figure}
 
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+          & N=500  & N=750   & N=1000  & N=1250   & N=1500   \\ \hline
+BSpf      & 0.2064 & 0.2495  & 0.3045  & 0.5407   & 0.5557   \\ \hline
+CSSpf     & 0.2649 & 0.3313  & 0.4012  & 0.6497   & 0.7179   \\ \hline
+LCpf      & 0.2947 & 0.3678  & 0.4372  & 0.7125   & 0.7657   \\ \hline
+LApf      & 7.7287 & 20.0299 & 41.4953 & 145.4905 & 265.9044 \\ \hline
+Clusterpf & 5.0872 & 7.6359  & 10.9596 & 23.2325  & 31.8395  \\ \hline
+\end{tabular}
+\caption{Average total runtime of all filters with respect to $N$ for 2nd track}
+\label{tab:runtime_track2_N}
+\end{table}
 
 \section{Conclusion}
 \label{sec:conclusion}
-To be completed
+In this report, we present four distributed particle filters for single-target bearing-only tracking. CSSpf approximates the log-likelihood function using six sufficient statistics. LCpf uses likelihood consensus to approximate the measurement function. LApf constructs a graph over all particles and uses the eigenvectors of resulting Laplacian matrix to encode the particle log-likelihood. Finally, Clusterpf groups particles into clusters, computes the cluster joint log-likelihood and recovers individual particle weights using convex minimization. 
+
+We study each individual algorithm's performance and compare them against each other. CSSpf has the worst tracking performance by far. LCpf yields competitive tracking performance on-par with the centralized bootstrap particle filter and has very low runtime. On the other hand, it also has the highest communication overhead. LApf has very high runtime due to the computational overhead of eigenvalue decomposition which renders it impractical for applications with strict timing constraints. Finally, Clusterpf has the second highest runtime but also yields competitive tracking performance. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{Refs}

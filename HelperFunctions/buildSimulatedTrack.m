@@ -23,12 +23,15 @@ d = 4; % target state dimension
 xMin = S.initial(1)-S.area_length*0.5;
 xMax = S.initial(1)+S.area_length*0.5;
 
-% yMin = S.initial(2)-S.area_length*0.5;
-% yMax = S.initial(2)+S.area_length*0.5;
+% Track 1
+yMin = S.initial(2)-S.area_length*0.5;
+yMax = S.initial(2)+S.area_length*0.5;
 
-yMin = S.initial(2)-S.area_length*0.15;
-yMax = S.initial(2)+S.area_length*0.85;
+% Track 3
+% yMin = S.initial(2)-S.area_length*0.15;
+% yMax = S.initial(2)+S.area_length*0.85;
 
+% Track 2
 % yMin = S.initial(2)+S.area_length*1.75;
 % yMax = S.initial(2)+S.area_length*2.75;
 

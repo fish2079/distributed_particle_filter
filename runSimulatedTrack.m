@@ -62,7 +62,11 @@ S.visualizeParticles = sim_parameters.visualizeParticles;
 % The struct obs contains all required parameters of measurement model
 obs.model = @computeBearing; % measurement model
 obs.mu = 0;% [0,0]'; % measurement noise mean
-obs.R = (5/180*pi)^2; %diag([5/180*pi, 0.005].^2);%diag([5^2,0.005^2]); % measurement noise covariance matrix
+if (isfield(sim_parameters,'sigma'))
+    obs.R = (sim_parameters.sigma/180*pi)^2;
+else
+    obs.R = (5/180*pi)^2; %diag([5/180*pi, 0.005].^2);%diag([5^2,0.005^2]); % measurement noise covariance matrix
+end
 obs.sensorPos = S.sensorPos;
 % Doppler specific parameters
 obs.C = 0.343; % speed of sound in air in km/s
@@ -126,7 +130,7 @@ parameters.F = F;
 
 % Run all trials in parallel if required
 if (parameters.parallel)
-    parfor i = 1:parameters.no_trials
+    parfor i = 2% 1:parameters.no_trials
         % Run one single trial
         [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end

@@ -31,7 +31,7 @@ for i=1:numel(maxDegree_vector)
     
     Hx_ss_dif_full = [Hx_ss_dif_full; mean(sum(detail.LCpf.Hx_ss_dif,3),1)];
 end
-
+boxplot(Hx_ss_dif_full')
 figure();
 set(gcf,'color','white');
 boxplot(RMSE_full');
