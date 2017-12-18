@@ -49,8 +49,16 @@ if ~isempty(D.measurements)
     % Compute the particle likelihood
     [particle_weights, Hx_ss_dif] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
    
+    [bs_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    
+    if (isfield(details,'weight_dif'))
+        details.weight_dif = [details.weight_dif; (particle_weights-bs_weights)];
+    else
+        details.weight_dif = (particle_weights-bs_weights);
+    end
+    
     if (isfield(details,'Hx_ss_dif'))
-        details.Hx_ss_dif = [details.Hx_ss_dif; Hx_ss_dif];
+        details.Hx_ss_dif = cat(3, details.Hx_ss_dif, Hx_ss_dif);
     else
         details.Hx_ss_dif = Hx_ss_dif;
     end
@@ -69,6 +77,7 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
+
 if (isfield(details,'step_time'))
     details.step_time = [details.step_time, toc(step_tic)];
 else

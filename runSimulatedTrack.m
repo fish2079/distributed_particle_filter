@@ -130,7 +130,7 @@ parameters.F = F;
 
 % Run all trials in parallel if required
 if (parameters.parallel)
-    parfor i = 2% 1:parameters.no_trials
+    parfor i = 1:parameters.no_trials
         % Run one single trial
         [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end

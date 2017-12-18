@@ -49,8 +49,9 @@ end
 for i=1:size(z,2)
     % Compute z'Q^{-1}\alpha
     zHx_ss(:,i) = z(:,i)'*R_inv*alpha_LC(:,:,i)';
-    Hx_ss_true(:,:,i) = (Psi*alpha_LC(:,:,i))';
-    Hx_ss_dif(1,i) = mean(abs(beta_LC(:,:,i)-Hx_ss_true(:,:,i)));
+    Hx_ss_est(:,:,i) = (Psi*alpha_LC(:,:,i))';
+    % This line of debug code is specific to bearing model
+    Hx_ss_dif(:,i) = wrapToPi(beta_LC(:,:,i)-Hx_ss_est(:,:,i));
 end
 
 % Compute the second local statistics \alpha'Q^{-1}\alpha
@@ -83,11 +84,6 @@ zHs = sum(zHx_ss,2);
 HxHx = sum(HxHx_ss,1)';
 
 gamma = Psi*zHs + Psi_extended*HxHx;
-
-% Hx_approx = Psi*alpha_LC;
-
-% EDIT THIS LINE SO IT IS MORE GENERAL MVNPDF INSTEAD OF NORMPDF
-% gamma = sum(a-Hx_approx.^2/2/(sqrt(obs.R))^2,2) + Hx_approx*z'/(sqrt(obs.R))^2;
 
 gamma = gamma' - max(gamma);
 

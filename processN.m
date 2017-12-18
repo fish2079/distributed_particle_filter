@@ -1,10 +1,24 @@
 warning('off','all');
 clear;clc;
 
+<<<<<<< .mine
+path = 'Results_N\Track1\';
+% path = '';
+||||||| .r20
+% path = 'Results_N\Track1\';
+path = '';
+=======
 path = 'Results_N\Track3\';
 % path = '';
+>>>>>>> .r22
 % Number of particles for the filter
+<<<<<<< .mine
+N_vector = [500, 750, 1000, 1250];%, 1250, 1500];
+||||||| .r20
+N_vector = [100, 250, 500, 750, 1000];
+=======
 N_vector = [500, 750, 1000, 1250, 1500];
+>>>>>>> .r22
 
 % Number of random trials
 sim_parameters.no_trials = 500; 
@@ -27,7 +41,7 @@ for i=1:numel(N_vector)
     sim_parameters.N = N_vector(i); 
     
     % Store the tracking results
-    filename{i} = [path, 'Track3_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = [path, 'Track1_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     
     [RMSE_sf, RMSEFull_sf, runtime_sf, runtimeFull_sf, detail{i}] = extractResults(filename{i});
     

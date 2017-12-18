@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, KNN_time, eig_time] = LALikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time] = LALikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -22,12 +22,8 @@ d = size(x_predicted,1)-1;
 
 % First have each sensor compute local log-likelihood using only local
 % measurements
-for i=1:numel(D.sensorID)
-%     D_single.measurements = D.measurements(:,i);
-%     D_single.sensorID = D.sensorID(i);
-%     D_single.sensorLoc = D.sensorLoc(:,i);
-%     log_lh_ss_approx(i,:) = log(GaussianLikelihood(x_predicted, F, D_single, obs)+realmin);
-    
+log_lh_tic = tic;
+for i=1:numel(D.sensorID)   
     z_received = D.measurements(:,i);
     % Compute expected measurement
     z_expected = obs.model(x_predicted(1:d,:), D.sensorLoc(:,i), obs);
@@ -37,15 +33,15 @@ for i=1:numel(D.sensorID)
     
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
 end
+log_lh_time = toc(log_lh_tic);
 
 % Construct the K-nearest graph for all the particles
 % We actually find the k+1 nearest neighbors since particle i is the
 % closest neighbor to particle i itself with 0 distance
 % We thus ignore the first column of idx 
-KNN_tic = tic;
+graph_tic = tic;
 idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
 idx = idx(:,2:end);
-KNN_time = toc(KNN_tic);
 
 % Now construct the adjacency matrix
 A = zeros(F.N, F.N);
@@ -58,6 +54,7 @@ end
 
 % Construct Laplacian matrix
 L = diag(sum(A,2)) - A;
+graph_time = toc(graph_tic);
 
 % Do eigenvalue decomposition of Laplacian matrix
 eig_time_tic = tic;
@@ -74,9 +71,9 @@ alpha_ss = V'*log_lh_ss';
 alpha = sum(alpha_ss,2);
 
 % Compute approximate global joint log-likelihood
-gamma = (V*alpha)';
+gamma_approx = (V*alpha)';
 
-gamma = gamma-max(gamma);
+gamma = gamma_approx-max(gamma_approx);
 
 % Compute unnormalized posterior weight
 particle_weights = exp(gamma).*x_predicted(d+1,:);
@@ -94,22 +91,10 @@ particle_weights = particle_weights./sum(particle_weights);
 % Debug part
 gamma_exact = (V_full*(sum(V_full'*log_lh_ss',2)))';
 
-gamma_exact = gamma_exact-max(gamma_exact);
-gamma_dif = norm(gamma-gamma_exact);
+gamma_dif = gamma_approx-gamma_exact;
 
+gamma_exact = gamma_exact-max(gamma_exact);
 weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
 weight_exact = weight_exact/sum(weight_exact);
 
-weight_dif = norm(weight_exact-particle_weights);
-
-
-% debug 
-% log_lh = sum(log_lh_ss,1);
-% log_lh = log_lh-max(log_lh);
-% clc;
-% yo=norm(log_lh-gamma)
-
-% [bs_weights, bs_gamma, bs_gamma_ss] = GaussianLikelihood(x_predicted, F, D, obs);
-% hoho = norm(bs_weights-particle_weights)
-
-% mo=5;
+weight_dif = weight_exact-particle_weights;
