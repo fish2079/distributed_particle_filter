@@ -21,17 +21,17 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N_vector = [250, 500, 750, 1000];
+N_vector = 500; %[250, 500, 750, 1000];
 
 % Number of random trials
 sim_parameters.no_trials = 40; 
 
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
-sim_parameters.visualizeParticles = false;
+sim_parameters.visualizeParticles = true;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -39,7 +39,7 @@ sim_parameters.visualizeParticles = false;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists([1:7]);
+sim_parameters.algorithms = alg_lists([3]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
@@ -55,6 +55,3 @@ for i=1:numel(N_vector)
     filename{i} = ['Track3_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
 end
-
-% Plot the results
-% plotRMSE(filename);

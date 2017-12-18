@@ -52,3 +52,11 @@ legend('Particles', 'Estimated track', 'True track');
 
 xlabel('x');
 ylabel('y');
+
+% Plot subfigure zooming onto the actual particles
+axes('position',[.25 .175 .25 .25]);
+box on
+scatter(particles(1,:), particles(2,:), scatterSize/2, particles(5,:)); 
+hold on;
+scatter(x_estimate(1,k), x_estimate(2,k), scatterSize, 'rd','filled');
+scatter(S.x_t(1,k), S.x_t(2,k), scatterSize, 'bd','filled');

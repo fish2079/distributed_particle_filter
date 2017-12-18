@@ -21,8 +21,8 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-KNN_vector = [3:10];
-nbEig_vector = [1000];%, 100, 200, 1000]; 
+KNN_vector = 10;%[3:10];
+nbEig_vector = [6, 20, 50, 100, 200, 1000]; 
 
 % Number of random trials
 sim_parameters.no_trials = 8; 
@@ -38,8 +38,8 @@ sim_parameters.visualizeParticles = false;
 % 2. distributed CSS PF 
 % 3. distributed LC PF
 % 4. distributed Graph PF
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
-sim_parameters.algorithms = alg_lists([4]);
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
+sim_parameters.algorithms = alg_lists(5);
 
 for j=1:numel(nbEig_vector)
     sim_parameters.nbEig = nbEig_vector(j);

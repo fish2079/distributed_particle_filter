@@ -83,7 +83,7 @@ end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
 % Particle Filter Regularization
-F.sigma_noise = 10^-6; % std of Gaussian noise to add to particles at each iteration
+F.sigma_noise = 10^-3; % std of Gaussian noise to add to particles at each iteration
 F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
 F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
 % Function handle for initial particle cloud generation
