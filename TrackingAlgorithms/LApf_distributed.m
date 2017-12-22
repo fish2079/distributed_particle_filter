@@ -79,7 +79,8 @@ if ~isempty(D.measurements)
         details.eig_time = eig_time;
     end
     
-    if (1/sum(particle_weights.^2)<F.N_eff)
+    N_eff = 1/sum(particle_weights.^2);
+    if (N_eff<F.N_eff)
         % Sample according to weights with replacement
         I = randsample((1:N)', N, true, particle_weights);
 
@@ -97,4 +98,10 @@ if (isfield(details,'step_time'))
     details.step_time = [details.step_time, toc(step_tic)];
 else
     details.step_time = toc(step_tic);
+end
+
+if (isfield(details,'N_eff'))
+    details.N_eff = [details.N_eff, N_eff];
+else
+    details.N_eff = N_eff;
 end

@@ -1,24 +1,9 @@
 warning('off','all');
 clear;clc;
 
-<<<<<<< .mine
-path = 'Results_N\Track1\';
-% path = '';
-||||||| .r20
-% path = 'Results_N\Track1\';
 path = '';
-=======
-path = 'Results_N\Track3\';
-% path = '';
->>>>>>> .r22
-% Number of particles for the filter
-<<<<<<< .mine
-N_vector = [500, 750, 1000, 1250];%, 1250, 1500];
-||||||| .r20
-N_vector = [100, 250, 500, 750, 1000];
-=======
-N_vector = [500, 750, 1000, 1250, 1500];
->>>>>>> .r22
+
+N_vector = [250, 500, 750, 1000];%, 1250, 1500];
 
 % Number of random trials
 sim_parameters.no_trials = 500; 

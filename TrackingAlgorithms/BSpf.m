@@ -39,7 +39,9 @@ if ~isempty(D.measurements)
     % Compute the particle likelihood
     particle_weights = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    if (1/sum(particle_weights.^2)<F.N_eff)
+    N_eff = 1/sum(particle_weights.^2);
+    
+    if (N_eff<F.N_eff)
         % Sample according to weights with replacement
         I = randsample((1:N)', N, true, particle_weights);
 
@@ -54,10 +56,17 @@ else
     % them equal weights
     x_updated = [ x_predicted + regularization_noise; ones(1,N)/N ];
 end
+
 if (isfield(details,'step_time'))
     details.step_time = [details.step_time, toc(step_tic)];
 else
     details.step_time = toc(step_tic);
+end
+
+if (isfield(details,'N_eff'))
+    details.N_eff = [details.N_eff, N_eff];
+else
+    details.N_eff = N_eff;
 end
 
 
