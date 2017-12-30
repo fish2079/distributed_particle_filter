@@ -27,13 +27,13 @@ xMax = S.initial(1)+S.area_length*0.5;
 yMin = S.initial(2)-S.area_length*0.5;
 yMax = S.initial(2)+S.area_length*0.5;
 
-% Track 3
-% yMin = S.initial(2)-S.area_length*0.15;
-% yMax = S.initial(2)+S.area_length*0.85;
-
 % Track 2
 % yMin = S.initial(2)+S.area_length*1.75;
 % yMax = S.initial(2)+S.area_length*2.75;
+
+% Track 3
+% yMin = S.initial(2)-S.area_length*0.15;
+% yMax = S.initial(2)+S.area_length*0.85;
 
 %% Place sensors in the tracking area
 % Place sensors in a grid if needed
@@ -50,6 +50,17 @@ else
 end
 % Store all sensor positions
 S_output.sensorPos = sensorPos;
+
+% Construct sensor communication adjacency matrix
+A = zeros(S.nb_sensors);
+range = S.area_length/(rootK-1)*1.1;
+for i=1:S.nb_sensors
+    for j=i+1:S.nb_sensors
+        A(i,j) = (norm(sensorPos(:,i)-sensorPos(:,j))<range);
+        A(j,i) = A(i,j);
+    end
+end
+S_output.A = A;
 
 %% Construct target track
 % Allocate space for returned variables

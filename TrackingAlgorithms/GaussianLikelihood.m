@@ -32,6 +32,12 @@ for j = 1:size(D.measurements,2)
     gamma_ss(j,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
 end
 
+% if (F.gossip)
+%     [gamma, gossip_error] = computeAggregateGossip(gamma_ss, F.A, F.max_gossip_iter);
+% else
+%     gamma = sum(gamma_ss,1);
+%     gossip_error = 0;
+% end
 gamma = gamma - max(gamma);
 
 % Compute unnormalized posterior weight

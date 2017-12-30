@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time] = LADelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio] = LADelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -59,7 +59,13 @@ V = V_full(:,1:F.LA.m);
 alpha_ss = V'*log_lh_ss';
 
 % Sum up the local coefficients
-alpha = sum(alpha_ss,2);
+if (F.gossip)
+    [alpha, aggregate_error_ratio] = computeAggregateGossip(alpha_ss', F.A, F.max_gossip_iter);
+    alpha = alpha';
+else
+    alpha = sum(alpha_ss,2);
+    aggregate_error_ratio = zeros(1,F.LA.m);
+end
 
 % Compute approximate global joint log-likelihood
 gamma_approx = (V*alpha)';

@@ -1,4 +1,4 @@
-function [particle_weights, Hx_ss_dif] = LCLikelihood(x_predicted, F, D, obs)
+function [particle_weights, Hx_ss_dif, aggregate_error_ratio] = LCLikelihood(x_predicted, F, D, obs)
 %   Function to compute the posterior weights of particles
 %   The weight is computed using likelihood consensus to approximate the
 %   measurement model
@@ -80,8 +80,17 @@ for zz=1:size(z,2)
     HxHx_ss(zz,:) =  sum(temp,1);
 end
 
-zHs = sum(zHx_ss,2);
-HxHx = sum(HxHx_ss,1)';
+if (F.gossip)
+    [zHs, aggregate_error_ratio1] = computeAggregateGossip(zHx_ss', F.A, F.max_gossip_iter);
+    [HxHx, aggregate_error_ratio2] = computeAggregateGossip(HxHx_ss, F.A, F.max_gossip_iter);
+    zHs = zHs';
+    HxHx = HxHx';
+    aggregate_error_ratio = [aggregate_error_ratio1, aggregate_error_ratio2];
+else
+    zHs = sum(zHx_ss,2);
+    HxHx = sum(HxHx_ss,1)';
+    aggregate_error_ratio = zeros(1, numel(zHs)+numel(HxHx));
+end
 
 gamma = Psi*zHs + Psi_extended*HxHx;
 

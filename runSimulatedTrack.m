@@ -82,6 +82,14 @@ else
 end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
+if (isfield(sim_parameters,'gossip'))
+    F.gossip = sim_parameters.gossip;
+else
+    F.gossip = false;
+end
+F.A = S.A; % adjacency matrix of the sensor network
+F.max_gossip_iter = 20; % maximum number of gossip iterations
+
 % Particle Filter Regularization
 F.sigma_noise = 10^-3; % std of Gaussian noise to add to particles at each iteration
 F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud

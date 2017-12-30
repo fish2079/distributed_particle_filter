@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner by clustering
 %   particles and gossiping on cluster log-likelihoods
@@ -49,7 +49,11 @@ end
 log_lh_time = toc(log_lh_tic);
 
 % Sum up local cluster log-likelihoods
-log_lh_cluster = sum(log_lh_cluster_ss, 1);
+if (F.gossip)
+    [log_lh_cluster, aggregate_error_ratio] = computeAggregateGossip(log_lh_cluster_ss, F.A, F.max_gossip_iter);
+else
+    log_lh_cluster = sum(log_lh_cluster_ss, 1);
+end
 
 % Now compute individual particle joint log-likelihood
 % Construct the K-nearest graph for all the particles

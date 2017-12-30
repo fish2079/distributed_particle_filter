@@ -45,7 +45,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    particle_weights = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, aggregate_error_ratio] = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     [gamma_particle_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
@@ -55,6 +55,14 @@ if ~isempty(D.measurements)
         details.weight_dif = [details.weight_dif; weight_dif];
     else
         details.weight_dif = weight_dif;
+    end
+    
+    if (F.gossip)
+        if (isfield(details,'aggregate_error_ratio'))
+            details.aggregate_error_ratio = [details.aggregate_error_ratio; aggregate_error_ratio];
+        else
+            details.aggregate_error_ratio = aggregate_error_ratio;
+        end
     end
     
     N_eff = 1/sum(particle_weights.^2);

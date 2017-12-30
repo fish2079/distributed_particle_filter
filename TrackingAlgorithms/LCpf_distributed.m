@@ -47,7 +47,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the particle likelihood
-    [particle_weights, Hx_ss_dif] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, Hx_ss_dif, aggregate_error_ratio] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
    
     [bs_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
@@ -61,6 +61,14 @@ if ~isempty(D.measurements)
         details.Hx_ss_dif = cat(3, details.Hx_ss_dif, Hx_ss_dif);
     else
         details.Hx_ss_dif = Hx_ss_dif;
+    end
+    
+    if (F.gossip)
+        if (isfield(details,'aggregate_error_ratio'))
+            details.aggregate_error_ratio = [details.aggregate_error_ratio; aggregate_error_ratio];
+        else
+            details.aggregate_error_ratio = aggregate_error_ratio;
+        end
     end
     
     N_eff = 1/sum(particle_weights.^2);

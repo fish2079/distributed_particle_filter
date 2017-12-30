@@ -47,7 +47,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif; gamma_dif];
@@ -77,6 +77,14 @@ if ~isempty(D.measurements)
         details.eig_time = [details.eig_time, eig_time];
     else
         details.eig_time = eig_time;
+    end
+    
+    if (F.gossip)
+        if (isfield(details,'aggregate_error_ratio'))
+            details.aggregate_error_ratio = [details.aggregate_error_ratio; aggregate_error_ratio];
+        else
+            details.aggregate_error_ratio = aggregate_error_ratio;
+        end
     end
     
     N_eff = 1/sum(particle_weights.^2);

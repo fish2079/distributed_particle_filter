@@ -1,4 +1,4 @@
-function particle_weights = CSSLikelihood(x_predicted, F, D, obs)
+function [particle_weights, aggregate_error_ratio] = CSSLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using CSS
 %   methods
@@ -60,7 +60,13 @@ CSS_matrix = calculate_CSS(z(1,:), x_o, R);
 % obtain the correct sum
 % Therefore, we skip the distributed computation and compute the sum
 % exactly
-CSS = sum(CSS_matrix,1)';
+if (F.gossip)
+    [CSS, aggregate_error_ratio] = computeAggregateGossip(CSS_matrix, F.A, F.max_gossip_iter);
+    CSS = CSS';
+else
+    CSS = sum(CSS_matrix,1)';
+    aggregate_error_ratio = zeros(1,6);
+end
 
 % once consensus is done, every sensor just calculates the particle weights
 multi_matrix = [ones([size(x_predicted,2),1]), x_predicted(1,:)'.^2, x_predicted(2,:)'.^2,-2*x_predicted(1,:)'.*x_predicted(2,:)',2*x_predicted(1,:)',-2*x_predicted(2,:)'];
