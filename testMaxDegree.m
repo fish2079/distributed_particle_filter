@@ -26,11 +26,16 @@ maxDegree_vector = [1:10];
 % Number of random trials
 sim_parameters.no_trials = 200; 
 
+sim_parameters.max_gossip_iter = 100;
+
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
+
+% Flag for using gossip or exact aggregate
+sim_parameters.gossip = false;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -51,8 +56,13 @@ for i=1:numel(maxDegree_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename = ['LCpf_maxDegree',num2str(sim_parameters.max_degree),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-    save(filename, 'results','parameters');
+    filename{i} = ['Track3_LCpf'];
+%     filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
+    filename{i} = [filename{i},'_maxDegree',num2str(parameters.F.LC.max_degree)];
+    filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
+    filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
+    filename{i} = [filename{i},'.mat'];
+    save(filename{i}, 'results','parameters');
 end
 
 % Plot the results

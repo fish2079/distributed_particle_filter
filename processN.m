@@ -9,7 +9,7 @@ N_vector = [250, 500, 750, 1000];%, 1250, 1500];
 sim_parameters.no_trials = 40; 
 
 RMSEFull = [];
-runtimeFull = [];
+steptimeFull = [];
 weight_difFull = [];
 N_effFull = [];
 aggregate_error_ratioFull = [];
@@ -33,7 +33,7 @@ for i=1:numel(N_vector)
     [RMSEFull_sf, runtimeFull_sf, weight_dif_full_sf, N_effFull_sf, aggregate_error_ratio_sf, details{i}] = extractResults(data.results, data.parameters);
    
     RMSEFull = cat(4,RMSEFull, RMSEFull_sf);
-    runtimeFull = cat(4, runtimeFull, runtimeFull_sf);
+    steptimeFull = cat(4, steptimeFull, runtimeFull_sf);
     weight_difFull = cat(4, weight_difFull, mean(abs(weight_dif_full_sf),4));
     N_effFull = cat(4, N_effFull, N_effFull_sf);
     aggregate_error_ratioFull = cat(4, aggregate_error_ratioFull, aggregate_error_ratio_sf);

@@ -33,7 +33,7 @@ for tr=1:parameters.no_trials
         try
             timeFull(alg,:,tr) = results.details{tr}{alg}.step_time;
             N_effFull(alg,:,tr) = results.details{tr}{alg}.N_eff;
-            if (alg>1)
+            if (~isequal(func2str(parameters.algorithms{alg}),'BSpf'))
                 weight_dif_full(alg,:,tr,:) = results.details{tr}{alg}.weight_dif;
                 if (parameters.F.gossip)
                     aggregate_error_ratio(alg, :, tr) = mean(results.details{tr}{alg}.aggregate_error_ratio,2);
@@ -45,7 +45,7 @@ for tr=1:parameters.no_trials
 %                 case 'CSSpf_distributed'
 %                     detail.CSSpf.weight_dif(alg, :, :, tr) = results.details{tr}{alg}.weight_dif;
                 case 'LCpf_distributed'
-                    details.LCpf.Hx_ss_dif(:,tr,:,:) = permute(results.details{5}{3}.Hx_ss_dif,[3,2,1]);
+                    details.LCpf.Hx_ss_dif(:,tr,:,:) = permute(results.details{tr}{alg}.Hx_ss_dif,[3,2,1]);
                 case 'LApf_distributed'
                     details.LApf.gamma_dif(:,tr,:) = results.details{tr}{alg}.gamma_dif;
                     details.LApf.log_lh_time(:,tr) = results.details{tr}{alg}.log_lh_time;
@@ -73,3 +73,5 @@ for tr=1:parameters.no_trials
         end
     end
 end
+
+yo=5;

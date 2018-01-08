@@ -23,67 +23,76 @@
 \newlabel{sec:evaluation}{{3.4}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Performance evaluation}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation setup}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Target trajectory (blue curve) and sensor positions (black diamond)}}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{5}}
 \newlabel{fig:track}{{1}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE and runtime of LCpf with respect to max degree for 100 Monte Carlo trials. The red solid line in the subfig a is the average RMSE of BSpf for comparison.}}{6}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{6}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{6}}
-\newlabel{fig:results_maxDegree}{{2}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Algorithm setup}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Likelihood consensus particle filter}{6}}
-\newlabel{fig:LCpf_approx_error}{{4.3}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of measurement approximation error with respect to max degree. All results are computed over 100 Monte Carlo trials}}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Laplacian approximation particle filter}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of LApf RMSE for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}}{8}}
-\newlabel{fig:RMSE_LApf_boxplot}{{4}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of measurement approximation error for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}}{8}}
-\newlabel{fig:Approx_error_LApf_boxplot}{{5}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces RMSE of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{9}}
-\newlabel{tab:RMSE_LApf}{{1}{9}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Approximation error of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{9}}
-\newlabel{tab:Approx_error_LApf}{{2}{9}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Total runtime of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{9}}
-\newlabel{tab:runtime_LApf}{{3}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Breakdown of total runtime of LApf with respect to $K$ for $m=10$}}{10}}
-\newlabel{fig:time_bar_LApf}{{6}{10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Cluster particle filter}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces RMSE of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}}{10}}
-\newlabel{tab:RMSE_clusterpf}{{4}{10}}
-\newlabel{fig:time_Clusterpf_bar_C}{{7(a)}{11}}
-\newlabel{sub@fig:time_Clusterpf_bar_C}{{(a)}{11}}
-\newlabel{fig:time_Clusterpf_bar_K}{{7(b)}{11}}
-\newlabel{sub@fig:time_Clusterpf_bar_K}{{(b)}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Breakdown of runtime of Clusterpf over 100 Monte Carlo trials.}}{11}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$K$=100}}}{11}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$C$=6}}}{11}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Runtime of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}}{11}}
-\newlabel{tab:runtime_Clusterpf}{{5}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Performance comparison between filters}{11}}
-\newlabel{fig:RMSE_track1_N}{{8(a)}{12}}
-\newlabel{sub@fig:RMSE_track1_N}{{(a)}{12}}
-\newlabel{fig:RMSE_track1_time}{{8(b)}{12}}
-\newlabel{sub@fig:RMSE_track1_time}{{(b)}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces RMSE comparison of all particle filters. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Boxplot of RMSE}}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {time-averaged RMSE for $N=1000$}}}{12}}
-\newlabel{fig:track1_results}{{8}{12}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Average total runtime of all filters with respect to $N$ for 1st track}}{12}}
-\newlabel{tab:runtime_track1_N}{{6}{12}}
+\newlabel{eqn:metropolis_weight}{{20}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Constraint sufficient statistics particle filter}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Likelihood consensus particle filter}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Laplacian approximation particle filter}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of CSSpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{8}}
+\newlabel{fig:results_CSSpf}{{2}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE and total runtime of LCpf with respect to $d$}}{9}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{9}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{9}}
+\newlabel{fig:results_LCpf_maxDegree}{{3}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of LCpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{10}}
+\newlabel{fig:results_LCpf}{{4}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of RMSE and runtime of LCpf with respect to max degree for 100 Monte Carlo trials. The red solid line in the subfig a is the average RMSE of BSpf for comparison.}}{11}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{11}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{11}}
+\newlabel{fig:results_maxDegree}{{5}{11}}
+\newlabel{fig:LCpf_approx_error}{{4.4}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of measurement approximation error with respect to max degree. All results are computed over 100 Monte Carlo trials}}{11}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces RMSE of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{12}}
+\newlabel{tab:RMSE_LApf}{{1}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Boxplot of LApf RMSE for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}}{12}}
+\newlabel{fig:RMSE_LApf_boxplot}{{7}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Boxplot of measurement approximation error for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}}{13}}
+\newlabel{fig:Approx_error_LApf_boxplot}{{8}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Breakdown of total runtime of LApf with respect to $K$ for $m=10$}}{13}}
+\newlabel{fig:time_bar_LApf}{{9}{13}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Approximation error of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{14}}
+\newlabel{tab:Approx_error_LApf}{{2}{14}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Total runtime of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}}{14}}
+\newlabel{tab:runtime_LApf}{{3}{14}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}Cluster particle filter}{14}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces RMSE of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}}{15}}
+\newlabel{tab:RMSE_clusterpf}{{4}{15}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Runtime of Clusterpf with respect to $K$ and $C$ over 100 Monte Carlo trials}}{15}}
+\newlabel{tab:runtime_Clusterpf}{{5}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Performance comparison between filters}{15}}
+\newlabel{fig:RMSE_track1_N}{{10(a)}{16}}
+\newlabel{sub@fig:RMSE_track1_N}{{(a)}{16}}
+\newlabel{fig:RMSE_track1_time}{{10(b)}{16}}
+\newlabel{sub@fig:RMSE_track1_time}{{(b)}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces RMSE comparison of all particle filters. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}}{16}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Boxplot of RMSE}}}{16}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {time-averaged RMSE for $N=1000$}}}{16}}
+\newlabel{fig:track1_results}{{10}{16}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Average total runtime of all filters with respect to $N$ for 1st track}}{16}}
+\newlabel{tab:runtime_track1_N}{{6}{16}}
 \bibstyle{IEEEtran}
 \bibdata{Refs}
 \bibcite{Mohammadi2012}{1}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}}{13}}
-\newlabel{fig:est_track_CSSpf_N1000}{{9}{13}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Average total runtime of all filters with respect to $N$ for 2nd track}}{13}}
-\newlabel{tab:runtime_track2_N}{{7}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{13}}
-\newlabel{sec:conclusion}{{5}{13}}
 \bibcite{Hlinka2012}{2}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}}{17}}
+\newlabel{fig:est_track_CSSpf_N1000}{{11}{17}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Average total runtime of all filters with respect to $N$ for 2nd track}}{17}}
+\newlabel{tab:runtime_track2_N}{{7}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{17}}
+\newlabel{sec:conclusion}{{5}{17}}
 \bibcite{Rabbat2016}{3}
 \bibcite{Chao2015}{4}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces 2nd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}}{14}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track}}}{14}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{14}}
-\newlabel{fig:track3_results}{{10}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}}{15}}
-\newlabel{fig:est_track2_CSSpf_N1000}{{11}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces 2nd Test trajectory and boxplots of RMSE with respect to $N$. For each value of $N$, from left to right: BSpf, CSSpf, LCpf, LApf, Clusterpf}}{18}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track}}}{18}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{18}}
+\newlabel{fig:track3_results}{{12}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Estimated trajectory of CSSpf for one Monte Carlo trial at $N=1000$}}{19}}
+\newlabel{fig:est_track2_CSSpf_N1000}{{13}{19}}

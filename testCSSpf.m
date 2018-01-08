@@ -58,7 +58,7 @@ for i=1:numel(gossip_vector)
         [results, parameters]= runSimulatedTrack(sim_parameters);
 
         % Store the tracking results
-        filename{i} = ['Track3_LCpf'];
+        filename{i} = ['Track3_CSSpf'];
         filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
         filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
         filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
