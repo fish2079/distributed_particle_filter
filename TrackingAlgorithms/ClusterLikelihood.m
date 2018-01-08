@@ -42,7 +42,7 @@ for i=1:numel(D.sensorID)
     % Compute the Gaussian log-likelihood
     z_dif = F.minus(z_received, z_expected);
     
-    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
+    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
   
     log_lh_cluster_ss(i,:) = C*log_lh_ss(i,:)';
 end

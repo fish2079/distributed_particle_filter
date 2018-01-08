@@ -1,5 +1,5 @@
 % function [RMSE_trial, RMSE_time, RMSEFull, runtime, steptime, steptimeFull, N_effFull, detail] = extractResults(results, parameters)
-function [RMSEFull, timeFull, weight_dif_full, N_effFull, details] = extractResults(results, parameters)
+function [RMSEFull, timeFull, weight_dif_full, N_effFull, aggregate_error_ratio, details] = extractResults(results, parameters)
 %   Function to extract the simulation results
 %
 %   Input:
@@ -35,6 +35,11 @@ for tr=1:parameters.no_trials
             N_effFull(alg,:,tr) = results.details{tr}{alg}.N_eff;
             if (alg>1)
                 weight_dif_full(alg,:,tr,:) = results.details{tr}{alg}.weight_dif;
+                if (parameters.F.gossip)
+                    aggregate_error_ratio(alg, :, tr) = mean(results.details{tr}{alg}.aggregate_error_ratio,2);
+                else
+                    aggregate_error_ratio(alg, :, tr) = zeros(1,50);
+                end
             end
             switch func2str(parameters.algorithms{alg})
 %                 case 'CSSpf_distributed'

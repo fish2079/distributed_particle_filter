@@ -21,11 +21,12 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N_vector = [250, 500, 750, 1000];
+N_vector = 250; %[250, 500, 750, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 40; 
+sim_parameters.no_trials = 4; %40; 
 
+sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
 sim_parameters.parallel = false;
@@ -34,7 +35,7 @@ sim_parameters.parallel = false;
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = true;
+sim_parameters.gossip = false;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -43,7 +44,7 @@ sim_parameters.gossip = true;
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists([1:5]);
+sim_parameters.algorithms = alg_lists([3]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number

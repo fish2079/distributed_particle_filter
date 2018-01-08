@@ -21,15 +21,15 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-sigma_vector = [1, 2.5, 7.5, 10];
+gossip_vector = [10, 25, 50, 100, 200];
 
 % Number of random trials
-sim_parameters.no_trials = 80; 
+sim_parameters.no_trials = 100; 
 
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -46,15 +46,15 @@ alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distrib
 sim_parameters.algorithms = alg_lists([1:5]);
 
 % Loop through each choice of particle number
-for i=1:numel(sigma_vector)
+for i=1:numel(gossip_vector)
     % Set number of particles
-    sim_parameters.sigma = sigma_vector(i); 
+    sim_parameters.max_gossip_iter = gossip_vector(i);
     
     % Run the simulated track with all selected tracking algorithms 
     % Each filter uses N particles   
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track3_gossip_sigma',num2str(sim_parameters.sigma*10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = ['Track3_gossip',num2str(sim_parameters.max_gossip_iter),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
 end

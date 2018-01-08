@@ -42,7 +42,7 @@ for i=1:numel(D.sensorID)
     % Compute the Gaussian log-likelihood
     z_dif = F.minus(z_received, z_expected);
     
-    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
+    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
   
     log_lh_cluster_ss(i,:) = C*log_lh_ss(i,:)';
 end
@@ -53,6 +53,7 @@ if (F.gossip)
     [log_lh_cluster, aggregate_error_ratio] = computeAggregateGossip(log_lh_cluster_ss, F.A, F.max_gossip_iter);
 else
     log_lh_cluster = sum(log_lh_cluster_ss, 1);
+    aggregate_error_ratio = zeros(1, F.cluster.k);
 end
 
 % Now compute individual particle joint log-likelihood

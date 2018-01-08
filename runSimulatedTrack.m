@@ -69,16 +69,16 @@ else
 end
 obs.sensorPos = S.sensorPos;
 % Doppler specific parameters
-obs.C = 0.343; % speed of sound in air in km/s
-obs.F = 100;
-obs.lambda = obs.F/obs.C;
+% obs.C = 0.343; % speed of sound in air in km/s
+% obs.F = 100;
+% obs.lambda = obs.F/obs.C;
 
 % The struct F contains all relevant
 % no of particles
 if(isfield(sim_parameters, 'N'))
     F.N = sim_parameters.N; 
 else
-    F.N = 1000;
+    F.N = 500;
 end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
@@ -88,7 +88,12 @@ else
     F.gossip = false;
 end
 F.A = S.A; % adjacency matrix of the sensor network
-F.max_gossip_iter = 20; % maximum number of gossip iterations
+
+if (isfield(sim_parameters,'max_gossip_iter'))
+    F.max_gossip_iter = sim_parameters.max_gossip_iter;
+else
+    F.max_gossip_iter = 50; % maximum number of gossip iterations
+end
 
 % Particle Filter Regularization
 F.sigma_noise = 10^-3; % std of Gaussian noise to add to particles at each iteration
@@ -100,6 +105,7 @@ F.initializeState = @GaussianParticleCloudInitialization;
 F.mmseStateEstimate = @mmseEstimateFromParticles;
 % Bootstrap specific parameters
 F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true(2,:)]; 
+
 % LC specific parameters
 % [basis_x,basis_y]=meshgrid([-20:20:120],[20:20:160]);
 % F.LC.basis = [basis_x(:),basis_y(:)]';
@@ -109,17 +115,23 @@ if(isfield(sim_parameters, 'max_degree'))
 else   
     F.LC.max_degree = 1;
 end
+
 % LA specific parameters
+% Number of neighbors is irrelevant since we now use Delaunay
+% triangulation
+% Maintain the parameters just in case
 if(isfield(sim_parameters, 'KNN'))
     F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
 else
-    F.LA.KNN = 100; 
+    F.LA.KNN = 10; 
 end
+
 if(isfield(sim_parameters, 'nbEig'))
     F.LA.m = sim_parameters.nbEig; % number of Eigenvectors to retain
 else
     F.LA.m = 6;
 end
+
 % Clustering specific parameters
 if(isfield(sim_parameters,'nbClusters'))
     F.cluster.k = sim_parameters.nbClusters;
@@ -127,6 +139,8 @@ else
     F.cluster.k = 6;
 end
 
+% As in the case LApf, KNN is obsolete since we use Delaunay triangulation
+% only
 F.cluster.KNN = F.LA.KNN;
 
 % Store the two parameter structs in the output struct
