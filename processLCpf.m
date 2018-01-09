@@ -33,7 +33,7 @@ max_degree = 1;
 for i=1:numel(gossip_vector)
     for j=1:numel(N_vector)
         % Load the tracking results
-        filename = [filepath, 'Track3_LCpf'];
+        filename = [filepath, 'Track3_CSSpf'];
         filename = [filename, '_gossip',num2str(gossip_vector(i))];
         filename = [filename,'_maxDegree',num2str(max_degree)];
         filename = [filename,'_N',num2str(N_vector(j))];

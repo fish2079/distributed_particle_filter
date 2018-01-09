@@ -289,7 +289,9 @@ Finally, consider the aggregate error ratio. With increasing $NGossip$, the rati
 
 
 \subsection{Likelihood consensus particle filter}
-Consider LCpf. The max degree $d$ offers a trade-off between tracking performance and computational overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. In fact, the total number of basis functions grows exponentially with $d$ (i.e., $O(d^2)$). Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runtime with respect to $d$. Note that, for this particular set of trials, all aggregates are computed exactly without gossiping. For all values of $d$, the RMSE is fairly consistent which suggests that additional basis functions from $d\geq 1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. The runtime increases for higher $d$ due to the additional computational overhead as expected. 
+Consider LCpf. The max degree $d$ offers a trade-off between tracking performance and computational overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. In fact, the total number of basis functions grows exponentially with $d$ (i.e., $O(d^2)$). 
+
+Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runtime with respect to $d$. Note that, for this particular set of trials, all aggregates are computed exactly without gossiping. The runtime increases for higher $d$ due to the additional computational overhead as expected. For all values of $d$, the RMSE is fairly consistent which suggests that additional basis functions from $d\geq 1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To confirm our conjecture, we compute the following metric. Let $H_{true}(X_i)$ denote the true expected measurement of particle $X_i$ and let $H_{approx}(X_i)$ denote the approximate value computed using the basis functions. We then compute the measurement model approximation error $|H_{exact}(X_i)-H_{approx}(X_i)|$ averaged over all particles, all sensors and all time steps. Fig.~\ref{fig:boxplot_LCpf_meas_approx_error} shows the boxplot of average measurement model approximation error with respect to $d$. While the average error does fluctuate somewhat with respect to $d$, the error remains very small in all cases (less than 1 degree) compared to the standard deviation of measurement noise (5 degrees). These results suggest that $d=1$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
 
 \begin{figure}
 \centering
@@ -299,13 +301,18 @@ Consider LCpf. The max degree $d$ offers a trade-off between tracking performanc
 \begin{subfigure}[total runtime]
 {\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time_maxDegree}}
 \end{subfigure}
-\caption{Boxplot of RMSE and total runtime of LCpf with respect to $d$}
+\caption{Boxplot of RMSE and total runtime of LCpf with respect to $d$. All aggregations are computed exactly without gossip.}
 \label{fig:results_LCpf_maxDegree}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_mea_approx_error_maxDegree}
+\caption{Boxplot of average measurement model approximation error with respect to $d$}
+\label{fig:boxplot_LCpf_meas_approx_error}
+\end{figure}
 
-
-Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials for $d=1$. 
+Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials for $d=1$. For LCpf, a minimal of 50 gossip iterations were necessary to ensure convergence and adequate tracking performance even though we see a similar aggregate error ratio between LCpf and CSSpf.  Recall that, at $d=1$, a total of 20 scalars needs to be aggregated across the network. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance. On the other hand, LCpf requires only half the runtime of CSSpf. 
 
 \begin{figure}
 \centering
@@ -334,20 +341,12 @@ Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and aggreg
 \label{fig:results_maxDegree}
 \end{figure}
 
-Fig.~\ref{fig:results_maxDegree} shows the boxplot of time-averaged RMSE and total runtime over 100 Monte Carlo trials. The total runtime increases with larger max degree as expected. On the other hand, we do not see any significant difference in RMSE for $1\leq d \leq 9$. This suggests that the additional basis functions for $d>1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. 
-
-\begin{figure}
-\centering
-\includegraphics[width=0.55\textwidth]{Figures/LCpf_approx_error.pdf}
-\label{fig:LCpf_approx_error}
-\caption{Boxplot of measurement approximation error with respect to max degree. All results are computed over 100 Monte Carlo trials}
-\end{figure}
-
-To verify our conjecture, we compute the following metric. At each time step, we compute the aggregate approximation error over all $S$ measurements for each particle ($\sum_{s=1}^S H_s(X_i)-\hat{H}_s(X_i)$), and report the average value $\frac{1}{N}\sum_{i=1}^N \sum_{s=1}^S(H_s(X_i)-\hat(H)_s(X_i))$. 
-
-Fig.~\ref{fig:LCpf_approx_error} shows that the approximation error with respect to max degree. The approximation error decreases until $d=4$ and increases afterwards; but the difference is rather small with a maximum difference of 1.5 degree (versus the 5 degrees standard deviation of measurement noise). This small difference in approximation error directly translates to negligible difference in tracking performance. %Based on the computational overhead, we will select $d=1$ for LCpf in subsequent simulations. 
-
 \subsubsection{Laplacian approximation particle filter}
+The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{} shows the boxplots of RMSE, runtime and aggregate error ratio of LApf with respect to $m$ and $NGossip$ for $N=500$. 
+
+
+This parameter in-turn interacts directly with $NGossip$. 
+
 The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
 
 Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   At $m=1000$, there is no approximation error and the RMSE is constant for all values $K$ and on-par with that of centralized BSpf. For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m= 100, 200, 500$, the RMSE has small fluctuations over $K$. To get a closer look at the results, Fig.~\ref{fig:RMSE_LApf_boxplot} shows the boxplot of RMSE for select values of $m$. For small value of $m$, we do see a steady decrease in average RMSE with increasing $K$; although the results can vary greatly from one trial to the nxt. For larger $m$, the RMSE is fairly consistent across $K$ and independent MC trials. 
