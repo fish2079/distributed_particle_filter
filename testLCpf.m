@@ -21,7 +21,7 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = [10, 25, 50, 100, 200];
+gossip_vector = [10, 15, 20, 25, 30, 35];
 N_vector = [100, 250, 500, 1000];
 max_degree_vector = 1:5;
 

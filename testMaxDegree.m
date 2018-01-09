@@ -29,7 +29,7 @@ sim_parameters.no_trials = 200;
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;

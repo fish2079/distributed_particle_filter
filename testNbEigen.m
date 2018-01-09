@@ -21,39 +21,45 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-nbEig_vector = [5:5:50];
+N_vector = 500; %[100, 250, 500, 1000];
+m_vector = [6, 10, 20, 50, 75, 100];
 
 % Number of random trials
-sim_parameters.no_trials = 50; 
+sim_parameters.no_trials = 200; 
+
+% sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
+
+% Flag for using gossip or exact aggregate
+sim_parameters.gossip = false;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 
 % 3. distributed LC PF
 % 4. distributed Graph PF
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @Clusterpf_distributed};
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
 sim_parameters.algorithms = alg_lists(4);
 
-% Loop through each choice of particle number
-filename = cell(1,numel(nbEig_vector));
-for i=1:numel(nbEig_vector)
-    % Set number of particles
-    sim_parameters.nbEig = nbEig_vector(i); 
-    
+% Set number of particles
+sim_parameters.max_gossip_iter = 50; %gossip_vector(i);
+
+for j=1:numel(m_vector)
+    sim_parameters.nbEig = m_vector(j);
     % Run the simulated track with all selected tracking algorithms 
     % Each filter uses N particles   
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename = ['nbEigen',num2str(sim_parameters.nbEig),'_KNN',num2str(10),'_trials',num2str(sim_parameters.no_trials),'.mat'];
-    save(filename, 'results','parameters');
+    filename{i} = ['Track3_LApf'];
+    filename{i} = [filename{i},'_m',num2str(parameters.F.LA.m)];
+    filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
+    filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
+    filename{i} = [filename{i},'.mat'];
+    save(filename{i}, 'results','parameters');
 end
-
-% Plot the results
-plotRMSE(filename);

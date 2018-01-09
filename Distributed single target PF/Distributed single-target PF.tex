@@ -261,16 +261,18 @@ In our codes, we do not implement a loop for each gossip iteration. Instead we d
 G(NGossip) = W^{NGossip}G(1)
 \end{equation}
 
+Since the sensors remain static over time in our simulation, $W$ remains static and a quick computation shows that $W_{final}=W^{31}$ is sufficiently close to an averaging matrix (i.e. $W_{final}(i,j)=1/S$). 
+
 In the remainder of the section, we run a number of Monte Carlo simulations to evaluate the performance of individual algorithms. The track remains the same in each trial; but the measurements differ. We evaluate the algorithms' performances using three criterion: \textit{root mean squared error} (RMSE) of position estimate, total runtime (from initialization to end of time step 50) and aggregate error ratio. The first two metrics are self-explanatory; so we will only explain the last one. Let $G_{gossip}$ denote the vector of the approximate aggregate values computed using gossip and max consensus, and let $G_{exact}$ denote the vector of exact aggregate values. We compute the ratio vector $|\frac{G_{gossip}-G_{exact}}{G_{exact}}|$ and report the average ratio. Ideally, for $NGossip$ approaching infinity, the ratio approaches 0 as the approximate aggregate value approaches the exact value. 
 
 \subsection{Constraint sufficient statistics particle filter}
-Consider first CSSpf. Each sensor has a fixed communication overhead at each time step (i.e., broadcast 6$NGossip$ scalars). We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials. 
+Consider first CSSpf. Each sensor has a fixed communication overhead at each time step (i.e., broadcast 6$NGossip$ scalars). We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials. Each data point is averaged over all sensors and all time steps. 
 
-The RMSE is very high for $NGossip=10$ which can be attributed to the gossip algorithms not converging in such few iterations. For $NGossip\geq 25$ and $N\geq 100$, the RMSE is fairly constant and, at least for the given track, more gossip iterations and more particles do not yield significant improvement in tracking performance. 
+The RMSE is very high for $NGossip=10$ which can be attributed to the gossip algorithms not converging in such few iterations and leading to high errors in the final aggregate values of the global sufficient statistics. For $NGossip\geq 20$ and $N\geq 100$, the RMSE is fairly constant and, at least for the given track, more gossip iterations and more particles do not yield significant improvement in tracking performance. 
 
 The runtime does not increase with higher $NGossip$ due to our implementation of the gossip algorithms. When $N$ increases, the runtime increases as expected. 
 
-Finally, consider the aggregate error ratio. With increasing $NGossip$, the ratio decreases as expected. For $NGossip=10$, the gossip algorithms clearly have not converged and the ratio can be as high as 10. This explains the high RMSE values. For $NGossip=25$, the ratio drops to 0.1 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the aggregate error ratio does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
+Finally, consider the aggregate error ratio. With increasing $NGossip$, the ratio decreases exponentially (note the log-scale of the Y-axis). For $NGossip=10$, the gossip algorithms clearly have not converged and the error ratio can be as high as 10\%. This explains the high RMSE values. For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the aggregate error ratio does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
 
 \begin{figure}
 \centering
@@ -287,9 +289,8 @@ Finally, consider the aggregate error ratio. With increasing $NGossip$, the rati
 \label{fig:results_CSSpf}
 \end{figure}
 
-
 \subsection{Likelihood consensus particle filter}
-Consider LCpf. The max degree $d$ offers a trade-off between tracking performance and computational overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation and longer runtime. In fact, the total number of basis functions grows exponentially with $d$ (i.e., $O(d^2)$). 
+The max degree $d$ offers a trade-off between tracking performance and computational/communication overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation, more communication and longer runtime. In fact, the total number of basis functions grows exponentially with $d$ (i.e., $O(d^2)$). 
 
 Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runtime with respect to $d$. Note that, for this particular set of trials, all aggregates are computed exactly without gossiping. The runtime increases for higher $d$ due to the additional computational overhead as expected. For all values of $d$, the RMSE is fairly consistent which suggests that additional basis functions from $d\geq 1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To confirm our conjecture, we compute the following metric. Let $H_{true}(X_i)$ denote the true expected measurement of particle $X_i$ and let $H_{approx}(X_i)$ denote the approximate value computed using the basis functions. We then compute the measurement model approximation error $|H_{exact}(X_i)-H_{approx}(X_i)|$ averaged over all particles, all sensors and all time steps. Fig.~\ref{fig:boxplot_LCpf_meas_approx_error} shows the boxplot of average measurement model approximation error with respect to $d$. While the average error does fluctuate somewhat with respect to $d$, the error remains very small in all cases (less than 1 degree) compared to the standard deviation of measurement noise (5 degrees). These results suggest that $d=1$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
 
@@ -312,136 +313,55 @@ Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runti
 \label{fig:boxplot_LCpf_meas_approx_error}
 \end{figure}
 
-Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials for $d=1$. For LCpf, a minimal of 50 gossip iterations were necessary to ensure convergence and adequate tracking performance even though we see a similar aggregate error ratio between LCpf and CSSpf.  Recall that, at $d=1$, a total of 20 scalars needs to be aggregated across the network. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance. On the other hand, LCpf requires only half the runtime of CSSpf. 
+Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and aggregate error ratio with respect to number of gossip iterations and number of particles over 200 random trials for $d=1$. Each data point is averaged over all time steps. For LCpf, a minimal of 40 gossip iterations are necessary to ensure adequate tracking performance. Furthermore, recall that, at $d=1$, a total of 20 scalars needs to be aggregated across the network. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance. If we compare Fig. 2(c) and Fig. 5(c), we note that CSSpf and LCpf exhibit very similar level of aggregate error ratios for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed aggregation. On the other hand, LCpf requires only half the runtime of CSSpf. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_RMSE}}
+{\includegraphics[width=0.75\textwidth]{Figures/boxplot_LCpf_RMSE}}
 \end{subfigure}
 \begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
+{\includegraphics[width=0.75\textwidth]{Figures/boxplot_LCpf_time}}
 \end{subfigure}
 \begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_aggregate_error_ratio}}
+{\includegraphics[width=0.75\textwidth]{Figures/boxplot_LCpf_aggregate_error_ratio}}
 \end{subfigure}
 \caption{Boxplot of RMSE, runtime and aggregate error ratio of LCpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}
 \label{fig:results_LCpf}
 \end{figure}
 
+\subsection{Laplacian approximation particle filter}
+The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{fig:results_LApf} shows the boxplots of RMSE, runtime and aggregate error ratio of LApf with respect to $m$ and $NGossip$ for $N=500$. 
+
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/RMSE_maxDegree}}
+{\includegraphics[width=0.72\textwidth]{Figures/boxplot_LApf_RMSE}}
 \end{subfigure}
 \begin{subfigure}[total runtime]
-{\includegraphics[width=0.49\textwidth]{Figures/runtime_maxDegree}}
+{\includegraphics[width=0.72\textwidth]{Figures/boxplot_LApf_time}}
 \end{subfigure}
-\caption{Boxplot of RMSE and runtime of LCpf with respect to max degree for 100 Monte Carlo trials. The red solid line in the subfig a is the average RMSE of BSpf for comparison.}
-\label{fig:results_maxDegree}
+\begin{subfigure}[total runtime]
+{\includegraphics[width=0.72\textwidth]{Figures/boxplot_LApf_aggregate_error_ratio}}
+\end{subfigure}
+\caption{Boxplot of RMSE, runtime and aggregate error ratio of LApf with respect to $NGossip$ and $m$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $m=6, 20, 50, 100$}
+\label{fig:results_LApf}
 \end{figure}
 
-\subsubsection{Laplacian approximation particle filter}
-The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{} shows the boxplots of RMSE, runtime and aggregate error ratio of LApf with respect to $m$ and $NGossip$ for $N=500$. 
+The RMSE is fairly stable for all values of $NGossip$ and $m$. This suggests two things. First, 6 Eigenvalues are sufficient to encode most information regarding the particle log-likelihood. Second, as few as 10 gossip iterations per time step are sufficient to yield robust tracking performance. This strikes us as rather surprisingly since the average aggregate error of LApf is actually higher than that of LCpf and CSSpf for the same values of $NGossip$. This would suggest that LApf is surprisingly robust to error induced in distributed aggregation. Finally, the runtime is considerably higher than that of CSSpf and LCpf.  The eigenvalue decomposition accounts for the bulk of the computational overhead which is independent of the values of $NGossip$ and $m$. 
 
-
-This parameter in-turn interacts directly with $NGossip$. 
-
-The LApf has two parameters of interest: $K$, the number of nearest neighbors for the particle graph, and $m$, the number of Eigenvectors for the transformation. Different values of $K$ yield different graphs over the same particles and by extension different Eigenvectors. Retaining more Eigenvectors yields a better approximation of particle log-likelihoods at the cost of higher computation overhead. 
-
-Table.~\ref{tab:RMSE_LApf} shows the average RMSE of LApf with respect to $K$ and $m$. As $m$ increases, the RMSE tends to decrease as expected since the approximation error is reduced.   At $m=1000$, there is no approximation error and the RMSE is constant for all values $K$ and on-par with that of centralized BSpf. For $m=6, 10, 20$, we see a decrease in RMSE as $K$ goes up.  For $m= 100, 200, 500$, the RMSE has small fluctuations over $K$. To get a closer look at the results, Fig.~\ref{fig:RMSE_LApf_boxplot} shows the boxplot of RMSE for select values of $m$. For small value of $m$, we do see a steady decrease in average RMSE with increasing $K$; although the results can vary greatly from one trial to the nxt. For larger $m$, the RMSE is fairly consistent across $K$ and independent MC trials. 
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
-\hline
-        & m = 6  & 10     & 20     & 100    & 200    & 500    & 1000   \\ \hline
-K = 3   & 5.4804 & 4.4057 & 3.9159 & 2.1505 & 2.1612 & 2.2161 & 2.1646 \\ \hline
-4       & 4.2176 & 3.8376 & 3.6131 & 2.2138 & 2.195  & 2.2501 & 2.1646 \\ \hline
-5       & 4.3284 & 3.6929 & 2.914  & 2.1928 & 2.2302 & 2.2292 & 2.1646 \\ \hline
-6       & 4.1016 & 3.3112 & 2.3407 & 2.2309 & 2.233  & 2.2877 & 2.1646 \\ \hline
-7       & 3.6605 & 2.8502 & 2.2711 & 2.1899 & 2.229  & 2.2864 & 2.1646 \\ \hline
-8       & 3.436  & 2.3306 & 2.1202 & 2.1923 & 2.235  & 2.2655 & 2.1646 \\ \hline
-9       & 3.1273 & 2.2126 & 2.1998 & 2.2885 & 2.2476 & 2.2789 & 2.1646 \\ \hline
-10      & 2.9664 & 2.231  & 2.0918 & 2.1727 & 2.2219 & 2.2215 & 2.1646 \\ \hline
-20      & 2.5182 & 2.1113 & 2.1180 & 2.3057 & 2.2763 & 2.2745    & 2.1646 \\ \hline
-50      & 2.2559 & 2.0106 & 2.1037 & 2.2813 & 2.3008 & 2.2571    & 2.1646 \\ \hline
-100     & 2.2783 & 2.2772 & 2.3185 & 2.2922 & 2.2950 & 2.3043    & 2.1646 \\ \hline
-\end{tabular}
-\caption{RMSE of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
-\label{tab:RMSE_LApf}
-\end{table}
+To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $\hat{w_i}$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $w_i$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by more than 15 times.  
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{Figures/RMSE_LApf_boxplot}
-\caption{Boxplot of LApf RMSE for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}
-\label{fig:RMSE_LApf_boxplot}
+\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_weight_discrepancy}
+\caption{Boxplot of weight discrepancy with respect to $m$}
+\label{fig:boxplot_LApf_weight_discrepancy}
 \end{figure}
 
-To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. As expected, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the average approximation error actually goes up with as $K$ increases. We observe the same trends in Fig.~\ref{fig:Approx_error_LApf_boxplot}. However, since the error remains small in case of high $m$, there is no significant impact on the overall tracking performance. 
+%To understand these trends, we compute and report at each time step the approximation error of normalized particle weights: $\sqrt{\sum_{i=1}^N (w_i-\hat{w}_i)^2}$ where $w_i$ is the exact particle weight and $\hat{w}_i$ is the approximate value using $m$ eigenvectors. Table.~\ref{tab:Approx_error_LApf} shows the results. As expected, at $m=1000$, there is no approximation error as all eigenvectors are used. For small values of $m$, we see a drastic decrease in approximation error as $K$ increases. This in turn translates to lower RMSE. For $m\geq 100$, the average approximation error actually goes up with as $K$ increases. We observe the same trends in Fig.~\ref{fig:Approx_error_LApf_boxplot}. However, since the error remains small in case of high $m$, there is no significant impact on the overall tracking performance. 
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
-\hline
-        & m = 6  & 10     & 20     & 100    & 200    & 500    & 1000 \\ \hline
-KNN = 3 & 0.0747 & 0.0589 & 0.0456 & 0.0102 & 0.0088 & 0.0096 & 0    \\ \hline
-4       & 0.0477 & 0.0408 & 0.0328 & 0.0109 & 0.0115 & 0.0113 & 0    \\ \hline
-5       & 0.0386 & 0.0329 & 0.0221 & 0.0127 & 0.0121 & 0.0118 & 0    \\ \hline
-6       & 0.0341 & 0.0245 & 0.0173 & 0.0129 & 0.0143 & 0.0137 & 0    \\ \hline
-7       & 0.0279 & 0.021  & 0.0146 & 0.0126 & 0.016  & 0.0137 & 0    \\ \hline
-8       & 0.0248 & 0.0183 & 0.0141 & 0.0137 & 0.0166 & 0.014  & 0    \\ \hline
-9       & 0.0242 & 0.0171 & 0.0139 & 0.0155 & 0.016  & 0.0144 & 0    \\ \hline
-10      & 0.0224 & 0.0159 & 0.0141 & 0.014  & 0.0165 & 0.0149 & 0    \\ \hline
-20      & 0.0186 & 0.0166 & 0.0150 & 0.0200 & 0.0191 & 0.0174         & 0    \\ \hline
-50      & 0.0193 & 0.0170 & 0.0199 & 0.0214 & 0.0213 & 0.0195         & 0    \\ \hline
-100     & 0.0209 & 0.0223 & 0.0252 & 0.0249 & 0.0230 & 0.0214         & 0 \\ \hline
-\end{tabular}
-\caption{Approximation error of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
-\label{tab:Approx_error_LApf}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{Figures/Approx_error_LApf_boxplot}
-\caption{Boxplot of measurement approximation error for select values of $m$. The values of $K$ are $3,4,...10,20,50 $. All results are computed over 100 trials}
-\label{fig:Approx_error_LApf_boxplot}
-\end{figure}
-
-Table.~\ref{tab:runtime_LApf} shows the total runtime of LApf with respect to $K$ and $m$. For $1\leq K \leq 10$, when $m$ increases, the particle log-likelihoods are encoded using more coefficients. However, since this is a matrix multiplication operation, the difference in computational overhead is negligible and there is no significant variation in computational overhead. For $K=20, 50, 100$, surprisingly, there is a significant fluctuation in runtime as $m$ increases. On the other hand, at $K=7$, there is a huge spike in runtime for all values of $m$. Fig.~\ref{fig:time_bar_LApf} shows the breakdown of total runtime for $m=10$. It appears that the computational overhead of eigenvalue decomposition spikes at $K=7$. It is not yet clear what causes this sudden spike. We omit the figures for other values of $m$ to save space; but it is worth nothing that the eigenvalue decomposition accounts for the overwhelming majority of computational overhead in all cases. 
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
-\hline
-      & m = 6   & 10      & 20      & 100     & 200     & 500     & 1000    \\ \hline
-K = 3 & 46.621  & 45.8677 & 44.6806 & 47.9622 & 47.4402 & 47.213  & 47.9443 \\ \hline
-4     & 47.61   & 45.8321 & 46.9099 & 44.1239 & 46.8175 & 45.7268 & 48.0369 \\ \hline
-5     & 45.5334 & 45.9404 & 44.9823 & 44.2019 & 47.1917 & 46.8049 & 49.0212 \\ \hline
-6     & 47.1295 & 48.5234 & 47.4019 & 49.2646 & 50.1962 & 54.1456 & 58.088  \\ \hline
-7     & 59.0893 & 56.0343 & 58.6746 & 56.3333 & 58.1322 & 55.1389 & 49.3091 \\ \hline
-8     & 48.8316 & 47.9977 & 47.1873 & 45.6619 & 46.6635 & 47.3256 & 48.1953 \\ \hline
-9     & 49.4382 & 51.4236 & 48.8129 & 46.9926 & 47.2865 & 51.273  & 57.2445 \\ \hline
-10    & 46.4701 & 46.178  & 49.3883 & 50.8106 & 51.7062 & 49.7496 & 47.8554 \\ \hline
-20    & 45.1474 & 48.0359 & 42.6048 & 29.7810 & 31.1612 & 30.2740 & 30.4691 \\ \hline
-50    & 47.3068 & 53.4298 & 39.3070 & 31.5229 & 31.4748 & 31.1005 & 35.6691 \\ \hline
-100   & 55.7847 & 44.9831 & 39.8943 & 36.4267 & 32.4495 & 33.2130 & 34.6833 \\ \hline
-\end{tabular}
-\caption{Total runtime of LApf with respect to $m$ and $K$ over 100 Monte Carlo trials}
-\label{tab:runtime_LApf}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{Figures/time_bar_LApf.pdf}
-\caption{Breakdown of total runtime of LApf with respect to $K$ for $m=10$}
-\label{fig:time_bar_LApf}
-\end{figure}
-
-In a distributed implementation of LApf, our objective is to minimize communication overhead without sacrificing tracking accuracy. Our simulation results suggest that this can be achieved by minimizing $m$ and maximizing $K$. 
-
-\subsubsection{Cluster particle filter}
+\subsection{Cluster particle filter}
 The Clusterpf has two parameters of interest: number of clusters $C$ and number of neighbors $K$ for the graph construction. Table~\ref{tab:RMSE_clusterpf} shows the average RMSE of Clusterpf with respect to $C$ and $K$. As $C$ increases, the RMSE decreases. At $C=N=1000$, the Clusterpf is equivalent to the centralized BSpf (assuming distributed summation without error) and the performance is independent of $K$. For any given value of $C$, as $K$ increases, RMSE decreases. We note that these trends are similar to those shown in LApf. In fact, the parameter $C$ serves the same role as $m$ in LApf. Higher value of $C$ requires higher communication overhead but reduces the approximation error of particle log-likelihoods. These results suggest that, as in the case of LApf, one may opt for a higher value of $K$ in exchange for reduced communication overhead without significantly degrading tracking performance.
 
 \begin{table}[h!]

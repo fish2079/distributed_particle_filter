@@ -1,13 +1,13 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Individual PF Results\LCpf\';
+filepath = 'Individual PF Results\LApf\';
 
 % Number of particles for the filter
-N_vector = [100, 250, 500, 1000];
+m_vector = [6,10,20,50,75,100];
 
 % Number of gossip iterations
-gossip_vector = [10, 15, 20, 25, 30, 35, 40, 45, 50];
+gossip_vector = 50; %[10, 15, 20, 25, 30, 35];
 
 
 % Number of random trials
@@ -31,12 +31,12 @@ max_degree = 1;
 
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)
-    for j=1:numel(N_vector)
+    for j=1:numel(m_vector)
         % Load the tracking results
-        filename = [filepath, 'Track3_LCpf'];
-        filename = [filename, '_gossip',num2str(gossip_vector(i))];
-        filename = [filename,'_maxDegree',num2str(max_degree)];
-        filename = [filename,'_N',num2str(N_vector(j))];
+        filename = [filepath, 'Track3_LApf'];
+%         filename = [filename, '_gossip',num2str(gossip_vector(i))];
+        filename = [filename,'_m',num2str(m_vector(j))];
+        filename = [filename,'_N',num2str(N)];
         filename = [filename,'_trials',num2str(no_trials)];
         filename = [filename,'.mat'];
         
@@ -50,10 +50,10 @@ for i=1:numel(gossip_vector)
         aggregate_error_ratioFull = cat(4, aggregate_error_ratioFull, aggregate_error_ratio_sf);
     end
     xticklabel = [xticklabel, num2str(gossip_vector(i))];
-    xtick = [xtick, numel(N_vector)*(i-1)+numel(N_vector)/2+0.5];
-    groupSeparator(i) = numel(N_vector)*i+0.5;
+    xtick = [xtick, numel(m_vector)*(i-1)+numel(m_vector)/2+0.5];
+    groupSeparator(i) = numel(m_vector)*i+0.5;
     
-    colorgroup = [colorgroup, 1:numel(N_vector)];
+    colorgroup = [colorgroup, 1:numel(m_vector)];
 end
 
 figure();
@@ -95,9 +95,15 @@ end
 set(gca,'xtick', xtick);
 set(gca,'xticklabel', xticklabel);
 set(gca,'fontsize',32);
+
+figure();
+set(gcf,'color','white');
+boxplot(squeeze(mean(weight_difFull,2)), 'colorgroup', colorgroup);
+ylabel('Weight estimation error');
+xlabel('NGossip');
 hold on;
 for i=1:numel(groupSeparator)-1
-    plot([groupSeparator(i),groupSeparator(i)],[0,10^4],'k');
+    plot([groupSeparator(i),groupSeparator(i)],[0,90],'k');
 end
 set(gca,'xtick', xtick);
 set(gca,'xticklabel', xticklabel);

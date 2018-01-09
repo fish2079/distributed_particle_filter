@@ -21,9 +21,9 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = [10, 25, 50, 100, 200];
+gossip_vector = [10, 15, 20, 25, 30, 35];
 N_vector = 500; %[100, 250, 500, 1000];
-m_vector = [3, 6, 20, 50, 100];
+m_vector = [6, 20, 50, 100];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -31,7 +31,7 @@ sim_parameters.no_trials = 200;
 % sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;

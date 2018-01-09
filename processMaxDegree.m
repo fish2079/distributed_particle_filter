@@ -25,12 +25,13 @@ colorgroup = [];
 N = 500;
 
 for i=1:numel(maxDegree_vector)
+    i
     % Load the tracking results
     filename = [filepath, 'Track3_LCpf'];
     filename = [filename,'_maxDegree',num2str(maxDegree_vector(i))];
     filename = [filename,'_N',num2str(N)];
     filename = [filename,'_trials',num2str(no_trials)];
-    filename = [filename,'.mat'];
+    filename = [filename,'.mat']
 
     data = load(filename);
     [RMSEFull_sf, runtimeFull_sf, weight_dif_full_sf, N_effFull_sf, aggregate_error_ratio_sf, details{i}] = extractResults(data.results, data.parameters);
@@ -41,6 +42,17 @@ for i=1:numel(maxDegree_vector)
     N_effFull = cat(4, N_effFull, N_effFull_sf);
     aggregate_error_ratioFull = cat(4, aggregate_error_ratioFull, aggregate_error_ratio_sf);
 end
+
+for i=1:numel(maxDegree_vector)
+    Hx_ss_dif(:,i) = mean(mean(mean(abs(details{i}.LCpf.Hx_ss_dif),4),3),1)';
+end
+figure();
+set(gcf,'color','white');
+boxplot(Hx_ss_dif/pi*180);%, 'colorgroup', colorgroup);
+ylabel({'Measurment approximation', ' error (degree)'});
+xlabel('d');
+set(gca,'xtick', 1:9);
+set(gca,'fontsize',32);
 
 figure();
 set(gcf,'color','white');

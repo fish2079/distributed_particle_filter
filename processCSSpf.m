@@ -7,7 +7,7 @@ filepath = 'Individual PF Results\CSSpf\';
 N_vector = [100, 250, 500, 1000];
 
 % Number of gossip iterations
-gossip_vector = [10, 25, 50, 100, 200];
+gossip_vector = [10, 15, 20, 25, 30, 35];
 
 
 % Number of random trials
@@ -40,7 +40,7 @@ for i=1:numel(gossip_vector)
         filename = [filename,'.mat'];
 
         data = load(filename);
-        [RMSEFull_sf, runtimeFull_sf, weight_dif_full_sf, N_effFull_sf, aggregate_error_ratio_sf, details{i}] = extractResults(data.results, data.parameters);
+        [RMSEFull_sf, runtimeFull_sf, weight_dif_full_sf, N_effFull_sf, aggregate_error_ratio_sf, details{i}] = extractResults(data.results, data.parameters, false);
 
         RMSEFull = cat(4,RMSEFull, RMSEFull_sf);
         steptimeFull = cat(4, steptimeFull, runtimeFull_sf);
@@ -84,7 +84,7 @@ set(gca,'fontsize',32);
 
 figure();
 set(gcf,'color','white');
-boxplot(squeeze(sum(aggregate_error_ratioFull,2)), 'colorgroup', colorgroup);
+boxplot(squeeze(mean(aggregate_error_ratioFull,2)), 'colorgroup', colorgroup);
 ylabel('Aggregate error ratio');
 xlabel('NGossip');
 hold on;
