@@ -21,11 +21,18 @@ d = 4; % target state dimension
 %% Construct tracking area
 
 % Track 1
-xMin = 100; %S.initial(1)-S.area_length*1.45;
+% xMin = 100; %S.initial(1)-S.area_length*1.45;
+% xMax = 200; %S.initial(1)+S.area_length*0.95;
+% 
+% yMin = 0; %S.initial(2)-S.area_length*0.05;
+% yMax = 100; %S.initial(2)+S.area_length*0.95;
+
+% Track 2
+xMin = 50; %S.initial(1)-S.area_length*1.45;
 xMax = 200; %S.initial(1)+S.area_length*0.95;
 
-yMin = 0; %S.initial(2)-S.area_length*0.05;
-yMax = 100; %S.initial(2)+S.area_length*0.95;
+yMin = -50; %S.initial(2)-S.area_length*0.05;
+yMax = 50; %S.initial(2)+S.area_length*0.95;
 
 % Track 3
 % The initial target position is at the center of tracking area
@@ -40,8 +47,8 @@ yMax = 100; %S.initial(2)+S.area_length*0.95;
 % Place sensors in a grid if needed
 if (S.grid_sensor)
     rootK = sqrt(S.nb_sensors);
-    sensorX = xMin:S.area_length/(rootK-1):xMax;
-    sensorY = yMin:S.area_length/(rootK-1):yMax;   
+    sensorX = xMin:(xMax-xMin)/(rootK-1):xMax;
+    sensorY = yMin:(yMax-yMin)/(rootK-1):yMax;   
     [sensorX, sensorY] = meshgrid(sensorX, sensorY);
     sensorPos = [sensorX(:), sensorY(:)]';
 else
@@ -54,7 +61,7 @@ S_output.sensorPos = sensorPos;
 
 % Construct sensor communication adjacency matrix
 A = zeros(S.nb_sensors);
-range = S.area_length/(rootK-1)*1.1;
+range = max(xMax-xMin, yMax-yMin)/(rootK-1)*1.1;
 for i=1:S.nb_sensors
     for j=i+1:S.nb_sensors
         A(i,j) = (norm(sensorPos(:,i)-sensorPos(:,j))<range);

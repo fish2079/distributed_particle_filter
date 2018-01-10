@@ -39,9 +39,12 @@ rng('default');
 % The struct dynamic contains all required parameters of target transition
 % model
 dynamic.model = @propagate_cv_ct; % dynamic model for target propagation
-dynamic.a = 0.5; % turning rate
-% dynamic.p = 0.95; % probability of turning
-dynamic.p = 0.05; % probability of turning
+% dynamic.a = 0.5; % turning rate
+dynamic.a = -0.25; % turning rate track 2
+
+dynamic.p = 0.05; % probability of turning tracke 1
+dynamic.p = 0.75; % probability of turning tracke 2
+% dynamic.p = 0.95; % probability of turning track 3
 dynamic.T = 1; % sampling interval 
 dynamic.sigma_a = 0.05; % process noise standard deviation
 
@@ -53,8 +56,11 @@ if(isfield(sim_parameters,'areaLength'))
 else
     S.area_length = 75; % tracking area size = area_length^2 (km^2)
 end
-% S.nb_sensors = 9; % number of sensors
-S.nb_sensors = 4; % number of sensors
+
+% S.nb_sensors = 4; % number of sensors % Track 1
+S.nb_sensors = 16; % number of sensors % Track 2
+% S.nb_sensors = 9; % number of sensors Track 3
+
 S.grid_sensor = true; % boolean flag to put the sensors in a grid
 % Generate the track, sensors and corresponding noise-free measurements
 S = buildSimulatedTrack(S, dynamic);
