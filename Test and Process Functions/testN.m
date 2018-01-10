@@ -21,21 +21,21 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N_vector = 250; %[250, 500, 750, 1000];
+N_vector = 500; %[250, 500, 750, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 4; %40; 
+sim_parameters.no_trials = 20; 
 
-sim_parameters.max_gossip_iter = 100;
+sim_parameters.max_gossip_iter = 10;
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = false;
+sim_parameters.gossip = true;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -44,7 +44,7 @@ sim_parameters.gossip = false;
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists([3]);
+sim_parameters.algorithms = alg_lists([1:5]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
@@ -57,6 +57,6 @@ for i=1:numel(N_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track3_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = ['Track1_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
     save(filename{i}, 'results','parameters');
 end

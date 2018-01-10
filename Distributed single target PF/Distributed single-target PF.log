@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  9 JAN 2018 16:38
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  10 JAN 2018 11:07
 entering extended mode
 **Distributed*single-target*PF.tex
 
@@ -741,68 +741,8 @@ ktop/distributed_particle_filter.git/trunk/Distributed single target PF/Figures
 /boxplot_LApf_aggregate_error_ratio.pdf>] [13 <C:/Users/Jay/Desktop/distributed
 _particle_filter.git/trunk/Distributed single target PF/Figures/boxplot_LApf_we
 ight_discrepancy.pdf>]
-<Figures/RMSE_track1_N.pdf, id=143, 884.30376pt x 450.68375pt>
-File: Figures/RMSE_track1_N.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_track1_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track1_N.pdf used on input line 426.
-(pdftex.def)             Requested size: 352.31625pt x 179.5551pt.
-
-<Figures/RMSE_track1_time.pdf, id=144, 900.36375pt x 467.7475pt>
-File: Figures/RMSE_track1_time.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_track1_time.pdf>
-Package pdftex.def Info: Figures/RMSE_track1_time.pdf used on input line 429.
-(pdftex.def)             Requested size: 352.31625pt x 183.03458pt.
-
-<Figures/est_track_CSSpf_N1000.pdf, id=145, 919.435pt x 460.72125pt>
-File: Figures/est_track_CSSpf_N1000.pdf Graphic file (type pdf)
-
-<use Figures/est_track_CSSpf_N1000.pdf>
-Package pdftex.def Info: Figures/est_track_CSSpf_N1000.pdf used on input line 4
-37.
-(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 442.
-
-<Figures/track3.pdf, id=146, 919.435pt x 460.72125pt>
-File: Figures/track3.pdf Graphic file (type pdf)
- <use Figures/track3.pdf>
-Package pdftex.def Info: Figures/track3.pdf used on input line 462.
-(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
-
-<Figures/RMSE_track3_N.pdf, id=147, 866.23625pt x 450.68375pt>
-File: Figures/RMSE_track3_N.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_track3_N.pdf>
-Package pdftex.def Info: Figures/RMSE_track3_N.pdf used on input line 465.
-(pdftex.def)             Requested size: 352.31625pt x 183.303pt.
- [14 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed si
-ngle target PF/Figures/RMSE_track1_N.pdf> <C:/Users/Jay/Desktop/distributed_par
-ticle_filter.git/trunk/Distributed single target PF/Figures/RMSE_track1_time.pd
-f>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: Figures/est_track_CSSpf_N1000.pdf Graphic file (type pdf)
-<use Figures/est_track_CSSpf_N1000.pdf>
-Package pdftex.def Info: Figures/est_track_CSSpf_N1000.pdf used on input line 4
-73.
-(pdftex.def)             Requested size: 352.31625pt x 176.54517pt.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 478.
-
-[15 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/est_track_CSSpf_N1000.pdf>]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.bbl" [16 <C:/Users/Jay/Desktop/distribu
-ted_particle_filter.git/trunk/Distributed single target PF/Figures/track3.pdf> 
-<C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single 
-target PF/Figures/RMSE_track3_N.pdf>]) [17]
+ target PF\Distributed single-target PF.bbl") [14]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
  target PF\Distributed single-target PF.aux")
 
@@ -810,10 +750,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3146 strings out of 493921
- 43192 string characters out of 3147289
+ 3121 strings out of 493921
+ 42492 string characters out of 3147289
  119708 words of memory out of 3000000
- 6375 multiletter control sequences out of 15000+200000
+ 6355 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  27i,20n,24p,1422b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -823,19 +763,18 @@ les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/f
 onts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/P
-rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/sym
-bols/msbm10.pfb>
-Output written on "Distributed single-target PF.pdf" (17 pages, 432919 bytes).
+amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
+fonts/symbols/msbm10.pfb>
+Output written on "Distributed single-target PF.pdf" (14 pages, 381173 bytes).
 PDF statistics:
- 239 PDF objects out of 1000 (max. 8388607)
+ 196 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 96 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 
