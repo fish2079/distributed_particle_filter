@@ -6,63 +6,87 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Problem statement}{1}}
 \newlabel{sec:problem}{{2}{1}}
-\newlabel{eqn:bearing}{{1}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Distributed particle filters for bearing-only tracking}{1}}
 \newlabel{sec:pf}{{3}{1}}
-\newlabel{eqn:log_lh_normal}{{2}{2}}
+\newlabel{eqn:log_lh_normal}{{1}{1}}
+\citation{Mohammadi2012}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Constraint sufficient statistics particle filter}{2}}
-\newlabel{eqn:llh_css}{{4}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Likelihood consensus particle filter}{3}}
-\newlabel{eqn:Hx_LC}{{5}{3}}
-\newlabel{eqn:joint_log_lh_LC}{{6}{3}}
-\newlabel{eqn:beta_matrix}{{7}{3}}
-\newlabel{eqn:lambda_vector}{{8}{3}}
+\newlabel{eqn:llh_css}{{3}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Likelihood consensus particle filter}{2}}
+\newlabel{eqn:Hx_LC}{{4}{2}}
+\newlabel{eqn:joint_log_lh_LC}{{5}{3}}
+\newlabel{eqn:beta_matrix}{{6}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Laplacian approximation particle filter}{3}}
 \citation{Hlinka2012}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Clustering particle filter}{4}}
-\newlabel{sec:evaluation}{{3.4}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Performance evaluation}{4}}
+\newlabel{sec:evaluation}{{4}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation setup}{4}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{5}}
 \newlabel{fig:track}{{1}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Algorithm setup}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Algorithm setup}{5}}
 \newlabel{eqn:metropolis_weight}{{20}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Constraint sufficient statistics particle filter}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Likelihood consensus particle filter}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Laplacian approximation particle filter}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of CSSpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Likelihood consensus particle filter}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boxplot of RMSE, runtime and AER of CSSpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{7}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{7}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{7}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{7}}
+\newlabel{fig:results_CSSpf}{{2}{7}}
+\newlabel{fig:boxplot_LCpf_meas_approx_error}{{3(c)}{8}}
+\newlabel{sub@fig:boxplot_LCpf_meas_approx_error}{{(c)}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{8}}
-\newlabel{fig:results_CSSpf}{{2}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE and total runtime of LCpf with respect to $d$. All aggregations are computed exactly without gossip.}}{9}}
+\newlabel{fig:results_LCpf_maxDegree}{{3}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of RMSE, runtime and AER of LCpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{9}}
-\newlabel{fig:results_LCpf_maxDegree}{{3}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Boxplot of average measurement model approximation error with respect to $d$}}{10}}
-\newlabel{fig:boxplot_LCpf_meas_approx_error}{{4}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{9}}
+\newlabel{fig:results_LCpf}{{4}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Laplacian approximation particle filter}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cluster particle filter}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Performance comparison between filters}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of LCpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Boxplot of RMSE, runtime and AER of LApf with respect to $NGossip$ and $m$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $m=6, 20, 50, 100$}}{11}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{11}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{11}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{11}}
-\newlabel{fig:results_LCpf}{{5}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of LApf with respect to $NGossip$ and $m$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $m=6, 20, 50, 100$}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{12}}
-\newlabel{fig:results_LApf}{{6}{12}}
+\newlabel{fig:results_LApf}{{5}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of weight discrepancy with respect to $m$}}{12}}
+\newlabel{fig:boxplot_LApf_weight_discrepancy}{{6}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of Clusterpf with respect to $NGossip$ and $C$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $C=6, 20, 50, 100$}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{13}}
+\newlabel{fig:results_Clusterpf}{{7}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Boxplot of weight discrepancy with respect to $C$}}{14}}
+\newlabel{fig:boxplot_Clusterpf_weight_discrepancy}{{8}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces First target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{14}}
+\newlabel{fig:track3}{{9}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{15}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{15}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{15}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{15}}
+\newlabel{fig:Track3_results}{{10}{15}}
 \bibstyle{IEEEtran}
 \bibdata{Refs}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Boxplot of weight discrepancy with respect to $m$}}{13}}
-\newlabel{fig:boxplot_LApf_weight_discrepancy}{{7}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{13}}
-\newlabel{sec:conclusion}{{5}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Boxplot of RMSE, runtime and aggregate error ratio of Clusterpf with respect to $NGossip$ and $C$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $C=6, 20, 50, 100$}}{14}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{14}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{14}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{14}}
-\newlabel{fig:results_Clusterpf}{{8}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Boxplot of weight discrepancy with respect to $C$}}{15}}
-\newlabel{fig:boxplot_Clusterpf_weight_discrepancy}{{9}{15}}
+\bibcite{Mohammadi2012}{1}
+\bibcite{Hlinka2012}{2}
+\bibcite{Rabbat2016}{3}
+\bibcite{Chao2015}{4}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Second target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{16}}
+\newlabel{fig:track1}{{11}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{16}}
+\newlabel{sec:conclusion}{{5}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{17}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{17}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{17}}
+\newlabel{fig:Track1_results}{{12}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces First target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{18}}
+\newlabel{fig:track2}{{13}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{19}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{19}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{19}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {total runtime}}}{19}}
+\newlabel{fig:Track2_results}{{14}{19}}

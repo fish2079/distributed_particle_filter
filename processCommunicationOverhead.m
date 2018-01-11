@@ -12,7 +12,7 @@
 % jun.y.y.yu@mail.mcgill.ca
 % Nov. 9th, 2017
 
-filepath = 'All PF Results\';
+filepath = 'All PF Results\Track2\';
 
 % Number of particles for the filter
 N = 500; 
@@ -66,7 +66,7 @@ for i=1:numel(overhead_vector)
         sim_parameters.max_gossip_iter = overhead_vector(i)/overhead_factor(alg);
 
         % Store the tracking results
-        filename = [filepath, 'Track3_'];
+        filename = [filepath, 'Track2_'];
         filename = [filename, func2str(alg_lists{alg})];
         filename = [filename, '_overhead',num2str(overhead_vector(i))];
         filename = [filename, '_gossip',num2str(sim_parameters.max_gossip_iter)];
