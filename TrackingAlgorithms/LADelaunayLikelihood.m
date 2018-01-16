@@ -86,7 +86,7 @@ end
 particle_weights = particle_weights./sum(particle_weights); 
 
 % Debug part
-gamma_exact = (V_full*(sum(V_full'*log_lh_ss',2)))';
+gamma_exact = sum(log_lh_ss);
 
 gamma_dif = gamma_approx-gamma_exact;
 

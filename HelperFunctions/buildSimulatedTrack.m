@@ -18,32 +18,13 @@ function S_output = buildSimulatedTrack(S, dynamic)
 S_output = S;
 d = 4; % target state dimension
 
-%% Construct tracking area
-
-% Track 1
-% xMin = 100; %S.initial(1)-S.area_length*1.45;
-% xMax = 200; %S.initial(1)+S.area_length*0.95;
-% 
-% yMin = 0; %S.initial(2)-S.area_length*0.05;
-% yMax = 100; %S.initial(2)+S.area_length*0.95;
-
-% Track 2
-xMin = 50; %S.initial(1)-S.area_length*1.45;
-xMax = 200; %S.initial(1)+S.area_length*0.95;
-
-yMin = -50; %S.initial(2)-S.area_length*0.05;
-yMax = 50; %S.initial(2)+S.area_length*0.95;
-
-% Track 3
-% The initial target position is at the center of tracking area
-% xMin = S.initial(1)-S.area_length*0.5;
-% xMax = S.initial(1)+S.area_length*0.5;
-
-% yMin = S.initial(2)-S.area_length*0.5;
-% yMax = S.initial(2)+S.area_length*0.5;
-
-
 %% Place sensors in the tracking area
+xMin = S.area_xMin;
+xMax = S.area_xMax;
+yMin = S.area_yMin;
+yMax = S.area_yMax;
+area_x_length = xMax - xMin;
+area_y_length = yMax - yMin;
 % Place sensors in a grid if needed
 if (S.grid_sensor)
     rootK = sqrt(S.nb_sensors);
@@ -54,14 +35,14 @@ if (S.grid_sensor)
 else
     % Alternatively, place sensors randomly in the tracking field
     offset = rand(S.nb_sensors, 2);
-    sensorPos = [xMin + offset(:,1)*area_length, yMin + offset(:,2)*area_length]';
+    sensorPos = [xMin + offset(:,1)*area_x_length, yMin + offset(:,2)*area_y_length]';
 end
 % Store all sensor positions
 S_output.sensorPos = sensorPos;
 
 % Construct sensor communication adjacency matrix
 A = zeros(S.nb_sensors);
-range = max(xMax-xMin, yMax-yMin)/(rootK-1)*1.1;
+range = S.broadcast_range;
 for i=1:S.nb_sensors
     for j=i+1:S.nb_sensors
         A(i,j) = (norm(sensorPos(:,i)-sensorPos(:,j))<range);

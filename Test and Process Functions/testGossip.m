@@ -24,7 +24,7 @@ addpath('./TrackingAlgorithms/');
 gossip_vector = [10, 25, 50, 100, 200];
 
 % Number of random trials
-sim_parameters.no_trials = 100; 
+sim_parameters.no_trials = 40; 
 
 sim_parameters.max_gossip_iter = 100;
 
@@ -37,13 +37,16 @@ sim_parameters.visualizeParticles = false;
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = true;
 
+% Select the track
+sim_parameters.track = 2;
+
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 
 % 3. distributed LC PF
 % 4. distributed Graph PF
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists([1:5]);
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf};
+sim_parameters.algorithms = alg_lists([6]);
 
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)
@@ -54,7 +57,12 @@ for i=1:numel(gossip_vector)
     % Each filter uses N particles   
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
-    % Store the tracking results
-    filename{i} = ['Track3_gossip',num2str(sim_parameters.max_gossip_iter),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+   % Store the tracking results
+    filename{i} = ['Track',num2str(sim_parameters.track)]; 
+    filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
+    filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
+    filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
+    filename{i} = [filename{i},'.mat'];
+    save(filename{i}, 'results','parameters');
     save(filename{i}, 'results','parameters');
 end

@@ -48,7 +48,7 @@ end
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
     [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
-    
+       
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif; gamma_dif];
     else

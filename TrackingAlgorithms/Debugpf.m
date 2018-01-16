@@ -39,19 +39,27 @@ if ~isempty(D.measurements)
     % Compute the particle likelihood
     particle_weights = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    CSS_weights = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [CSS_weights, CSS_AER] = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    LC_weights = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [LC_weights, LC_AER] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    LA_weights = LALikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [LA_weights, ~, ~, ~, ~, ~, LA_AER] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    Cluster_weights = ClusterLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [Cluster_weights, ~, ~, ~, ~, ~, ~, CSS_AER] = ClusterDelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     error = [norm(particle_weights-CSS_weights), norm(particle_weights-LC_weights), norm(particle_weights-LA_weights), norm(particle_weights-Cluster_weights)]';
+    AER = [nanmean(CSS_AER), nanmean(LC_AER), nanmean(LA_AER), nanmean(CSS_AER)]';
+    
     if(isfield(details, 'weight_error'))
         details.weight_error = [details.weight_error, error];
     else
         details.weight_error = error;
+    end
+    
+    if(isfield(details, 'AER'))
+        details.AER = [details.AER, error];
+    else
+        details.AER = AER;
     end
     
     if (1/sum(particle_weights.^2)<F.N_eff)

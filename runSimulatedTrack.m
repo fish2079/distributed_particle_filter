@@ -36,32 +36,11 @@ function [results, parameters]= runSimulatedTrack(sim_parameters)
 % for consistency
 rng('default');
 
-% The struct dynamic contains all required parameters of target transition
-% model
-dynamic.model = @propagate_cv_ct; % dynamic model for target propagation
-% dynamic.a = 0.5; % turning rate
-dynamic.a = -0.25; % turning rate track 2
 
-dynamic.p = 0.05; % probability of turning tracke 1
-dynamic.p = 0.75; % probability of turning tracke 2
-% dynamic.p = 0.95; % probability of turning track 3
-dynamic.T = 1; % sampling interval 
-dynamic.sigma_a = 0.05; % process noise standard deviation
 
 % The struct S contains all relevant parameters for the target track
-S.nb_steps = 50; % total number of time steps
-S.initial = [45,45,5,0]';
-if(isfield(sim_parameters,'areaLength'))
-    S.area_length = sim_parameters.areaLength;
-else
-    S.area_length = 75; % tracking area size = area_length^2 (km^2)
-end
+[S, dynamic] = buildTrackParameters(sim_parameters);
 
-% S.nb_sensors = 4; % number of sensors % Track 1
-S.nb_sensors = 16; % number of sensors % Track 2
-% S.nb_sensors = 9; % number of sensors Track 3
-
-S.grid_sensor = true; % boolean flag to put the sensors in a grid
 % Generate the track, sensors and corresponding noise-free measurements
 S = buildSimulatedTrack(S, dynamic);
 S.parallel = sim_parameters.parallel;
@@ -121,7 +100,7 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 if(isfield(sim_parameters, 'max_degree'))
     F.LC.max_degree = sim_parameters.max_degree;
 else   
-    F.LC.max_degree = 1;
+    F.LC.max_degree = 2;
 end
 
 % LA specific parameters

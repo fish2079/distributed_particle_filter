@@ -47,7 +47,9 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the particle likelihood
-    [particle_weights, Hx_ss_dif, aggregate_error_ratio] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+%     [particle_weights, Hx_ss_dif, aggregate_error_ratio] = LCLikelihoodMeasModel([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, aggregate_error_ratio] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    Hx_ss_dif = 0;
    
     [bs_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     

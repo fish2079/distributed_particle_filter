@@ -36,7 +36,7 @@ for tr=1:parameters.no_trials
             if (~isequal(func2str(parameters.algorithms{alg}),'BSpf'))
                 weight_dif_full(alg,:,tr,:) = results.details{tr}{alg}.weight_dif;
                 if (parameters.F.gossip)
-                    aggregate_error_ratio(alg, :, tr) = mean(results.details{tr}{alg}.aggregate_error_ratio,2);
+                    aggregate_error_ratio(alg, :, tr) = nanmean(results.details{tr}{alg}.aggregate_error_ratio,2);
                 else
                     aggregate_error_ratio(alg, :, tr) = zeros(1,50);
                 end

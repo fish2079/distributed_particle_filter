@@ -35,7 +35,7 @@ if (plotAdjacency)
 end
 
 try
-    h3=plot(x_estimate(1,:), x_estimate(2,:), 'b--','linewidth',linewidth);
+    h3=plot(x_estimate(1,:), x_estimate(2,:), 'k--','linewidth',linewidth);
     legend([h1,h2,h3],{'True track', 'Sensor', 'Estimated track'});
 catch ME
     legend([h1,h2],{'True track', 'Sensor'});

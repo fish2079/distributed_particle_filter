@@ -24,9 +24,9 @@ addpath('./TrackingAlgorithms/');
 N_vector = 500; %[250, 500, 750, 1000];
 
 % Number of random trials
-sim_parameters.no_trials = 20; 
+sim_parameters.no_trials = 40; 
 
-sim_parameters.max_gossip_iter = 10;
+sim_parameters.max_gossip_iter = 50;
 
 % Flag for parallel run
 sim_parameters.parallel = true;
@@ -37,14 +37,17 @@ sim_parameters.visualizeParticles = false;
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = true;
 
+% Select the track
+sim_parameters.track = 2;
+
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 
 % 3. distributed LC PF
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists([1:5]);
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf};
+sim_parameters.algorithms = alg_lists([6]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
@@ -57,6 +60,20 @@ for i=1:numel(N_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track1_N',num2str(sim_parameters.N),'_trials',num2str(sim_parameters.no_trials),'.mat'];
+    filename{i} = ['Track',num2str(sim_parameters.track)]; 
+    filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
+    filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
+    filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
+    filename{i} = [filename{i},'.mat'];
+    save(filename{i}, 'results','parameters');
     save(filename{i}, 'results','parameters');
 end
+
+weight_error = [];
+AER = [];
+for tr=1:20
+    weight_error = cat(3, weight_error, results.details{tr}{1}.weight_error);
+    AER = cat(3, AER, results.details{tr}{1}.AER);
+end
+mean(mean(weight_error,3),2)
+mean(mean(AER,3),2)
