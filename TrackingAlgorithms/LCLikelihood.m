@@ -17,11 +17,11 @@ function [particle_weights, aggregate_error_ratio] = LCLikelihood(x_predicted, F
 % jun.y.y.yu@mail.mcgill.ca
 % Nov. 13th, 2017
 
-z = D.measurements;
+% z = D.measurements;
 d = size(x_predicted,1)-1;
 
 % Precompute inverse of measurement noise covariance matrix
-R_inv = inv(obs.R);
+% R_inv = inv(obs.R);
 
 % Construct the Psi matrix
 degree_matrix = combinator(F.LC.max_degree+1,2,'p','r')'-1;
@@ -41,6 +41,7 @@ for i=1:numel(D.sensorID)
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
     
     alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
+%     alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
 end
 
 if (F.gossip)

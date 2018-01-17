@@ -26,7 +26,7 @@ maxDegree_vector = [1:5];
 % Number of random trials
 sim_parameters.no_trials = 40; 
 
-sim_parameters.max_gossip_iter = 100;
+sim_parameters.max_gossip_iter = 25;
 
 % Flag for parallel run
 sim_parameters.parallel = true;
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 1;
+sim_parameters.track = 2;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS

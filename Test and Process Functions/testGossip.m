@@ -29,7 +29,7 @@ sim_parameters.no_trials = 40;
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -39,6 +39,10 @@ sim_parameters.gossip = true;
 
 % Select the track
 sim_parameters.track = 2;
+
+%%
+sim_parameters.nbEig = 1;
+%%
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -66,3 +70,15 @@ for i=1:numel(gossip_vector)
     save(filename{i}, 'results','parameters');
     save(filename{i}, 'results','parameters');
 end
+
+weight_error = [];
+AER = [];
+Neff = [];
+for tr=1:20
+    weight_error = cat(3, weight_error, results.details{tr}{1}.weight_error);
+    AER = cat(3, AER, results.details{tr}{1}.AER);
+    Neff = cat(3, Neff, results.details{tr}{1}.Neff);
+end
+mean(mean(weight_error,3),2)
+mean(mean(AER,3),2)
+mean(mean(Neff,3),2)

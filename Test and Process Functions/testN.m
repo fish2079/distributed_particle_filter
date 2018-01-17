@@ -47,7 +47,7 @@ sim_parameters.track = 2;
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf};
-sim_parameters.algorithms = alg_lists([6]);
+sim_parameters.algorithms = alg_lists([1:5]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
@@ -69,6 +69,8 @@ for i=1:numel(N_vector)
     save(filename{i}, 'results','parameters');
 end
 
+mean(mean(results.pos_error,3),2)
+mean(results.runtime,2)
 weight_error = [];
 AER = [];
 for tr=1:20

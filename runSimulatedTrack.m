@@ -100,7 +100,7 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 if(isfield(sim_parameters, 'max_degree'))
     F.LC.max_degree = sim_parameters.max_degree;
 else   
-    F.LC.max_degree = 2;
+    F.LC.max_degree = 1;
 end
 
 % LA specific parameters
@@ -118,6 +118,9 @@ if(isfield(sim_parameters, 'nbEig'))
 else
     F.LA.m = 6;
 end
+
+F.LA.max_lh_dif = 0.05;
+F.LA.max_m = 10;
 
 % Clustering specific parameters
 if(isfield(sim_parameters,'nbClusters'))

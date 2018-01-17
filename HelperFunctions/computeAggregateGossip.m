@@ -32,8 +32,12 @@ W(1:N+1:end) = 1-sum(W,2);
 
 W_final = W^max_gossip_iter;
 
-x_aggregate_gossip = W_final*x_initial;
+x_aggregate_gossip = W_final*(N*x_initial);
 
-x_aggregate = N*max(x_aggregate_gossip,[],1);
+x_aggregate = max(x_aggregate_gossip,[],1);
 
-aggregate_error_ratio = abs((x_aggregate(1,:)-sum(x_initial,1))./sum(x_initial,1));
+x_aggregate_true = sum(x_initial,1);
+aggregate_error_ratio = (x_aggregate - x_aggregate_true)./sqrt(sum((N*x_initial-x_aggregate_true).^2,1));
+% abs((x_aggregate(1,:)-sum(x_initial,1))./sum(x_initial,1))
+
+
