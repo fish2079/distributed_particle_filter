@@ -53,6 +53,8 @@ if (F.gossip)
     [log_lh_cluster, aggregate_error_ratio] = computeAggregateGossip(log_lh_cluster_ss, F.A, F.max_gossip_iter);
 else
     log_lh_cluster = sum(log_lh_cluster_ss, 1);
+    % Inject perturbation in the results
+    log_lh_cluster = log_lh_cluster + log_lh_cluster.*((rand(1,numel(log_lh_cluster))<0.5)*2-1)*F.perturbation;
     aggregate_error_ratio = zeros(1, F.cluster.k);
 end
 

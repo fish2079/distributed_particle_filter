@@ -64,6 +64,8 @@ if (F.gossip)
     alpha = alpha';
 else
     alpha = sum(alpha_ss,2);
+    % Inject perturbation in the results
+    alpha = alpha + alpha.*((rand(numel(alpha),1)<0.5)*2-1)*F.perturbation;
     aggregate_error_ratio = zeros(1,F.LA.m);
 end
 

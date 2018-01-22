@@ -65,6 +65,8 @@ if (F.gossip)
     CSS = CSS';
 else
     CSS = sum(CSS_matrix,1)';
+    % Inject perturbation in the results
+    CSS = CSS + CSS.*((rand(6,1)<0.5)*2-1)*F.perturbation;
     aggregate_error_ratio = zeros(1,6);
 end
 

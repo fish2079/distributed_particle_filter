@@ -49,6 +49,8 @@ if (F.gossip)
     alpha_LC_aggregate = alpha_LC_aggregate';
 else
     alpha_LC_aggregate = sum(alpha_LC,2);
+    % Inject perturbation in the results
+    alpha_LC_aggregate = alpha_LC_aggregate + alpha_LC_aggregate.*((rand(size(alpha_LC_aggregate,1),1)<0.5)*2-1)*F.perturbation;
     aggregate_error_ratio = zeros(1, numel(alpha_LC_aggregate));
 end
 

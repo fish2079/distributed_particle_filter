@@ -54,14 +54,15 @@ for m=1:F.LA.max_m
     log_m = (V_full(:,1:m)*V_full(:,1:m)'*(log_lh_ss'));
     log_N = (V_full*V_full'*(log_lh_ss'));
     
+    log_m = log_m - max(log_m);
     lh_m = exp(log_m);
-    lh_m = lh_m - max(lh_m);
     lh_m = lh_m./sum(lh_m);
-    
+
+    log_N = log_N - max(log_N);
     lh_N = exp(log_N);
-    lh_N = lh_N - max(lh_N);
     lh_N = lh_N./sum(lh_N);
     
+%     lh_dif = mean(abs(lh_m-lh_N),1);
     lh_dif = sqrt(sum((lh_m - lh_N).^2,1));
     
     if sum(lh_dif>F.LA.max_lh_dif)==0

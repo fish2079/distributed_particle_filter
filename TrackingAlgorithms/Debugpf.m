@@ -43,12 +43,12 @@ if ~isempty(D.measurements)
     
     [LC_weights, LC_AER] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    [LA_weights, ~, ~, ~, ~, ~, LA_AER] = LADelaunayLikelihoodFlexibleM([x_predicted; x_old(d+1,:)], F, D, obs);
+    [LA_weights, ~, ~, ~, ~, ~, LA_AER] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     [Cluster_weights, ~, ~, ~, ~, ~, ~, Cluster_AER] = ClusterDelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     error = [norm(particle_weights-CSS_weights), norm(particle_weights-LC_weights), norm(particle_weights-LA_weights), norm(particle_weights-Cluster_weights)]';
-    AER = [nanmean(CSS_AER), nanmean(LC_AER), nanmean(LA_AER), nanmean(Cluster_AER)]';
+    AER = [nanmean(CSS_AER,2); nanmean(LC_AER,2); nanmean(LA_AER,2); nanmean(Cluster_AER,2)];
     
     Neff_BS = 1/sum(particle_weights.^2);
     Neff_CSS = 1/sum(CSS_weights.^2);
@@ -56,6 +56,8 @@ if ~isempty(D.measurements)
     Neff_LA = 1/sum(LA_weights.^2);
     Neff_Cluster = 1/sum(Cluster_weights.^2);
     Neff = [Neff_BS, Neff_CSS, Neff_LC, Neff_LA, Neff_Cluster]';
+    
+%     [error, AER]
     
     if(isfield(details, 'weight_error'))
         details.weight_error = [details.weight_error, error];

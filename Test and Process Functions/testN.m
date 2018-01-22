@@ -29,7 +29,7 @@ sim_parameters.no_trials = 40;
 sim_parameters.max_gossip_iter = 50;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 4;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -46,8 +46,8 @@ sim_parameters.track = 2;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf};
-sim_parameters.algorithms = alg_lists([1:5]);
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf, @LADelaunayFlexibleMpf_distributed};
+sim_parameters.algorithms = alg_lists([7]);
 
 % sim_parameters.areaLength = 125;
 % Loop through each choice of particle number
@@ -69,13 +69,13 @@ for i=1:numel(N_vector)
     save(filename{i}, 'results','parameters');
 end
 
-mean(mean(results.pos_error,3),2)
-mean(results.runtime,2)
-weight_error = [];
-AER = [];
-for tr=1:20
-    weight_error = cat(3, weight_error, results.details{tr}{1}.weight_error);
-    AER = cat(3, AER, results.details{tr}{1}.AER);
-end
-mean(mean(weight_error,3),2)
-mean(mean(AER,3),2)
+% mean(mean(results.pos_error,3),2)
+% mean(results.runtime,2)
+% weight_error = [];
+% AER = [];
+% for tr=1:20
+%     weight_error = cat(3, weight_error, results.details{tr}{1}.weight_error);
+%     AER = cat(3, AER, results.details{tr}{1}.AER);
+% end
+% mean(mean(weight_error,3),2)
+% mean(mean(AER,3),2)

@@ -49,7 +49,6 @@ if ~isempty(D.measurements)
     
     [bs_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    yo=5;
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif; gamma_dif];
     else

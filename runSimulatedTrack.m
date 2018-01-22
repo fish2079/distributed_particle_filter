@@ -76,6 +76,12 @@ else
 end
 F.A = S.A; % adjacency matrix of the sensor network
 
+if (isfield(sim_parameters,'perturbation'))
+    F.perturbation = sim_parameters.perturbation;
+else
+    F.perturbation = 0;
+end
+
 if (isfield(sim_parameters,'max_gossip_iter'))
     F.max_gossip_iter = sim_parameters.max_gossip_iter;
 else
@@ -119,7 +125,7 @@ else
     F.LA.m = 6;
 end
 
-F.LA.max_lh_dif = 0.05;
+F.LA.max_lh_dif = 0.01;
 F.LA.max_m = 10;
 
 % Clustering specific parameters

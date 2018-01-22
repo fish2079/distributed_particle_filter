@@ -1,4 +1,4 @@
-function [x_updated, details] = LADelaunaypf_distributed(x_old, F, D, dynamic, obs, details)
+function [x_updated, details] = LADelaunayFlexibleMpf_distributed(x_old, F, D, dynamic, obs, details)
 %   This function implements one time step of the distributed Laplacian
 %`  approximation particle filter
 %
@@ -47,7 +47,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, m, aggregate_error_ratio] = LADelaunayLikelihoodFlexibleM([x_predicted; x_old(d+1,:)], F, D, obs);
        
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif; gamma_dif];
@@ -78,7 +78,13 @@ if ~isempty(D.measurements)
     else
         details.eig_time = eig_time;
     end
-        
+    
+    if (isfield(details,'m'))
+        details.m = [details.m, m];
+    else
+        details.m = m;
+    end
+    
     if (F.gossip)
         if (isfield(details,'aggregate_error_ratio'))
             details.aggregate_error_ratio = [details.aggregate_error_ratio; mean(aggregate_error_ratio)];
