@@ -243,31 +243,42 @@ In our codes, we do not implement a loop for the gossip iterations. Instead we d
 G_{\text{final}} = W^{NGossip}G_{\text{initial}}
 \end{equation}
 
-%Since the sensors remain static over time in our simulation, $W$ remains static and a quick computation shows that $W_{final}=W^{31}$ is sufficiently close to an averaging matrix (i.e. $W_{final}(i,j)=1/S$). 
+In the remainder of the section, we run a number of Monte Carlo simulations to evaluate the performance of the four filters. The track remains the same in each trial; but the measurements differ. We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate, and \textit{aggregate error ratio} (AER). The first metric is self-explanatory; so we will only explain the last one. Let $G_{gossip}$ denote the vector of the approximate aggregate values computed using gossip and max consensus, and let $G_{exact}$ denote the vector of exact aggregate values. We compute the ratio vector $|\frac{G_{gossip}-G_{exact}}{G_{exact}}|$ and report the average ratio. Ideally, for $NGossip$ approaching infinity, the ratio approaches 0 as the approximate value approaches the exact value. 
 
-In the remainder of the section, we run a number of Monte Carlo simulations to evaluate the performance of the four filters. The track remains the same in each trial; but the measurements differ. We evaluate the algorithms' performances using three criterion: \textit{root mean squared error} (RMSE) of position estimate, total runtime (from initialization to end of time step 50) and \textit{aggregate error ratio} (AER). The first two metrics are self-explanatory; so we will only explain the last one. Let $G_{gossip}$ denote the vector of the approximate aggregate values computed using gossip and max consensus, and let $G_{exact}$ denote the vector of exact aggregate values. We compute the ratio vector $|\frac{G_{gossip}-G_{exact}}{G_{exact}}|$ and report the average ratio. Ideally, for $NGossip$ approaching infinity, the ratio approaches 0 as the approximate value approaches the exact value. 
+\subsection{Computational overhead}
+In this section we compare the computational overhead of the four filters. More specifically, we compare the overhead for particle log-likelihood computation.
+
+Consider first CSSpf. Each sensor computes the six local sufficient statistics with complexity $O(1)$. These statistics are then aggregated via distributed consensus with complexity $O(S*NGossip)$. Finally, the log-likelihoods are computed at all sensors using the global sufficient statistics with complexity $O(S*N)$. Thus, the overall complexity of CSSpf is thus $O(S+S*NGossip+S*N)$. Since $N>NGossip$ in general, the complexity is dominated by $\underline{O(S*N)}$. 
+
+Consider next LCpf. Let $J$ denote the number of basis functions. Each sensor needs to generate a $N\times J$ matrix to compute the local coefficients. Then $J^2+J$ coefficients are aggregated via distributed consensus over $NGossip$ iterations. The log-likelihoods are finally computed from the global coefficients. The overall complexity is thus $O(S*N*J+S*NGossip*(J^2+J)+S*N) \subset \underline{O(S*N*J+S*NGossip*J^2)}$. 
+
+Consider next LApf. The Delaunay triangulation for graph construction has complexity $O(N\log(N))$. The eigenvalue decomposition has complexity $O(N^3)$. Assume $m$ eigenvectors are used to decode the local log-likelihoods. Then $m$ scalars are aggregated via distributed consensus. The joint log-likelihoods are then recovered from the $m$ aggregate scalars. The overall complexity is thus $O(S*N\log(N)+S*N^3+m*N^2+S*m*NGossip+S*N)\subset \underline{O(S*N^3)}$. 
+
+Finally consider Clusterpf. Particle clustering has complexity $O(N*C*4*I)$ where $I$ is the number of clustering iterations (with default value of 100) and the constant $4$ is the target state dimension. $C$ cluster log-likelihoods are then aggregated across all sensors. We again have Delaunay triangulation for graph construction. The log-likelihood is recovered via convex minimization with complexity $O(\sqrt{N})$. The overall complexity is thus $O(S*N*C*4*I+S*C*NGossip + S*N\log(N)+S\sqrt{N})\subset \underline{O(S*N*C+S*N\log(N))}$
+
+Overall, CSSpf has the lowest overhead and LApf has the highest overhead due to the eigenvalue decomposition. 
 
 \subsection{Constraint sufficient statistics particle filter}
-Consider first CSSpf. Each sensor needs to broadcast $6NGossip$ scalars at each time step. We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE, total runtime and AER with respect to number of gossip iterations and number of particles over 200 random trials. Each data point is averaged over all 50 time steps. 
+Consider first CSSpf. Each sensor needs to broadcast $6NGossip$ scalars at each time step. We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for different values of $N$. Each data point is averaged over 50 time steps and 200 Monte Carlo trials. 
 
-The RMSE is very high for $NGossip=10$ which can be attributed to the gossip algorithms not converging in such few iterations and leading to high errors in the final values of the global sufficient statistics. For $NGossip\geq 20$ and $N\geq 100$, the RMSE is fairly constant and more gossip iterations and more particles do not yield significant improvement in tracking performance. 
+The RMSE is very high for $NGossip=10$ which can be attributed to the gossip algorithms not converging in such few iterations and leading to high errors in the final values of the global sufficient statistics. For $NGossip\geq 20$, the RMSE is fairly constant and more gossip iterations and more particles do not yield significant improvement in tracking performance. 
 
-The runtime does not increase with higher $NGossip$ due to our implementation of the gossip algorithms. When $N$ increases, the runtime increases as expected. 
+%The runtime does not increase with higher $NGossip$ due to our implementation of the gossip algorithms. When $N$ increases, the runtime increases as expected. 
 
-Finally, consider the AER. With increasing $NGossip$, the ratio decreases exponentially (note the log-scale of the Y-axis). For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the AER does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
+With increasing $NGossip$, the AER decreases exponentially (note the log-scale of the Y-axis). For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the AER does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_CSSpf_RMSE}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_CSSpf_RMSE}}
 \end{subfigure}
-\begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_CSSpf_time}}
-\end{subfigure}
+%\begin{subfigure}[total runtime]
+%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_CSSpf_time}}
+%\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_CSSpf_aggregate_error_ratio}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_CSSpf_AER}}
 \end{subfigure}
-\caption{Boxplot of RMSE, runtime and AER of CSSpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}
+\caption{RMSE and AER of CSSpf with respect to $NGossip$ for different values of $N$. Each data point is averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_CSSpf}
 \end{figure}
 
@@ -291,36 +302,36 @@ Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runti
 \label{fig:results_LCpf_maxDegree}
 \end{figure}
 
-Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE, total runtime and AER with respect to number of gossip iterations and number of particles over 200 random trials for $d=1$. Each data point is averaged over all time steps. For LCpf, a minimal of 40 gossip iterations is necessary to yield adequate tracking performance. Furthermore, at $d=1$, each sensor needs to broadcast 20 scalars per gossip iteration. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance. If we compare Fig. 2(c) and Fig. 4(c), we note that CSSpf and LCpf exhibit very similar level of aggregate error ratios for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed summation. Furthrmore, LCpf requires double the runtime of CSSpf with the total runtime increasing for higher $N$. 
-
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_RMSE}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_RMSE}}
 \end{subfigure}
-\begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
-\end{subfigure}
+%\begin{subfigure}[total runtime]
+%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
+%\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_aggregate_error_ratio}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_AER}}
 \end{subfigure}
-\caption{Boxplot of RMSE, runtime and AER of LCpf with respect to $NGossip$ and $N$ for 200 Monte Carlo trials. For each value of $NGossip$, from left to right, $N=100, 250, 500, 1000$}
+\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LCpf}
 \end{figure}
+
+Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for $d=1$ and different values of $N$. Each data point is averaged over 50 time steps and 200 random trials. For LCpf, a minimal of 40 gossip iterations is necessary to yield adequate tracking performance. Furthermore, at $d=1$, each sensor needs to broadcast 20 scalars per gossip iteration. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance as CSSpf. If we compare Fig. 2(b) and Fig. 4(b), we note that CSSpf and LCpf exhibit very similar level of AER for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed summation. %Furthermore, LCpf requires double the runtime of CSSpf with the total runtime increasing for higher $N$. 
 
 \subsection{Laplacian approximation particle filter}
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_RMSE}}
+{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LApf_RMSE}}
 \end{subfigure}
-\begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_time}}
-\end{subfigure}
+%\begin{subfigure}[total runtime]
+%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_time}}
+%\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_aggregate_error_ratio}}
+{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LApf_aggregate_error_ratio}}
 \end{subfigure}
-\caption{Boxplot of RMSE, runtime and AER of LApf with respect to $NGossip$ and $m$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $m=6, 20, 50, 100$}
+\caption{RMSE and AER of LApf with respect to $NGossip$ for $N=500$ and different values of $m$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LApf}
 \end{figure}
 

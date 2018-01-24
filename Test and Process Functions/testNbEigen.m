@@ -38,6 +38,9 @@ sim_parameters.visualizeParticles = false;
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = false;
 
+% Select the track
+sim_parameters.track = 4;
+
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 

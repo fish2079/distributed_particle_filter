@@ -21,9 +21,9 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = [10, 25, 50, 100, 200];
+gossip_vector = [1, 5, 10, 25, 50];
 N_vector = 500; %[100, 250, 500, 1000];
-k_vector = [3, 6, 20, 50, 100];
+k_vector = [1, 3, 6, 10, 20, 50];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -47,7 +47,9 @@ sim_parameters.gossip = true;
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
 sim_parameters.algorithms = alg_lists(5);
 
-sim_parameters.max_degree = 2;
+% Select the track
+sim_parameters.track = 3;
+
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)
     % Set number of particles
