@@ -323,23 +323,27 @@ Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE and AER with respect to n
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LApf_RMSE}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LApf_RMSE}}
 \end{subfigure}
 %\begin{subfigure}[total runtime]
 %{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_time}}
 %\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LApf_aggregate_error_ratio}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LApf_AER}}
 \end{subfigure}
 \caption{RMSE and AER of LApf with respect to $NGossip$ for $N=500$ and different values of $m$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LApf}
 \end{figure}
 
-The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{fig:results_LApf} shows the boxplots of RMSE, runtime and AER of LApf with respect to $m$ and $NGossip$ for $N=500$. 
+The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{fig:results_LApf} shows the RMSE and AER of LApf with respect $NGossip$ for different values of $m$ and $N=500$. Each data point is averaged over 50 time steps and 200 random trials.
 
-The RMSE has little fluctuations over all values of $NGossip$ and $m$. This suggests a few things. First, 6 Eigenvalues are sufficient to encode the particle log-likelihoods with minimal information loss. Second, as few as 10 gossip iterations per time step are sufficient to yield robust tracking performance. We note that the AER of LApf is actually higher than that of LCpf and CSSpf for the same values of $NGossip$. This would suggest that LApf is surprisingly robust to gossiping error. Finally, the runtime is significantly higher than that of CSSpf and LCpf but remains fairly constant.  The eigenvalue decomposition accounts for the bulk of the computational overhead and its overhead is independent of the values of $NGossip$ and $m$. 
+Consider first RMSE. We do not show the curve for $m=1$ as the filter breaks down and yields an average RMSE over 12. For $m=3$, the RMSE is significantly higher than the other curves. This suggests that a minimum number of eigenvectors is needed to encode particle log-likelihoods without significant information loss. As we increase $m$, the RMSE improves as expected; although the difference is quite marginal for $m\geq 6$. 
 
-To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $\hat{w}_i$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $w_i$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
+More interestingly, as few as 10 gossip iterations per time step are sufficient to yield robust tracking performance even though the AER of LApf is quite close to that of CSSpf and LCpf for the same $NGossip$ and $N$. This would suggest that LApf is much more robust to gossiping error. 
+
+%Finally, the runtime is significantly higher than that of CSSpf and LCpf but remains fairly constant.  The eigenvalue decomposition accounts for the bulk of the computational overhead and its overhead is independent of the values of $NGossip$ and $m$. 
+
+To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $\hat{w}_i$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $w_i$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. The error is highest at $m=1$ (by almost a factor of 10). At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
 
 \begin{figure}
 \centering
@@ -349,22 +353,24 @@ To confirm our conjecture regarding the choice of $m$, we compute the following 
 \end{figure}
 
 \subsection{Cluster particle filter}
-The number of clusters $C$ offers a trade-off between tracking performance and computational/communication overhead. Higher number of clusters should yield better performance albeit at higher overhead. In fact, it is clear that the parameter $C$ is analogous to $m$ in LApf. Fig.~\ref{fig:results_Clusterpf} shows the tracking results. Again, the RMSE is fairly constant for all considered values of $NGossip$ and $C$. The total runtime increases linearly with larger $C$ because clustering the particles accounts for the majority of computational overhead and the workload is dependent on the number of clusters. The AER of Clusterpf appears on-par with those of CSSpf and LCpf, and is lower than that of LApf. Nonetheless, the good tracking performance at $NGossip=10$ suggests that Clusterpf is very robust to gossiping error. 
+The number of clusters $C$ offers a trade-off between tracking performance and computational/communication overhead. Higher number of clusters should yield better performance albeit at higher overhead. In fact, it is clear that the parameter $C$ is analogous to $m$ in LApf. Fig.~\ref{fig:results_Clusterpf} shows the tracking results. 
 
-As in the case of LApf, we compute and report the average weight discrepancy in Fig.~\ref{fig:boxplot_Clusterpf_weight_discrepancy}. Increasing $C$ from 6 to 75 decreases the approximation error by no more than half at the cost of a tenfold increase in communication overhead. 
+Again, we omit the curve for $C=1$ as the filer breaks down and yields an RMSE above 12. For $C\geq 6$, the RMSE is quite consistent for $NGossip \geq 6$. As in the case of LApf, Clusterpf is quite robust to gossiping error and yields good performance for $NGossip \geq 5$. 
+
+As in the case of LApf, we compute and report the average weight discrepancy in Fig.~\ref{fig:boxplot_Clusterpf_weight_discrepancy}. The discrepancy is highest at $C=1$ as expected. Increasing $C$ from 6 to 75 decreases the approximation error by no more than half at the cost of a tenfold increase in communication overhead. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_Clusterpf_RMSE}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_Clusterpf_RMSE}}
 \end{subfigure}
-\begin{subfigure}[total runtime]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_Clusterpf_time}}
-\end{subfigure}
+%\begin{subfigure}[total runtime]
+%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_Clusterpf_time}}
+%\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.65\textwidth]{Figures/boxplot_Clusterpf_aggregate_error_ratio}}
+{\includegraphics[width=0.49\textwidth]{Figures/curve_Clusterpf_AER}}
 \end{subfigure}
-\caption{Boxplot of RMSE, runtime and AER of Clusterpf with respect to $NGossip$ and $C$ for 200 Monte Carlo trials ($N=500$). For each value of $NGossip$, from left to right, $C=6, 20, 50, 100$}
+\caption{RMSE and AER of Clusterpf with respect to $NGossip$ for $N=500$ and different values of $C$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_Clusterpf}
 \end{figure}
 

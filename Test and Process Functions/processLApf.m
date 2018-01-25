@@ -3,11 +3,14 @@ clear;clc;
 
 filepath = 'Individual PF Results\LApf\';
 
+% Color
+plot_color = {'k','r','b','g','y','m'};
+
 % Number of particles for the filter
-m_vector = [6,10,20,50,75,100];
+m_vector = [1, 3, 6, 10, 20, 50, 75, 100];
 
 % Number of gossip iterations
-gossip_vector = 50; %[10, 15, 20, 25, 30, 35];
+gossip_vector = 1;%[1, 5, 10, 15, 20, 25, 30, 35];
 
 
 % Number of random trials
@@ -58,44 +61,79 @@ end
 
 figure();
 set(gcf,'color','white');
-boxplot(squeeze(mean(RMSEFull,2)), 'colorgroup', colorgroup);
 ylabel('RMSE');
 xlabel('NGossip');
 hold on;
-for i=1:numel(groupSeparator)-1
-    plot([groupSeparator(i),groupSeparator(i)],[0,90],'k');
+RMSE_plot = reshape(squeeze(mean(mean(RMSEFull,2),3)), numel(m_vector), numel(gossip_vector));
+legendText = {};
+for i=1:numel(m_vector)
+    plot(RMSE_plot(i,:),plot_color{i}, 'linewidth',8);
+    legendText{i} = ['m = ', num2str(m_vector(i))];
 end
-set(gca,'xtick', xtick);
+legend(legendText);
+set(gca,'xtick', 1:numel(gossip_vector));
 set(gca,'xticklabel', xticklabel);
-set(gca,'fontsize',32);
-ylim([0,90]);
+set(gca,'fontsize',45);
+% ylim([3,28]);
 
 figure();
 set(gcf,'color','white');
-boxplot(squeeze(sum(steptimeFull,2)), 'colorgroup', colorgroup);
-ylabel('Total runtime');
+ylabel('AER');
 xlabel('NGossip');
 hold on;
-for i=1:numel(groupSeparator)-1
-    plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
+RMSE_plot = reshape(squeeze(mean(mean(aggregate_error_ratioFull,2),3)), numel(m_vector), numel(gossip_vector));
+legendText = {};
+for i=1:numel(m_vector)
+    plot(RMSE_plot(i,:),plot_color{i}, 'linewidth',8);
+    legendText{i} = ['m = ', num2str(m_vector(i))];
 end
-set(gca,'xtick', xtick);
+legend(legendText);
+set(gca,'xtick', 1:numel(gossip_vector));
 set(gca,'xticklabel', xticklabel);
-set(gca,'fontsize',32);
+set(gca,'fontsize',45);
+%ylim([3,28]);
 
-figure();
-set(gcf,'color','white');
-boxplot(squeeze(mean(aggregate_error_ratioFull,2)), 'colorgroup', colorgroup);
-ylabel('Aggregate error ratio');
-xlabel('NGossip');
-hold on;
-for i=1:numel(groupSeparator)-1
-    plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
-end
-set(gca,'xtick', xtick);
-set(gca,'xticklabel', xticklabel);
-set(gca,'fontsize',32);
-
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(squeeze(mean(RMSEFull,2)), 'colorgroup', colorgroup);
+% ylabel('RMSE');
+% xlabel('NGossip');
+% hold on;
+% for i=1:numel(groupSeparator)-1
+%     plot([groupSeparator(i),groupSeparator(i)],[0,90],'k');
+% end
+% set(gca,'xtick', xtick);
+% set(gca,'xticklabel', xticklabel);
+% set(gca,'fontsize',32);
+% ylim([0,90]);
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(squeeze(sum(steptimeFull,2)), 'colorgroup', colorgroup);
+% ylabel('Total runtime');
+% xlabel('NGossip');
+% hold on;
+% for i=1:numel(groupSeparator)-1
+%     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
+% end
+% set(gca,'xtick', xtick);
+% set(gca,'xticklabel', xticklabel);
+% set(gca,'fontsize',32);
+% 
+% figure();
+% set(gcf,'color','white');
+% boxplot(squeeze(mean(aggregate_error_ratioFull,2)), 'colorgroup', colorgroup);
+% ylabel('Aggregate error ratio');
+% xlabel('NGossip');
+% hold on;
+% for i=1:numel(groupSeparator)-1
+%     plot([groupSeparator(i),groupSeparator(i)],[0,15],'k');
+% end
+% set(gca,'xtick', xtick);
+% set(gca,'xticklabel', xticklabel);
+% set(gca,'fontsize',32);
+% 
 figure();
 set(gcf,'color','white');
 boxplot(squeeze(mean(weight_difFull,2)), 'colorgroup', colorgroup);
@@ -107,4 +145,4 @@ for i=1:numel(groupSeparator)-1
 end
 set(gca,'xtick', xtick);
 set(gca,'xticklabel', xticklabel);
-set(gca,'fontsize',32);
+set(gca,'fontsize',45);
