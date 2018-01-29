@@ -1,7 +1,7 @@
 warning('off','all');
 clear;clc;
 
-filepath = ''; %'Individual PF Results\LCpf\';
+filepath = 'Individual PF Results\LCpf_llh\';
 
 % Color
 plot_color = {'k','r','b','g','y','m'};

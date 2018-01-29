@@ -317,6 +317,21 @@ Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runti
 \label{fig:results_LCpf}
 \end{figure}
 
+\begin{figure}
+\centering
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_llh_RMSE}}
+\end{subfigure}
+%\begin{subfigure}[total runtime]
+%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
+%\end{subfigure}
+\begin{subfigure}[AER]
+{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_llh_AER}}
+\end{subfigure}
+\caption{RMSE AER of LCpf\_llh with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
+\label{fig:results_LCpf_llh}
+\end{figure}
+
 Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for $d=1$ and different values of $N$. Each data point is averaged over 50 time steps and 200 random trials. For LCpf, a minimal of 40 gossip iterations is necessary to yield adequate tracking performance. Furthermore, at $d=1$, each sensor needs to broadcast 20 scalars per gossip iteration. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance as CSSpf. If we compare Fig. 2(b) and Fig. 4(b), we note that CSSpf and LCpf exhibit very similar level of AER for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed summation. %Furthermore, LCpf requires double the runtime of CSSpf with the total runtime increasing for higher $N$. 
 
 \subsection{Laplacian approximation particle filter}
