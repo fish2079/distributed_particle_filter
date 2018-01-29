@@ -21,10 +21,10 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-pertubation_vector = [1,10,50,100,200,500];
+pertubation_vector = [50,100,200,500]; %[1, 5,10,25];%,[50,100,200,500];
 
 % Number of random trials
-sim_parameters.no_trials = 100; 
+sim_parameters.no_trials = 200; 
 
 sim_parameters.max_gossip_iter = 100;
 
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 3;
 
 %%
 sim_parameters.nbEig = 6;
@@ -79,9 +79,7 @@ for tr=1:100
     AER = cat(3, AER, results.details{tr}{1}.AER);
     Neff = cat(3, Neff, results.details{tr}{1}.Neff);
 end
-% mean(mean(weight_error,3),2)
-% mean(mean(AER,3),2)
 w_error= [w_error; mean(mean(weight_error,3),2)'];
-% A_error = [A_error; mean(mean(AER,3),2)'];
+A_error = [A_error; mean(mean(AER,3),2)'];
 % mean(mean(Neff,3),2)
 

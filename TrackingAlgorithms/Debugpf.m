@@ -41,21 +41,24 @@ if ~isempty(D.measurements)
     
     [CSS_weights, CSS_AER] = CSSLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    [LC_weights, LC_AER] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [LCmeas_weights, ~, LCmeas_AER] = LCLikelihoodMeasModel([x_predicted; x_old(d+1,:)], F, D, obs);
     
+    [LC_weights, LC_AER] = LCLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+       
     [LA_weights, ~, ~, ~, ~, ~, LA_AER] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     [Cluster_weights, ~, ~, ~, ~, ~, ~, Cluster_AER] = ClusterDelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    error = [norm(particle_weights-CSS_weights), norm(particle_weights-LC_weights), norm(particle_weights-LA_weights), norm(particle_weights-Cluster_weights)]';
-    AER = [nanmean(CSS_AER,2); nanmean(LC_AER,2); nanmean(LA_AER,2); nanmean(Cluster_AER,2)];
+    error = [norm(particle_weights-CSS_weights), norm(particle_weights-LCmeas_weights), norm(particle_weights-LC_weights), norm(particle_weights-LA_weights), norm(particle_weights-Cluster_weights)]';
+    AER = [nanmean(CSS_AER,2); nanmean(LCmeas_AER,2); nanmean(LC_AER,2); nanmean(LA_AER,2); nanmean(Cluster_AER,2)];
     
     Neff_BS = 1/sum(particle_weights.^2);
     Neff_CSS = 1/sum(CSS_weights.^2);
+    Neff_LCmeas = 1/sum(LCmeas_weights.^2);
     Neff_LC = 1/sum(LC_weights.^2);
     Neff_LA = 1/sum(LA_weights.^2);
     Neff_Cluster = 1/sum(Cluster_weights.^2);
-    Neff = [Neff_BS, Neff_CSS, Neff_LC, Neff_LA, Neff_Cluster]';
+    Neff = [Neff_BS, Neff_CSS, Neff_LCmeas, Neff_LC, Neff_LA, Neff_Cluster]';
     
 %     [error, AER]
     

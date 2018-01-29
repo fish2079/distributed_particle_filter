@@ -1,7 +1,7 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Individual PF Results\LCpf\';
+filepath = ''; %'Individual PF Results\LCpf\';
 
 % Color
 plot_color = {'k','r','b','g','y','m'};
@@ -30,7 +30,7 @@ groupSeparator = [];
 colorgroup = [];
 
 N = 500;
-max_degree = 1;
+max_degree = 2;
 
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)

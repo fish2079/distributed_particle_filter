@@ -81,18 +81,22 @@ for zz=1:size(z,2)
 end
 
 if (F.gossip)
-    [zHs, aggregate_error_ratio1] = computeAggregateGossip(zHx_ss', F.A, F.max_gossip_iter);
+    [zHx, aggregate_error_ratio1] = computeAggregateGossip(zHx_ss', F.A, F.max_gossip_iter);
     [HxHx, aggregate_error_ratio2] = computeAggregateGossip(HxHx_ss, F.A, F.max_gossip_iter);
-    zHs = zHs';
+    zHx = zHx';
     HxHx = HxHx';
     aggregate_error_ratio = [aggregate_error_ratio1, aggregate_error_ratio2];
 else
-    zHs = sum(zHx_ss,2);
+    zHx = sum(zHx_ss,2);
     HxHx = sum(HxHx_ss,1)';
-    aggregate_error_ratio = zeros(1, numel(zHs)+numel(HxHx));
+     % Inject perturbation in the results
+    zHx = zHx + zHx.*((rand(size(zHx,1),1)<0.5)*2-1)*F.perturbation;
+    HxHx = HxHx + HxHx.*((rand(size(HxHx,1),1)<0.5)*2-1)*F.perturbation;
+    
+    aggregate_error_ratio = zeros(1, numel(zHx)+numel(HxHx));
 end
 
-gamma = Psi*zHs + Psi_extended*HxHx;
+gamma = Psi*zHx + Psi_extended*HxHx;
 
 gamma = gamma' - max(gamma);
 

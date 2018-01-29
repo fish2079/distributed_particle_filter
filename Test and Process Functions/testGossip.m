@@ -21,15 +21,15 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = 1:5;%[10, 25, 50, 100, 200];
+gossip_vector = [1:5, 10, 25, 50, 100];
 
 % Number of random trials
-sim_parameters.no_trials = 100; 
+sim_parameters.no_trials = 200; 
 
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 3;
 
 %%
 sim_parameters.nbEig = 6;

@@ -77,5 +77,3 @@ for tr=1:parameters.no_trials
         end
     end
 end
-
-yo=5;

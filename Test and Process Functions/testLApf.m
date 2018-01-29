@@ -21,9 +21,9 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = 1;%10:5:35;%[1,5:5:35];
+gossip_vector = [1,5:5:35];
 N_vector = 500; 
-m_vector = [1,3]; %[1, 3, 6, 10, 20, 50];
+m_vector = [1, 3, 6, 10, 20, 50];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
