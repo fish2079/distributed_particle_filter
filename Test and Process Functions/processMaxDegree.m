@@ -1,7 +1,7 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Individual PF Results\LCpf\';
+filepath = 'Individual PF Results\LCpf_llh\';
 
 % Number of particles for the filter
 maxDegree_vector = [1:9];
@@ -25,7 +25,6 @@ colorgroup = [];
 N = 500;
 
 for i=1:numel(maxDegree_vector)
-    i
     % Load the tracking results
     filename = [filepath, 'Track3_LCpf'];
     filename = [filename,'_maxDegree',num2str(maxDegree_vector(i))];
@@ -43,16 +42,27 @@ for i=1:numel(maxDegree_vector)
     aggregate_error_ratioFull = cat(4, aggregate_error_ratioFull, aggregate_error_ratio_sf);
 end
 
-for i=1:numel(maxDegree_vector)
-    Hx_ss_dif(:,i) = mean(mean(mean(abs(details{i}.LCpf.Hx_ss_dif),4),3),1)';
-end
 figure();
 set(gcf,'color','white');
-boxplot(Hx_ss_dif/pi*180);%, 'colorgroup', colorgroup);
-ylabel({'Measurment approximation', ' error (degree)'});
-xlabel('d');
-set(gca,'xtick', 1:9);
-set(gca,'fontsize',32);
+ylabel('RMSE');
+xlabel('NGossip');
+boxplot(squeeze((mean(weight_difFull,2))));
+set(gca,'xtick', 1:numel(maxDegree_vector));
+set(gca,'xticklabel', {'1', '2', '3', '4', '5', '6', '7', '8', '9'});
+set(gca,'fontsize',45);
+xlabel('max degree d');
+ylabel('Relative error ratio')
+
+% for i=1:numel(maxDegree_vector)
+%     Hx_ss_dif(:,i) = mean(mean(mean(abs(details{i}.LCpf.Hx_ss_dif),4),3),1)';
+% end
+% figure();
+% set(gcf,'color','white');
+% boxplot(Hx_ss_dif/pi*180);%, 'colorgroup', colorgroup);
+% ylabel({'Measurment approximation', ' error (degree)'});
+% xlabel('d');
+% set(gca,'xtick', 1:9);
+% set(gca,'fontsize',32);
 
 figure();
 set(gcf,'color','white');
@@ -63,10 +73,10 @@ set(gca,'xtick', 1:9);
 set(gca,'fontsize',32);
 ylim([1,3.5]);
 
-figure();
-set(gcf,'color','white');
-boxplot(squeeze(sum(steptimeFull,2)), 'colorgroup', colorgroup);
-ylabel('Total runtime');
-xlabel('Max degree');
-set(gca,'xtick', 1:9);
-set(gca,'fontsize',32);
+% figure();
+% set(gcf,'color','white');
+% boxplot(squeeze(sum(steptimeFull,2)), 'colorgroup', colorgroup);
+% ylabel('Total runtime');
+% xlabel('Max degree');
+% set(gca,'xtick', 1:9);
+% set(gca,'fontsize',32);

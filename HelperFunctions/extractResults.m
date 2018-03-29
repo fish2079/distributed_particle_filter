@@ -34,7 +34,13 @@ for tr=1:parameters.no_trials
             timeFull(alg,:,tr) = results.details{tr}{alg}.step_time;
             N_effFull(alg,:,tr) = results.details{tr}{alg}.N_eff;
             if (~isequal(func2str(parameters.algorithms{alg}),'BSpf'))
-                weight_dif_full(alg,:,tr,:) = results.details{tr}{alg}.weight_dif;
+                if (sum(size(results.details{tr}{alg}.weight_dif)==1)==1)
+                    weight_dif_full(alg,:,tr) = results.details{tr}{alg}.weight_dif;
+                else
+                    for k=1:size(results.details{tr}{alg}.weight_dif,1)
+                        weight_dif_full(alg,k,tr) = norm(results.details{tr}{alg}.weight_dif(k,:));
+                    end
+                end
                 if (parameters.F.gossip)
                     aggregate_error_ratio(alg, :, tr) = nanmean(results.details{tr}{alg}.aggregate_error_ratio,2);
                 else

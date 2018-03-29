@@ -29,6 +29,10 @@ for i=1:size(degree_matrix,2)
     Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
 end
 
+Psi = GramSchmidt(Psi);
+% Psi_sum = sum(Psi,1);
+% Psi_normalized = Psi./Psi_sum;
+
 % Compute the local log-likelihoods
 for i=1:numel(D.sensorID)  
     z_received = D.measurements(:,i);
@@ -40,8 +44,9 @@ for i=1:numel(D.sensorID)
     
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
     
+%     alpha_LC(:,i) = mldivide(Psi_normalized,log_lh_ss(i,:)');
     alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
-%     alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
+%     temp_alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
 end
 
 if (F.gossip)
@@ -55,6 +60,7 @@ else
 end
 
 gamma = Psi*alpha_LC_aggregate;
+% gamma = Psi_normalized*alpha_LC_aggregate;
 gamma = gamma' - max(gamma);
 
 % Compute unnormalized posterior weight

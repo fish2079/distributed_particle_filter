@@ -49,10 +49,10 @@ if ~isempty(D.measurements)
     
     [gamma_particle_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
-    weight_dif = particle_weights-gamma_particle_weights;
+    weight_dif = norm(particle_weights-gamma_particle_weights);
     
     if (isfield(details,'weight_dif'))
-        details.weight_dif = [details.weight_dif; weight_dif];
+        details.weight_dif = [details.weight_dif, weight_dif];
     else
         details.weight_dif = weight_dif;
     end

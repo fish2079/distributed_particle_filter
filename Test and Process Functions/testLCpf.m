@@ -22,8 +22,8 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 gossip_vector = [10, 15, 20, 25, 30, 35, 40,45,50]; %[];
-N_vector = 1000; %[100, 250, 500, 1000];
-max_degree_vector = 1:5;
+N_vector = [100, 250, 500, 1000];
+max_degree_vector = 1:9;
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -65,7 +65,7 @@ for i=1:numel(gossip_vector)
         [results, parameters]= runSimulatedTrack(sim_parameters);
 
         % Store the tracking results
-        filename{i} = ['Track3_LCpf'];
+        filename{i} = ['Track3_LCpf_GS_'];
         filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
         filename{i} = [filename{i},'_maxDegree',num2str(parameters.F.LC.max_degree)];
         filename{i} = [filename{i},'_N',num2str(parameters.F.N)];

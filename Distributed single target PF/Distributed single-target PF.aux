@@ -3,82 +3,87 @@
 \citation{Hlinka2012}
 \citation{Rabbat2016}
 \citation{Chao2015}
+\citation{Mohammadi2012}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Problem statement}{1}}
 \newlabel{sec:problem}{{2}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Distributed particle filters for bearing-only tracking}{1}}
 \newlabel{sec:pf}{{3}{1}}
 \newlabel{eqn:log_lh_normal}{{1}{1}}
-\citation{Mohammadi2012}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Constraint sufficient statistics particle filter}{2}}
 \newlabel{eqn:llh_css}{{3}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Likelihood consensus particle filter}{2}}
 \newlabel{eqn:Hx_LC}{{4}{2}}
-\newlabel{eqn:joint_log_lh_LC}{{5}{3}}
-\newlabel{eqn:beta_matrix}{{6}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Laplacian approximation particle filter}{3}}
+\newlabel{eqn:beta_matrix}{{5}{2}}
 \citation{Hlinka2012}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Clustering particle filter}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Laplacian approximation particle filter}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Clustering particle filter}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Computational overhead}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Performance evaluation}{4}}
 \newlabel{sec:evaluation}{{4}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation setup}{4}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Target trajectory (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{5}}
 \newlabel{fig:track}{{1}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Algorithm setup}{5}}
-\newlabel{eqn:metropolis_weight}{{20}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Computational overhead}{6}}
+\newlabel{eqn:metropolis_weight}{{19}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Constraint sufficient statistics particle filter}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Likelihood consensus particle filter}{6}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces RMSE and AER of CSSpf with respect to $NGossip$ for different values of $N$. Each data point is averaged over 50 time steps and 200 Monte Carlo trials.}}{7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{7}}
 \newlabel{fig:results_CSSpf}{{2}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Constraint sufficient statistics particle filter}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Likelihood consensus particle filter}{7}}
-\newlabel{fig:boxplot_LCpf_meas_approx_error}{{3(c)}{8}}
-\newlabel{sub@fig:boxplot_LCpf_meas_approx_error}{{(c)}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}}{8}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {total runtime}}}{8}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Measurement approximation error}}}{8}}
-\newlabel{fig:results_LCpf_maxDegree}{{3}{8}}
+\newlabel{fig:results_LCpf_maxDegree}{{3(a)}{7}}
+\newlabel{sub@fig:results_LCpf_maxDegree}{{(a)}{7}}
+\newlabel{fig:boxplot_LCpf_weight_approx_error}{{3(b)}{7}}
+\newlabel{sub@fig:boxplot_LCpf_weight_approx_error}{{(b)}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}}{7}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{7}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Measurement approximation error}}}{7}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{8}}
-\newlabel{fig:results_LCpf}{{4}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces RMSE AER of LCpf\_llh with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{9}}
+\newlabel{fig:results_LCpf_llh}{{4}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces RMSE and AER of LApf with respect to $NGossip$ for $N=500$ and different values of $m$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{8}}
+\newlabel{fig:results_LApf}{{5}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Laplacian approximation particle filter}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of weight discrepancy with respect to $m$}}{9}}
+\newlabel{fig:boxplot_LApf_weight_discrepancy}{{6}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces RMSE and AER of Clusterpf with respect to $NGossip$ for $N=500$ and different values of $C$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{9}}
-\newlabel{fig:results_LCpf_llh}{{5}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces RMSE and AER of LApf with respect to $NGossip$ for $N=500$ and different values of $m$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{9}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{9}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{9}}
-\newlabel{fig:results_LApf}{{6}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Laplacian approximation particle filter}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Boxplot of weight discrepancy with respect to $m$}}{10}}
-\newlabel{fig:boxplot_LApf_weight_discrepancy}{{7}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces RMSE and AER of Clusterpf with respect to $NGossip$ for $N=500$ and different values of $C$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{10}}
+\newlabel{fig:results_Clusterpf}{{7}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cluster particle filter}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Performance comparison between filters}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Boxplot of weight discrepancy with respect to $C$}}{10}}
+\newlabel{fig:boxplot_Clusterpf_weight_discrepancy}{{8}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Target tracks (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{10}}
+\newlabel{fig:test_tracks}{{9}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{10}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{10}}
-\newlabel{fig:results_Clusterpf}{{8}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Cluster particle filter}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Boxplot of weight discrepancy with respect to $C$}}{11}}
-\newlabel{fig:boxplot_Clusterpf_weight_discrepancy}{{9}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Target tracks (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{11}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{11}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{11}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{11}}
-\newlabel{fig:test_tracks}{{10}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Performance comparison between filters}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{12}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{10}}
+\newlabel{fig:Track3_results}{{10}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{11}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{11}}
+\newlabel{fig:Track1_results}{{11}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{12}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{12}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{12}}
-\newlabel{fig:Track3_results}{{11}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{12}}
+\newlabel{fig:Track2_results}{{12}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{12}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{12}}
-\newlabel{fig:Track1_results}{{12}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{13}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{13}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{13}}
-\newlabel{fig:Track2_results}{{13}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{12}}
+\newlabel{fig:Track2_results}{{13}{12}}
+\bibstyle{IEEEtran}
+\bibdata{Refs}
+\bibcite{Mohammadi2012}{1}
+\bibcite{Hlinka2012}{2}
+\bibcite{Rabbat2016}{3}
+\bibcite{Chao2015}{4}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Sensitivity analysis of particle filters}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}}
 \newlabel{sec:conclusion}{{6}{13}}
@@ -87,9 +92,3 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{14}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{14}}
 \newlabel{fig:perturbation_results}{{14}{14}}
-\bibstyle{IEEEtran}
-\bibdata{Refs}
-\bibcite{Mohammadi2012}{1}
-\bibcite{Hlinka2012}{2}
-\bibcite{Rabbat2016}{3}
-\bibcite{Chao2015}{4}

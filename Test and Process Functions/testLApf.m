@@ -21,9 +21,9 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = [1,5:5:35];
+gossip_vector = [10:5:35];
 N_vector = 500; 
-m_vector = [1, 3, 6, 10, 20, 50];
+m_vector = [6,20,50,100]; %[1, 3, 6, 10, 20, 50];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -37,7 +37,7 @@ sim_parameters.parallel = true;
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = false;
+sim_parameters.gossip = true;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -63,7 +63,7 @@ for i=1:numel(gossip_vector)
 
         % Store the tracking results
         filename{i} = ['Track3_LApf'];
-%         filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
+        filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
         filename{i} = [filename{i},'_m',num2str(parameters.F.LA.m)];
         filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
         filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];

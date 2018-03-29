@@ -97,4 +97,4 @@ gamma_exact = gamma_exact-max(gamma_exact);
 weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
 weight_exact = weight_exact/sum(weight_exact);
 
-weight_dif = weight_exact-particle_weights;
+weight_dif = norm(weight_exact-particle_weights);

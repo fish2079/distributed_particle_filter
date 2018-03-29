@@ -50,6 +50,7 @@ graph_time = toc(graph_tic);
 % Do eigenvalue decomposition of Laplacian matrix
 eig_time_tic = tic;
 [V_full,~] = eig(L);
+% V_full = F.LA.V_full;
 eig_time = toc(eig_time_tic);
 
 % Select the m smallest eigenvectors;
@@ -90,10 +91,10 @@ particle_weights = particle_weights./sum(particle_weights);
 % Debug part
 gamma_exact = sum(log_lh_ss);
 
-gamma_dif = gamma_approx-gamma_exact;
+gamma_dif = norm(gamma_approx-gamma_exact);
 
 gamma_exact = gamma_exact-max(gamma_exact);
 weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
 weight_exact = weight_exact/sum(weight_exact);
 
-weight_dif = weight_exact-particle_weights;
+weight_dif = norm(weight_exact-particle_weights);

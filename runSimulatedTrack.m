@@ -36,8 +36,6 @@ function [results, parameters]= runSimulatedTrack(sim_parameters)
 % for consistency
 rng('default');
 
-
-
 % The struct S contains all relevant parameters for the target track
 [S, dynamic] = buildTrackParameters(sim_parameters);
 
@@ -149,11 +147,17 @@ parameters.F = F;
 % Run all trials in parallel if required
 if (parameters.parallel)
     parfor i = 1:parameters.no_trials
+        rng(i,'twister');
         % Run one single trial
-        [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+        try
+            [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
+        catch ME
+            i
+        end
     end
 else
     for i = 1:parameters.no_trials
+        rng(i,'twister');
         % Run one single trial
         [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end

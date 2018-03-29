@@ -14,7 +14,7 @@
 \maketitle
 
 \section{Introduction}
-In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the joint log-likelihood function using six global sufficient statistics that can be computed using distributed summation. The second filter uses likelihood consensus to approximate the measurement function with a number of basis functions. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are then recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}~\cite{Mohammadi2012}, \textbf{LCpf}~\cite{Hlinka2012}, \textbf{LApf}~\cite{Rabbat2016} and \textbf{Clusterpf}~\cite{Chao2015} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
+In this report we present four distributed particle filters for single-target bearing-only tracking. The first filter factorizes the joint log-likelihood function using six sufficient statistics that can be computed using distributed summation. The second filter uses likelihood consensus to encode the particle log-likelihoods using a small number of basis functions. The third filter constructs a graph over all particles and the Eigenvectors of the resulting Laplacian matrix are used to encode the particle log-likelihood using a minimal number of coefficients. Finally, the fourth filter groups all particles into clusters and computes the cluster joint likelihood. The individual particle weights are then recovered via convex minimization. For the remainder of the report, we refer to the four particle filters as \textbf{CSSpf}~\cite{Mohammadi2012}, \textbf{LCpf}~\cite{Hlinka2012}, \textbf{LApf}~\cite{Rabbat2016} and \textbf{Clusterpf}~\cite{Chao2015} respectively. We also include the centralized \textit{bootstrap particle filter} (\textbf{BSpf}) as baseline. 
 
 The remainder of the report is organized as follows. Sec.~\ref{sec:problem} defines the tracking problem. Sec.~\ref{sec:pf} presents the particle filters. Sec.~\ref{sec:evaluation} compares the filters' performance and Sec.~\ref{sec:conclusion} concludes the report. 
 
@@ -37,10 +37,9 @@ The objective is to estimate the posterior target density $p(X(k)|z_1(k),...,z_S
 \label{sec:pf}
 In a particle filter, the posterior target density is modeled using a set of $N$ particles with normalized weights $\{X_i(k), w_i(k)\}_{i=1}^N$, and the objective is to recursively estimate the posterior particle weights. This in turn requires the computation of joint log-likelihood:
 \begin{align}
-w_i(k) \propto \log(f(z_1(k),...z_S(k)|X_i(k))) &\propto \sum_{s=1}^S \frac{-(z_s-H_s(X))^2}{2\sigma_s^2} \nonumber \\ 
-&= \sum_{s=1}^S \frac{-(z_s)^2-H_s(X)^2+2z_sH_s(X)}{2\sigma_s^2} \label{eqn:log_lh_normal}
+w_i(k) \propto \log(f(z_1(k),...z_S(k)|X_i(k))) = \sum_{s=1}^S \log(f(z_s(k)|X_i(k))) \label{eqn:log_lh_normal}
 \end{align}
-where measurements from different sensors are assumed conditionally independent. 
+where measurements from different sensors are considered to be conditionally independent. 
 
 For the remainder of this section, we present four distributed particle filters which compute the joint log-likelihood in different manners. We omit time step indice $k$ where there is no ambiguity. For convenience of notation, let $\gamma_s = [\log (f(z_s|X_1), ... \log (f(z_s|x_N))]^T$ denote the column vector of the $N$ particle log-likelihoods at sensor $s$. Similarly, let $\gamma = [\log (f(z_1, ..., z_S|X_1), ... \log (f(z_1, ..., z_S|x_N))]^T$ denote the column vector of joint log-likelihood. 
 
@@ -81,27 +80,27 @@ This formulation leads to the following approximate joint log-likelihood functio
 where the summation terms $\left(\sum_{s=1}^S G_{s,j}\right)$ can be interpreted as the global sufficient statistics. These global sufficient statistics can be computed in a distributed manner by running six consensus algorithms in parallel. The six basis functions of CSSpf are specifically tailored for bearing-only tracking. For other measurement model, re-derivation of the filter is required. 
 
 \subsection{Likelihood consensus particle filter}
-In LCpf, we approximate the measurement function as follows:
+In LCpf, we approximate the log-likelihood function as follows:
 \begin{equation}
-\hat{H}_s(X) = \sum_{j=1}^J \alpha_{s,j} \beta_j(X)
+\log(f(z_s|X)) \approx \sum_{j=1}^J \alpha_{s,j} \beta_j(X)
 \label{eqn:Hx_LC}
 \end{equation}
-where $\beta_j(X)$ is the $j^{th}$ sensor-independent basis function and $\alpha_{s,j}$ is the corresponding coefficient that encompasses all the local information of sensor $s$. %Note that $\alpha_{s,j}$ is analogous to $G_{s,j}$ and $\beta_J(X)$ is analogous to $F_j(X)$.  
+where $\beta_j(X)$ is the $j^{th}$ sensor-independent basis function and $\alpha_{s,j}$ is the corresponding coefficient that encompasses all the local information of sensor $s$. We note that the CSSpf can be seen as a special case of LCpf and that $\alpha_{s,j}$ is analogous to $G_{s,j}$ and $\beta_J(X)$ is analogous to $F_j(X)$.  
 
-Plugging Eq.~\eqref{eqn:Hx_LC} into Eq.~\eqref{eqn:log_lh_normal} yields
-\begin{align}
-\log(f(z_1,...z_S|X)) &\propto -\sum_{s=1}^S \frac{(z_s)^2}{2\sigma_s^2} -\sum_{s=1}^S \frac{\left( \sum_{j=1}^J \alpha_{s,j} \beta_j(X)\right)^2}{2\sigma_s^2} + \sum_{s=1}^S \frac{z_s\sum_{j=1}^J \alpha_{s,j} \beta_j(X)}{\sigma_s^2} \nonumber \\
-&= -\frac{\sum_{s=1}^s(z_s)^2}{2\sigma_s^2} - \sum_{j_1=1}^J\sum_{j_2=1}^J\frac{\sum_{s=1}^s \alpha_{s,j_1}\alpha_{s,j_2} \beta_{j_1}(X)\beta_{j_2}(X)}{2\sigma_s^2}+ \sum_{j=1}^J\frac{\sum_{s=1}^S z_s \alpha_{s,j} \beta_j(X)}{\sigma_s^2} \nonumber \\
-&= -\frac{\sum_{s=1}^S(z_s)^2}{2\sigma_s^2} - \sum_{m=1}^MB_{m}(X)\left(\sum_{s=1}^S\frac{A_{s,m} }{2\sigma_s^2}\right)+ \sum_{j=1}^J\beta_j(X)\left(\sum_{s=1}^S\frac{z_s \alpha_{s,j} }{\sigma_s^2}\right)
-\label{eqn:joint_log_lh_LC}
-\end{align}
-where, for the last equality, we employ a suitable mapping $m\rightarrow (j_1,j_2)$, $M=J^2$, $B_m(X)=\beta_{j_1}(X)\beta_{j_2}(X)$ and $A_{s,m} = \alpha_{s,j_1}\alpha_{s,j_2}$. 
-
-Eq.~\eqref{eqn:joint_log_lh_LC} suggests that the joint log-likelihood can be constructed using $M+J = J^2+J$ consensus algorithms in parallel to compute the global sufficient statistics $\sum_{s=1}^S \frac{A_{s,m}}{2\sigma_s^2}$ and $\sum_{s=1}^S \frac{z_s\alpha_{s,j}}{\sigma_s^2}$. The first term in Eq.~\eqref{eqn:joint_log_lh_LC} is constant and can thus be ignored. 
+%Plugging Eq.~\eqref{eqn:Hx_LC} into Eq.~\eqref{eqn:log_lh_normal} yields
+%\begin{align}
+%\log(f(z_1,...z_S|X)) &\propto -\sum_{s=1}^S \frac{(z_s)^2}{2\sigma_s^2} -\sum_{s=1}^S \frac{\left( \sum_{j=1}^J \alpha_{s,j} \beta_j(X)\right)^2}{2\sigma_s^2} + \sum_{s=1}^S \frac{z_s\sum_{j=1}^J \alpha_{s,j} \beta_j(X)}{\sigma_s^2} \nonumber \\
+%&= -\frac{\sum_{s=1}^s(z_s)^2}{2\sigma_s^2} - \sum_{j_1=1}^J\sum_{j_2=1}^J\frac{\sum_{s=1}^s \alpha_{s,j_1}\alpha_{s,j_2} \beta_{j_1}(X)\beta_{j_2}(X)}{2\sigma_s^2}+ \sum_{j=1}^J\frac{\sum_{s=1}^S z_s \alpha_{s,j} \beta_j(X)}{\sigma_s^2} \nonumber \\
+%&= -\frac{\sum_{s=1}^S(z_s)^2}{2\sigma_s^2} - \sum_{m=1}^MB_{m}(X)\left(\sum_{s=1}^S\frac{A_{s,m} }{2\sigma_s^2}\right)+ \sum_{j=1}^J\beta_j(X)\left(\sum_{s=1}^S\frac{z_s \alpha_{s,j} }{\sigma_s^2}\right)
+%\label{eqn:joint_log_lh_LC}
+%\end{align}
+%where, for the last equality, we employ a suitable mapping $m\rightarrow (j_1,j_2)$, $M=J^2$, $B_m(X)=\beta_{j_1}(X)\beta_{j_2}(X)$ and $A_{s,m} = \alpha_{s,j_1}\alpha_{s,j_2}$. 
+%
+%Eq.~\eqref{eqn:joint_log_lh_LC} suggests that the joint log-likelihood can be constructed using $M+J = J^2+J$ consensus algorithms in parallel to compute the global sufficient statistics $\sum_{s=1}^S \frac{A_{s,m}}{2\sigma_s^2}$ and $\sum_{s=1}^S \frac{z_s\alpha_{s,j}}{\sigma_s^2}$. The first term in Eq.~\eqref{eqn:joint_log_lh_LC} is constant and can thus be ignored. 
 
 %We now describe how to compute the coefficients $\alpha_{s,j}$ using the least-square approach. 
 
-For each sensor $s$, we construct the following column vector $\Lambda_s = [ H_s(X_1), ... H_s(X_N)  ]^T$ where $T$ denotes the transpose operation. Given the $N$ particles $X_i$, we construct the $N\times J$ matrix $\Phi$ as follows:
+For each sensor $s$, we construct the column vector $\gamma_s = [ \log(f(z_s|X_1)), ... \log(f(z_s|X_N))  ]^T$ where $T$ denotes the transpose operation. Given the $N$ particles $X_i$, we construct the $N\times J$ matrix $\Phi$ as follows:
 \begin{equation}
 \Phi=\left(
 \begin{array}{ccc}
@@ -113,12 +112,14 @@ For each sensor $s$, we construct the following column vector $\Lambda_s = [ H_s
 \label{eqn:beta_matrix}
 \end{equation}
 
-We seek a set of coefficients $\alpha_s = [\alpha_{s,1},...\alpha_{s,J}]^T$ such that the approximation error $\Lambda_s - \Phi \alpha_s$ is minimized. Using the least-square approach yields the coefficients vector
+We seek a set of coefficients $\alpha_s = [\alpha_{s,1},...\alpha_{s,J}]^T$ such that the approximation error $\gamma_s - \Phi \alpha_s$ is minimized. Using the least-square approach yields the coefficients vector
 \begin{equation}
-\alpha_s = (\Phi^T\Phi)^{-1}\Phi^T\Lambda_s
+\alpha_s = (\Phi^T\Phi)^{-1}\Phi^T\gamma_s
 \end{equation}
 
-We note that the LCpf is not restricted to approximating the measurement function only. The same approach can be applied to estimate the particle log-likelihoods directly as in the case of CSSpf. %The communication overhead per sensor depends directly on the number of coefficients which may in turn depend on the number of particles and other factors.
+As in the case of CSSpf, computing the joint log-likelihood amounts to running $J$ consensus algorithms in parallel and computing $\sum_{s=1}^S \alpha_{s,j}, j=1...J$.
+
+%We note that the LCpf is not restricted to approximating the measurement function only. The same approach can be applied to estimate the particle log-likelihoods directly as in the case of CSSpf. %The communication overhead per sensor depends directly on the number of coefficients which may in turn depend on the number of particles and other factors.
 
 \subsection{Laplacian approximation particle filter}
 In LApf, we consider each particle $X_i$ a vertex on a graph. The \textit{Delaunay triangulation} (DT) is used to generate the graph edges. The resulting Laplacian matrix is used to construct a transformation that encodes particle log-likelihoods using a minimal number of coefficients. 
@@ -150,6 +151,19 @@ In order to recover the individual particle joint log-likelihoods $\gamma$, we a
 \text{subject to}& \quad A_C\gamma = \gamma^c
 \end{align}
 In other words, we seek to assign particle log-likelihood values that are smooth with respect to particle proximity while ensuring the aggregate particle values are equal to the cluster value. As in the case of LApf, the Clusterpf requires that all sensors have the same particles. 
+
+\subsection{Computational overhead}
+In this section we compare the computational overhead of the four filters. More specifically, we compare the overhead for particle log-likelihood computation.
+
+Consider first CSSpf. Each sensor computes the six local sufficient statistics with complexity $O(6N)$. These statistics are then aggregated via distributed consensus with complexity $O(6S*NGossip)$. Finally, the log-likelihoods are computed at all sensors using the global sufficient statistics with complexity $O(6S*N)$. Thus, the overall complexity of CSSpf is thus $O(6S*N+S*NGossip+6S*N)$. Since $N>NGossip$ in general, the complexity is dominated by $\underline{O(6S*N)}$. 
+
+Consider next LCpf. Let $J$ denote the number of basis functions. Each sensor needs to generate a $N\times J$ matrix to compute the local coefficients. Then $J$ coefficients are aggregated via distributed consensus over $NGossip$ iterations. The log-likelihoods are finally computed from the global coefficients. The overall complexity is thus $O(S*N*J+S*NGossip*J+S*N) \subset \underline{O(S*N*J)}$. 
+
+Consider next LApf. The Delaunay triangulation for graph construction has complexity $O(N\log(N))$. The eigenvalue decomposition has complexity $O(N^3)$. Assume $m$ eigenvectors are used to decode the local log-likelihoods. Then $m$ scalars are aggregated via distributed consensus. The joint log-likelihoods are then recovered from the $m$ aggregate scalars. The overall complexity is thus $O(S*N\log(N)+S*N^3+S*m*N+S*m*NGossip+S*m*N)\subset \underline{O(S*N^3)}$. 
+
+Finally consider Clusterpf. Particle clustering has complexity $O(N*C*4*I)$ where $I$ is the number of clustering iterations (with default value of 100) and the constant $4$ is the target state dimension. $C$ cluster log-likelihoods are then aggregated across all sensors. We again have Delaunay triangulation for graph construction. The log-likelihood is recovered via convex minimization with complexity $O(\sqrt{N})$. The overall complexity is thus $O(S*N*C*4*I+S*C*NGossip + S*N\log(N)+S\sqrt{N})\subset O(S*N*C*I+S*N\log(N))$. Since we can assume that $C*I > \log(N)$ (i.e., for $N=10^4$, $C=4$, $C*I>\log(N)$ for $I>2$), the complexity is dominated by $\underline{O(S*N*C*I)}$
+
+Overall, CSSpf has the lowest computational overhead whereas LApf has the highest overhead due to the eigenvalue decomposition. For $6<J\leq N$, LCpf has the second lowest overhead. 
 
 \section{Performance evaluation}
 \label{sec:evaluation}
@@ -223,7 +237,7 @@ where $\sigma_a=10^{-4}$, and $\sigma_{\theta}=0.0873\text{ rad} = 5 \text{ degr
 \subsection{Algorithm setup}
 All particle filters use a total of $N=500$ particles. At time step 1, we generate the initial particles using the true target state: $X_i(1) \sim \mathcal{N}(X(1), R_{\text{initial}})$ with $R_{\text{initial}}=\text{diag}([0.5^2,0.5^2,0.05^2,0.05^2])$. 
 
-For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_t^j$ with $0\leq i, j \leq d$ where $d$ is some user-specified max degree. For $d=2$, the basis functions would be $\beta_1(X) = x_t^0 y_t^0 = 1, \beta_2(X) = x_t^0 y_t^1 = y_t, ..., \beta_9(X) = x_t^2 y_t^2 $. Note that, due to our choice of basis functions, all particles must remain synchronized across all sensors as in the case of LApf and Clusterpf. For LApf, we construct a DT graph and retain $m< N$ eigenvectors as the basis of Laplacian transformation. For Clusterpf, all particles are grouped into $C$ clusters and a DT graph is constructed to recover individual particle weights. 
+For LCpf, we use a set of basis functions involving all permutations of $x_t^iy_t^j$ with $0\leq i, j \leq d$ where $d$ is some user-specified max degree. (i.e., For $d=2$, the basis functions would be $\beta_1(X) = x_t^0 y_t^0 = 1, \beta_2(X) = x_t^0 y_t^1 = y_t, ..., \beta_9(X) = x_t^2 y_t^2 $.) Note that, due to our choice of basis functions, all particles must remain synchronized across all sensors as in the case of LApf and Clusterpf. For LApf, we construct a DT graph and retain $m< N$ eigenvectors as the basis of Laplacian transformation. For Clusterpf, all particles are grouped into $C$ clusters and a DT graph is constructed to recover individual particle weights. 
 
 The random number generators are synchronized to ensure that the particles remain the same across sensors. Distributed summation is performed using gossip algorithms. At each time step, we perform $NGossip$ gossip iterations. At each gossip iteration, each sensor $i$ broadcasts its local values $G_i$, receives broadcasts from its neighbors, and then updates its local values as a weighted aggregate:
 \begin{align}
@@ -245,27 +259,14 @@ G_{\text{final}} = W^{NGossip}G_{\text{initial}}
 
 In the remainder of the section, we run a number of Monte Carlo simulations to evaluate the performance of the four filters. The track remains the same in each trial; but the measurements differ. We evaluate the algorithms' performances using two criterion: \textit{root mean squared error} (RMSE) of position estimate, and \textit{aggregate error ratio} (AER). The first metric is self-explanatory; so we will only explain the last one. Let $G_{gossip}$ denote the vector of the approximate aggregate values computed using gossip and max consensus, and let $G_{exact}$ denote the vector of exact aggregate values. We compute the ratio vector $|\frac{G_{gossip}-G_{exact}}{G_{exact}}|$ and report the average ratio. Ideally, for $NGossip$ approaching infinity, the ratio approaches 0 as the approximate value approaches the exact value. 
 
-\subsection{Computational overhead}
-In this section we compare the computational overhead of the four filters. More specifically, we compare the overhead for particle log-likelihood computation.
-
-Consider first CSSpf. Each sensor computes the six local sufficient statistics with complexity $O(1)$. These statistics are then aggregated via distributed consensus with complexity $O(S*NGossip)$. Finally, the log-likelihoods are computed at all sensors using the global sufficient statistics with complexity $O(S*N)$. Thus, the overall complexity of CSSpf is thus $O(S+S*NGossip+S*N)$. Since $N>NGossip$ in general, the complexity is dominated by $\underline{O(S*N)}$. 
-
-Consider next LCpf. Let $J$ denote the number of basis functions. Each sensor needs to generate a $N\times J$ matrix to compute the local coefficients. Then $J^2+J$ coefficients are aggregated via distributed consensus over $NGossip$ iterations. The log-likelihoods are finally computed from the global coefficients. The overall complexity is thus $O(S*N*J+S*NGossip*(J^2+J)+S*N) \subset \underline{O(S*N*J+S*NGossip*J^2)}$. 
-
-Consider next LApf. The Delaunay triangulation for graph construction has complexity $O(N\log(N))$. The eigenvalue decomposition has complexity $O(N^3)$. Assume $m$ eigenvectors are used to decode the local log-likelihoods. Then $m$ scalars are aggregated via distributed consensus. The joint log-likelihoods are then recovered from the $m$ aggregate scalars. The overall complexity is thus $O(S*N\log(N)+S*N^3+m*N^2+S*m*NGossip+S*N)\subset \underline{O(S*N^3)}$. 
-
-Finally consider Clusterpf. Particle clustering has complexity $O(N*C*4*I)$ where $I$ is the number of clustering iterations (with default value of 100) and the constant $4$ is the target state dimension. $C$ cluster log-likelihoods are then aggregated across all sensors. We again have Delaunay triangulation for graph construction. The log-likelihood is recovered via convex minimization with complexity $O(\sqrt{N})$. The overall complexity is thus $O(S*N*C*4*I+S*C*NGossip + S*N\log(N)+S\sqrt{N})\subset \underline{O(S*N*C+S*N\log(N))}$
-
-Overall, CSSpf has the lowest overhead and LApf has the highest overhead due to the eigenvalue decomposition. 
-
 \subsection{Constraint sufficient statistics particle filter}
-Consider first CSSpf. Each sensor needs to broadcast $6NGossip$ scalars at each time step. We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for different values of $N$. Each data point is averaged over 50 time steps and 200 Monte Carlo trials. 
+Consider first CSSpf. Each sensor needs to broadcast $6NGossip$ scalars at each time step. We thus study the trade-off between communication overhead and tracking performance. Fig.~\ref{fig:results_CSSpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for different values of $N$. %Each data point is averaged over 50 time steps and 200 Monte Carlo trials. 
 
-The RMSE is very high for $NGossip=10$ which can be attributed to the gossip algorithms not converging in such few iterations and leading to high errors in the final values of the global sufficient statistics. For $NGossip\geq 20$, the RMSE is fairly constant and more gossip iterations and more particles do not yield significant improvement in tracking performance. 
+The RMSE is very high for $NGossip< 20$ which can be attributed to the gossip algorithm not converging in such few iterations and having high errors in the final values of the global sufficient statistics. For $NGossip\geq 20$, the RMSE is fairly constant and more gossip iterations and more particles do not yield significant improvement in tracking performance. 
 
 %The runtime does not increase with higher $NGossip$ due to our implementation of the gossip algorithms. When $N$ increases, the runtime increases as expected. 
 
-With increasing $NGossip$, the AER decreases exponentially (note the log-scale of the Y-axis). For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the AER does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
+With increasing $NGossip$, the AER decreases exponentially (note the log-scale of the Y-axis) and drops sharply for $NGossip \geq 50$. For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the AER does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
 
 \begin{figure}
 \centering
@@ -283,39 +284,39 @@ With increasing $NGossip$, the AER decreases exponentially (note the log-scale o
 \end{figure}
 
 \subsection{Likelihood consensus particle filter}
-The max degree $d$ offers a trade-off between tracking performance and computational/communication overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation, more communication and longer runtime. In fact, the total number of basis functions grows exponentially at $O(d^2)$ and the number of broadcast scalars grows at $O(d^4)$. 
+The max degree $d$ offers a trade-off between tracking performance and computational/communication overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation, more communication and longer runtime. In fact, the total number of basis functions $J$ grows exponentially at $O(d^2)$. 
 
-Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runtime with respect to $d$. Note that, for this particular set of trials, all summations are computed exactly without gossiping. The runtime increases for higher $d$ due to the additional computational overhead as expected. For all values of $d$, the RMSE remains fairly constant. This suggests that additional basis functions from $d\geq 1$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To confirm our conjecture, we compute the following metric. Let $H_{true}(X_i)$ denote the expected measurement of particle $X_i$ and let $H_{approx}(X_i)$ denote the approximate value computed using the basis functions. We then compute the measurement model approximation error $|H_{exact}(X_i)-H_{approx}(X_i)|$ averaged over all particles, all sensors and all time steps. Fig.~\ref{fig:boxplot_LCpf_meas_approx_error} shows the boxplot of average measurement model approximation error with respect to $d$. While the average error does fluctuate somewhat with respect to $d$, the error remains very small in all cases (less than 1 degree) compared to the standard deviation of measurement noise (5 degrees). These results suggest that $d=1$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
-
-\begin{figure}
-\centering
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LCpf_RMSE_maxDegree}}
-\end{subfigure}
-\begin{subfigure}[total runtime]
-{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LCpf_time_maxDegree}}
-\end{subfigure}
-\begin{subfigure}[Measurement approximation error]
-{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LCpf_mea_approx_error_maxDegree}\label{fig:boxplot_LCpf_meas_approx_error}}
-\end{subfigure}
-\caption{Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}
-\label{fig:results_LCpf_maxDegree}
-\end{figure}
+Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE with respect to $d$. Note that, for this particular set of trials, all summations are computed exactly without gossiping. For all values of $d>1$, the RMSE remains fairly constant. This suggests that additional basis functions from $d>2$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To verify our conjecture, we compute the following metric. Let $W_{\text{true}}$ denote the true particle weights and let $W_{\text{approx}}$ denote the approximate weights. We compute and report $|W_{\text{true}}-W_{\text{approx}}|$ in Fig.~\ref{fig:boxplot_LCpf_weight_approx_error}. With the exception of $d=1$, the weight error is fairly constant. These results suggest that $d=2$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_RMSE}}
+{\includegraphics[width=0.47\textwidth]{Figures/boxplot_LCpf_RMSE_maxDegree}
+\label{fig:results_LCpf_maxDegree}}
 \end{subfigure}
 %\begin{subfigure}[total runtime]
-%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
+%{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LCpf_time_maxDegree}}
 %\end{subfigure}
-\begin{subfigure}[AER]
-{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_AER}}
+\begin{subfigure}[Measurement approximation error]
+{\includegraphics[width=0.47\textwidth]{Figures/boxplot_LCpf_weight_approx_error_maxDegree}\label{fig:boxplot_LCpf_weight_approx_error}}
 \end{subfigure}
-\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
-\label{fig:results_LCpf}
+\caption{Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}
 \end{figure}
+
+%\begin{figure}
+%\centering
+%\begin{subfigure}[RMSE]
+%{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_RMSE}}
+%\end{subfigure}
+%%\begin{subfigure}[total runtime]
+%%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
+%%\end{subfigure}
+%\begin{subfigure}[AER]
+%{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_AER}}
+%\end{subfigure}
+%\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
+%\label{fig:results_LCpf}
+%\end{figure}
 
 \begin{figure}
 \centering
@@ -328,37 +329,35 @@ Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE and total runti
 \begin{subfigure}[AER]
 {\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_llh_AER}}
 \end{subfigure}
-\caption{RMSE AER of LCpf\_llh with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
+\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LCpf_llh}
 \end{figure}
 
-Fig.~\ref{fig:results_LCpf} shows the boxplots of RMSE and AER with respect to number of gossip iterations for $d=1$ and different values of $N$. Each data point is averaged over 50 time steps and 200 random trials. For LCpf, a minimal of 40 gossip iterations is necessary to yield adequate tracking performance. Furthermore, at $d=1$, each sensor needs to broadcast 20 scalars per gossip iteration. In other words, the communication overhead of LCpf is 6 times that of CSSpf (thrice the scalars to aggregate and twice as many gossip iterations) to achieve similar tracking performance as CSSpf. If we compare Fig. 2(b) and Fig. 4(b), we note that CSSpf and LCpf exhibit very similar level of AER for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed summation. %Furthermore, LCpf requires double the runtime of CSSpf with the total runtime increasing for higher $N$. 
+Fig.~\ref{fig:results_LCpf_llh} shows the average RMSE and AER with respect to number of gossip iterations for $d=2$ and different values of $N$. For LCpf, a minimal of 35 gossip iterations is necessary to yield adequate tracking performance. Furthermore, at $d=2$, each sensor needs to broadcast 9 scalars per gossip iteration. In other words, the communication overhead of LCpf is 3 times that of CSSpf to achieve similar tracking performance as CSSpf. %If we compare Fig. 2(b) and Fig. 4(b), we note that CSSpf and LCpf exhibit very similar level of AER for the same $NGossip$. This suggests that LCpf is significantly more susceptible to error induced by distributed summation. %Furthermore, LCpf requires double the runtime of CSSpf with the total runtime increasing for higher $N$. 
 
 \subsection{Laplacian approximation particle filter}
+The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{fig:results_LApf} shows the RMSE and AER of LApf with respect to $NGossip$ for different values of $m$ and $N=500$. 
+
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/curve_LApf_RMSE}}
+{\includegraphics[width=0.47\textwidth]{Figures/curve_LApf_RMSE}}
 \end{subfigure}
 %\begin{subfigure}[total runtime]
 %{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LApf_time}}
 %\end{subfigure}
 \begin{subfigure}[AER]
-{\includegraphics[width=0.49\textwidth]{Figures/curve_LApf_AER}}
+{\includegraphics[width=0.47\textwidth]{Figures/curve_LApf_AER}}
 \end{subfigure}
 \caption{RMSE and AER of LApf with respect to $NGossip$ for $N=500$ and different values of $m$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LApf}
 \end{figure}
 
-The LApf has one parameter of interest: $m$, the number of eigenvectors to encode the particle log-likelihoods. Fig.~\ref{fig:results_LApf} shows the RMSE and AER of LApf with respect $NGossip$ for different values of $m$ and $N=500$. Each data point is averaged over 50 time steps and 200 random trials.
-
-Consider first RMSE. We do not show the curve for $m=1$ as the filter breaks down and yields an average RMSE over 12. For $m=3$, the RMSE is significantly higher than the other curves. This suggests that a minimum number of eigenvectors is needed to encode particle log-likelihoods without significant information loss. As we increase $m$, the RMSE improves as expected; although the difference is quite marginal for $m\geq 6$. 
+Consider first RMSE. We do not show the curve for $m=1$ as the filter breaks down and yields an average RMSE over 12. For $m=3$, the RMSE is significantly higher than the other curves. This suggests that a minimum number of eigenvectors is needed to encode particle log-likelihoods without significant information loss. As we increase $m$, the RMSE decreases as expected; although the difference is quite marginal for $m\geq 6$. 
 
 More interestingly, as few as 10 gossip iterations per time step are sufficient to yield robust tracking performance even though the AER of LApf is quite close to that of CSSpf and LCpf for the same $NGossip$ and $N$. This would suggest that LApf is much more robust to gossiping error. 
 
-%Finally, the runtime is significantly higher than that of CSSpf and LCpf but remains fairly constant.  The eigenvalue decomposition accounts for the bulk of the computational overhead and its overhead is independent of the values of $NGossip$ and $m$. 
-
-To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $\hat{w}_i$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $w_i$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. The error is highest at $m=1$ (by almost a factor of 10). At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
+To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $W_{\text{approx}}i$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $W_{\text{exact}}$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. The error is highest at $m=1$ (by almost a factor of 10). At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
 
 \begin{figure}
 \centering
@@ -368,6 +367,8 @@ To confirm our conjecture regarding the choice of $m$, we compute the following 
 \end{figure}
 
 \subsection{Cluster particle filter}
+The number of clusters $C$ offers a trade-off between tracking performance and computational/communication overhead. Higher number of clusters should yield better performance albeit at higher overhead. In fact, it is clear that the parameter $C$ is analogous to $m$ in LApf. Fig.~\ref{fig:results_Clusterpf} shows the tracking results. 
+
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
@@ -390,9 +391,7 @@ To confirm our conjecture regarding the choice of $m$, we compute the following 
 \label{fig:boxplot_Clusterpf_weight_discrepancy}
 \end{figure}
 
-The number of clusters $C$ offers a trade-off between tracking performance and computational/communication overhead. Higher number of clusters should yield better performance albeit at higher overhead. In fact, it is clear that the parameter $C$ is analogous to $m$ in LApf. Fig.~\ref{fig:results_Clusterpf} shows the tracking results. 
-
-Again, we omit the curve for $C=1$ as the filer breaks down and yields an RMSE above 12. For $C\geq 6$, the RMSE is quite consistent for $NGossip \geq 6$. As in the case of LApf, Clusterpf is quite robust to gossiping error and yields good performance for $NGossip \geq 5$. 
+Again, we omit the curve for $C=1$ as the filter breaks down and yields an RMSE above 12. For $C\geq 6$, the RMSE is quite consistent for $NGossip \geq 6$. As in the case of LApf, Clusterpf is quite robust to gossiping error and yields good performance for $NGossip \geq 5$. 
 
 As in the case of LApf, we compute and report the average weight discrepancy in Fig.~\ref{fig:boxplot_Clusterpf_weight_discrepancy}. The discrepancy is highest at $C=1$ as expected. Increasing $C$ from 6 to 75 decreases the approximation error by no more than half at the cost of a tenfold increase in communication overhead. 
 
@@ -467,6 +466,18 @@ Fig.~\ref{fig:Track2_results} shows the tracking results for track 3. BSpf has t
 %{\includegraphics[width=0.65\textwidth]{Figures/Track2_runtime}}
 %\end{subfigure}
 \caption{Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}
+\label{fig:Track2_results}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.75\textwidth]{Figures/RMSE_vs_overhead}}
+\end{subfigure}
+\begin{subfigure}[RMSE]
+{\includegraphics[width=0.75\textwidth]{Figures/RMSE_vs_overhead_zoom}}
+\end{subfigure}
+\caption{Average RMSE with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}
 \label{fig:Track2_results}
 \end{figure}
 

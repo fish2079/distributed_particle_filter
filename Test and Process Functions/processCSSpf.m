@@ -10,7 +10,7 @@ plot_color = {'k','r','b','g','y','m'};
 N_vector = [100, 250, 500, 1000];
 
 % Number of gossip iterations
-gossip_vector = [10, 15, 20, 25, 30, 35];
+gossip_vector = [10, 15, 20, 25, 30, 35, 50, 100, 200];
 
 % Number of random trials
 no_trials = 200; 

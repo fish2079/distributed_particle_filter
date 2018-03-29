@@ -22,7 +22,7 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 N = 500; 
-overhead_vector = [60:60:1200];
+overhead_vector = [180:180:1200];
 
 % Number of random trials
 sim_parameters.no_trials = 200;
@@ -38,6 +38,9 @@ sim_parameters.visualizeParticles = false;
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = true;
 
+% Select the track
+sim_parameters.track = 3;
+
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 
@@ -45,17 +48,17 @@ sim_parameters.gossip = true;
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-overhead_factor = [1,6,20,6,6];
+overhead_factor = [1,6,9,6,6];
 % sim_parameters.algorithms = alg_lists([1:5]);
 
 % sim_parameters.areaLength = 125;
-% Loop through each choice of particle number
 sim_parameters.nbEig = 6;
 sim_parameters.nbClusters = 6;
+sim_parameters.max_degree = 2;
 
 sim_parameters.N = N; 
 for i=1:numel(overhead_vector)
-    for alg=2:5
+    for alg=3
         sim_parameters.algorithms = alg_lists(alg);
         sim_parameters.max_gossip_iter = overhead_vector(i)/overhead_factor(alg);
 
@@ -64,8 +67,8 @@ for i=1:numel(overhead_vector)
         [results, parameters]= runSimulatedTrack(sim_parameters);
 
         % Store the tracking results
-        filename{i} = ['Track1_'];
-        filename{i} = [filename{i}, func2str(alg_lists{alg})];
+        filename{i} = ['Track3_'];
+        filename{i} = [filename{i}, func2str(alg_lists{alg}),'_llh_GS'];
         filename{i} = [filename{i}, '_overhead',num2str(overhead_vector(i))];
         filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
         filename{i} = [filename{i},'_N',num2str(parameters.F.N)];

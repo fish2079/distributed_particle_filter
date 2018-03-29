@@ -76,7 +76,7 @@ gamma_approx = quadprog(L,[],[],[],C,log_lh_cluster',[], [], [], options)';
 gamma_time = toc(gamma_tic);
 
 gamma_exact = sum(log_lh_ss);
-gamma_dif = gamma_approx-gamma_exact;
+gamma_dif = norm(gamma_approx-gamma_exact);
 
 gamma = gamma_approx-max(gamma_approx);
 
@@ -101,4 +101,4 @@ gamma_exact = gamma_exact - max(gamma_exact);
 weight_exact = exp(gamma_exact).*x_predicted(d+1,:);
 weight_exact = weight_exact/sum(weight_exact);
 
-weight_dif = weight_exact-particle_weights;
+weight_dif = norm(weight_exact-particle_weights);

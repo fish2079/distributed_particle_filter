@@ -50,13 +50,13 @@ if ~isempty(D.measurements)
 %     [bs_weights] = GaussianLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     if (isfield(details,'gamma_dif'))
-        details.gamma_dif = [details.gamma_dif; gamma_dif];
+        details.gamma_dif = [details.gamma_dif, gamma_dif];
     else
         details.gamma_dif = gamma_dif;
     end
     
     if (isfield(details,'weight_dif'))
-        details.weight_dif = [details.weight_dif; weight_dif];
+        details.weight_dif = [details.weight_dif, weight_dif];
     else
         details.weight_dif = weight_dif;
     end

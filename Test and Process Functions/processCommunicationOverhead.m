@@ -12,11 +12,11 @@
 % jun.y.y.yu@mail.mcgill.ca
 % Nov. 9th, 2017
 
-filepath = 'All PF Results\Track2\';
+filepath = 'All PF Results\Track3\';
 
 % Number of particles for the filter
 N = 500; 
-overhead_vector = [60:60:1200];
+overhead_vector = [180:180:1200];
 
 % Number of random trials
 sim_parameters.no_trials = 200;
@@ -38,8 +38,8 @@ sim_parameters.gossip = true;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-overhead_factor = [1,6,20,6,6];
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed_llh2, @LCpf_distributed_llh_GS, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
+overhead_factor = [1,6,9,9,6,6];
 % sim_parameters.algorithms = alg_lists([1:5]);
 
 % sim_parameters.areaLength = 125;
@@ -61,12 +61,12 @@ for i=1:numel(overhead_vector)
     weight_difFull_sf = [];
     % N_effFull = [];
     aggregate_error_ratioFull_sf = [];
-    for alg=2:5
+    for alg = 2:6
         sim_parameters.algorithms = alg_lists(alg);
         sim_parameters.max_gossip_iter = overhead_vector(i)/overhead_factor(alg);
 
         % Store the tracking results
-        filename = [filepath, 'Track2_'];
+        filename = [filepath, 'Track3_'];
         filename = [filename, func2str(alg_lists{alg})];
         filename = [filename, '_overhead',num2str(overhead_vector(i))];
         filename = [filename, '_gossip',num2str(sim_parameters.max_gossip_iter)];
@@ -87,4 +87,38 @@ for i=1:numel(overhead_vector)
     steptimeFull = cat(4, steptimeFull, steptimeFull_sf);
     weight_difFull = cat(4, weight_difFull, mean(abs(weight_difFull_sf),4));
     aggregate_error_ratioFull = cat(4, aggregate_error_ratioFull, aggregate_error_ratioFull_sf);    
+    
+    xticklabel{i} = num2str(overhead_vector(i));
 end
+
+plot_color = {'y','r','b','g','k','m'};
+
+figure();
+set(gcf,'color','white');
+xlabel('Communication overhead per sensor per time step');
+ylabel('Weight error ratio')
+weight_plot = (squeeze(mean(mean(weight_difFull,2),3)));
+hold on;
+for i=1:size(weight_plot,1)
+    plot(weight_plot(i,:),plot_color{i}, 'linewidth',8);
+end
+set(gca,'xtick', 1:numel(overhead_vector));
+set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',45);
+% legend('CSSpf', 'LCpf-meas (d=20)','LCpf-llh (d=4)','LCpf-llh (d=9)','LApf (m=6)','Clusterpf (C=6)');
+legend('CSSpf', 'LCpf-llh (d=9)','LCpf-llh-GS (d=9)','LApf (m=6)','Clusterpf (C=6)');
+
+figure();
+set(gcf,'color','white');
+xlabel('Communication overhead per sensor per time step');
+ylabel('RMSE')
+RMSE_plot = (squeeze(mean(mean(RMSEFull,2),3)));
+hold on;
+for i=1:size(RMSE_plot,1)
+    plot(RMSE_plot(i,:),plot_color{i}, 'linewidth',8);
+end
+set(gca,'xtick', 1:numel(overhead_vector));
+set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',45);
+% legend('CSSpf', 'LCpf-meas (d=20)','LCpf-llh (d=4)','LCpf-llh (d=9)','LApf (m=6)','Clusterpf (C=6)');
+legend('CSSpf', 'LCpf-llh (d=9)','LCpf-llh-GS (d=9)','LApf (m=6)','Clusterpf (C=6)');

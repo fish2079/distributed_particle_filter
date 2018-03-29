@@ -21,10 +21,10 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-maxDegree_vector = [1:5];
+maxDegree_vector = [1:9];
 
 % Number of random trials
-sim_parameters.no_trials = 40; 
+sim_parameters.no_trials = 200; 
 
 sim_parameters.max_gossip_iter = 25;
 
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 3;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS

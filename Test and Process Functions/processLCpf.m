@@ -1,7 +1,7 @@
 warning('off','all');
 clear;clc;
 
-filepath = 'Individual PF Results\LCpf_llh\';
+filepath = 'Individual PF Results\LCpf_llh_GS\';
 
 % Color
 plot_color = {'k','r','b','g','y','m'};
@@ -11,7 +11,6 @@ N_vector = [100, 250, 500, 1000];
 
 % Number of gossip iterations
 gossip_vector = [10, 15, 20, 25, 30, 35, 40, 45, 50];
-
 
 % Number of random trials
 no_trials = 200; 
@@ -36,7 +35,7 @@ max_degree = 2;
 for i=1:numel(gossip_vector)
     for j=1:numel(N_vector)
         % Load the tracking results
-        filename = [filepath, 'Track3_LCpf'];
+        filename = [filepath, 'Track3_LCpf_GS_'];
         filename = [filename, '_gossip',num2str(gossip_vector(i))];
         filename = [filename,'_maxDegree',num2str(max_degree)];
         filename = [filename,'_N',num2str(N_vector(j))];
@@ -75,6 +74,23 @@ set(gca,'xtick', 1:numel(gossip_vector));
 set(gca,'xticklabel', xticklabel);
 set(gca,'fontsize',45);
 ylim([3,28]);
+
+figure();
+set(gcf,'color','white');
+ylabel('Relative weight error');
+xlabel('NGossip');
+hold on;
+weight_dif_plot = reshape(squeeze(mean(mean(weight_difFull,2),3)), numel(N_vector), numel(gossip_vector));
+legendText = {};
+for i=1:numel(N_vector)
+    plot(weight_dif_plot(i,:),plot_color{i}, 'linewidth',8);
+    legendText{i} = ['N = ', num2str(N_vector(i))];
+end
+legend(legendText);
+set(gca,'xtick', 1:numel(gossip_vector));
+set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',45);
+% ylim([3,28]);
 
 figure();
 set(gcf,'color','white');

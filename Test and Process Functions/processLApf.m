@@ -7,10 +7,10 @@ filepath = 'Individual PF Results\LApf\';
 plot_color = {'k','r','b','g','y','m'};
 
 % Number of particles for the filter
-m_vector = [1, 3, 6, 10, 20, 50, 75, 100];
+m_vector = [1,3, 6, 10,20, 50];
 
 % Number of gossip iterations
-gossip_vector = 1;%[1, 5, 10, 15, 20, 25, 30, 35];
+gossip_vector = [1,5:5:30]; %[1, 5, 10, 15, 20, 25, 30, 35];
 
 
 % Number of random trials
@@ -37,7 +37,7 @@ for i=1:numel(gossip_vector)
     for j=1:numel(m_vector)
         % Load the tracking results
         filename = [filepath, 'Track3_LApf'];
-%         filename = [filename, '_gossip',num2str(gossip_vector(i))];
+        filename = [filename, '_gossip',num2str(gossip_vector(i))];
         filename = [filename,'_m',num2str(m_vector(j))];
         filename = [filename,'_N',num2str(N)];
         filename = [filename,'_trials',num2str(no_trials)];
@@ -58,6 +58,15 @@ for i=1:numel(gossip_vector)
     
     colorgroup = [colorgroup, 1:numel(m_vector)];
 end
+
+figure();
+set(gcf,'color','white');
+boxplot(squeeze((mean(weight_difFull,2))));
+set(gca,'xtick', 1:numel(m_vector));
+set(gca,'xticklabel', {'1', '3', '6', '10', '20', '50', '75', '100'});
+set(gca,'fontsize',45);
+xlabel('m');
+ylabel('Relative error ratio')
 
 figure();
 set(gcf,'color','white');
