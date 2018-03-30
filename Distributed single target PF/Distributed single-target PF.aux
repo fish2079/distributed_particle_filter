@@ -36,10 +36,10 @@
 \newlabel{sub@fig:results_LCpf_maxDegree}{{(a)}{7}}
 \newlabel{fig:boxplot_LCpf_weight_approx_error}{{3(b)}{7}}
 \newlabel{sub@fig:boxplot_LCpf_weight_approx_error}{{(b)}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boxplot of RMSE and average weight approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}}{7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Measurement approximation error}}}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces RMSE and AER of LCpf with respect to $NGossip$ for different values of $N$ ($d$=2). All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{8}}
 \newlabel{fig:results_LCpf_llh}{{4}{8}}
@@ -48,47 +48,44 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{8}}
 \newlabel{fig:results_LApf}{{5}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Laplacian approximation particle filter}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Boxplot of weight discrepancy with respect to $m$}}{9}}
-\newlabel{fig:boxplot_LApf_weight_discrepancy}{{6}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces RMSE and AER of Clusterpf with respect to $NGossip$ for $N=500$ and different values of $C$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cluster particle filter}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces RMSE and AER of Clusterpf with respect to $NGossip$ for $N=500$ and different values of $C$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {AER}}}{9}}
-\newlabel{fig:results_Clusterpf}{{7}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cluster particle filter}{9}}
+\newlabel{fig:results_Clusterpf}{{6}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Target tracks (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{9}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{9}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{9}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{9}}
+\newlabel{fig:test_tracks}{{7}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Performance comparison between filters}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Boxplot of weight discrepancy with respect to $C$}}{10}}
-\newlabel{fig:boxplot_Clusterpf_weight_discrepancy}{{8}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Target tracks (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}}{10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{10}}
-\newlabel{fig:test_tracks}{{9}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials).}}{10}}
+\newlabel{fig:Track1_results}{{8}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{10}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{10}}
-\newlabel{fig:Track3_results}{{10}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{11}}
+\newlabel{fig:Track2_results}{{9}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials).}}{11}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{11}}
-\newlabel{fig:Track1_results}{{11}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{12}}
-\newlabel{fig:Track2_results}{{12}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {RMSE}}}{12}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RMSE}}}{12}}
-\newlabel{fig:Track2_results}{{13}{12}}
+\newlabel{fig:Track3_results}{{10}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Sensitivity analysis of particle filters}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Performance comparison (range measurement model)}{11}}
 \bibstyle{IEEEtran}
 \bibdata{Refs}
 \bibcite{Mohammadi2012}{1}
 \bibcite{Hlinka2012}{2}
 \bibcite{Rabbat2016}{3}
-\bibcite{Chao2015}{4}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Sensitivity analysis of particle filters}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}}
-\newlabel{sec:conclusion}{{6}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Average weight discrepancy between the exact particle weights (BSpf) and approximate particle weights (LCpf, LApf, Clusterpf) with respect to perturbation. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $m=C=6$, all data points are averaged over 50 time steps and 200 Monte-Carlo trials }}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Average total runtime for track 3}}{12}}
+\newlabel{fig:Track3_time}{{11}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{12}}
+\newlabel{sec:conclusion}{{5}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Average weight discrepancy between the exact particle weights (BSpf) and approximate particle weights (LCpf, LApf, Clusterpf) with respect to perturbation. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{13}}
+\newlabel{fig:perturbation_results}{{12}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}}{14}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Track 1}}}{14}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Track 2}}}{14}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Track 3}}}{14}}
-\newlabel{fig:perturbation_results}{{14}{14}}
+\newlabel{fig:Track_range_results}{{13}{14}}
+\bibcite{Chao2015}{4}

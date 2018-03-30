@@ -63,7 +63,7 @@ switch (sim_parameters.track)
         dynamic.p = 0.95;
         dynamic.sigma_a = 0.05;
     case 4
-        S.nb_sensors = 6; 
+        S.nb_sensors = 4; 
         S.grid_sensor = false;
         S.initial = [2,5,5,0]';
         S.area_length = 80;

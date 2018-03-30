@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  28 MAR 2018 23:57
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  29 MAR 2018 21:19
 entering extended mode
 **Distributed*single-target*PF.tex
 
@@ -450,11 +450,7 @@ Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \multicol@sort@counter=\count115
 )
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.aux"
-
-LaTeX Warning: Label `fig:Track2_results' multiply defined.
-
-)
+ target PF\Distributed single-target PF.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
@@ -467,7 +463,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
- (C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+
+(C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count116
 \scratchdimen=\dimen132
@@ -603,14 +600,14 @@ gle target PF/Figures/track.pdf>]
 File: Figures/curve_CSSpf_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/curve_CSSpf_RMSE.pdf>
-Package pdftex.def Info: Figures/curve_CSSpf_RMSE.pdf used on input line 274.
+Package pdftex.def Info: Figures/curve_CSSpf_RMSE.pdf used on input line 272.
 (pdftex.def)             Requested size: 230.18253pt x 136.84782pt.
 
 <Figures/curve_CSSpf_AER.pdf, id=38, 1136.245pt x 645.41125pt>
 File: Figures/curve_CSSpf_AER.pdf Graphic file (type pdf)
 
 <use Figures/curve_CSSpf_AER.pdf>
-Package pdftex.def Info: Figures/curve_CSSpf_AER.pdf used on input line 280.
+Package pdftex.def Info: Figures/curve_CSSpf_AER.pdf used on input line 278.
 (pdftex.def)             Requested size: 230.18253pt x 130.7443pt.
  [6]
 <Figures/boxplot_LCpf_RMSE_maxDegree.pdf, id=42, 1077.02374pt x 656.4525pt>
@@ -618,7 +615,7 @@ File: Figures/boxplot_LCpf_RMSE_maxDegree.pdf Graphic file (type pdf)
 
 <use Figures/boxplot_LCpf_RMSE_maxDegree.pdf>
 Package pdftex.def Info: Figures/boxplot_LCpf_RMSE_maxDegree.pdf used on input 
-line 295.
+line 293.
 (pdftex.def)             Requested size: 220.78543pt x 134.56361pt.
 
 <Figures/boxplot_LCpf_weight_approx_error_maxDegree.pdf, id=43, 1136.245pt x 65
@@ -627,14 +624,14 @@ File: Figures/boxplot_LCpf_weight_approx_error_maxDegree.pdf Graphic file (type
  pdf)
  <use Figures/boxplot_LCpf_weight_approx_error_maxDegree.pdf>
 Package pdftex.def Info: Figures/boxplot_LCpf_weight_approx_error_maxDegree.pdf
- used on input line 301.
+ used on input line 296.
 (pdftex.def)             Requested size: 220.78543pt x 126.96686pt.
 
 <Figures/curve_LCpf_llh_RMSE.pdf, id=44, 1109.14375pt x 624.3325pt>
 File: Figures/curve_LCpf_llh_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/curve_LCpf_llh_RMSE.pdf>
-Package pdftex.def Info: Figures/curve_LCpf_llh_RMSE.pdf used on input line 324
+Package pdftex.def Info: Figures/curve_LCpf_llh_RMSE.pdf used on input line 304
 .
 (pdftex.def)             Requested size: 230.18253pt x 129.56087pt.
 
@@ -642,7 +639,7 @@ Package pdftex.def Info: Figures/curve_LCpf_llh_RMSE.pdf used on input line 324
 File: Figures/curve_LCpf_llh_AER.pdf Graphic file (type pdf)
 
 <use Figures/curve_LCpf_llh_AER.pdf>
-Package pdftex.def Info: Figures/curve_LCpf_llh_AER.pdf used on input line 330.
+Package pdftex.def Info: Figures/curve_LCpf_llh_AER.pdf used on input line 307.
 
 (pdftex.def)             Requested size: 230.18253pt x 126.6776pt.
 
@@ -650,14 +647,14 @@ Package pdftex.def Info: Figures/curve_LCpf_llh_AER.pdf used on input line 330.
 File: Figures/curve_LApf_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/curve_LApf_RMSE.pdf>
-Package pdftex.def Info: Figures/curve_LApf_RMSE.pdf used on input line 344.
+Package pdftex.def Info: Figures/curve_LApf_RMSE.pdf used on input line 321.
 (pdftex.def)             Requested size: 220.78543pt x 107.59613pt.
 
 <Figures/curve_LApf_AER.pdf, id=47, 944.52875pt x 439.6425pt>
 File: Figures/curve_LApf_AER.pdf Graphic file (type pdf)
 
 <use Figures/curve_LApf_AER.pdf>
-Package pdftex.def Info: Figures/curve_LApf_AER.pdf used on input line 350.
+Package pdftex.def Info: Figures/curve_LApf_AER.pdf used on input line 327.
 (pdftex.def)             Requested size: 220.78543pt x 102.7659pt.
  [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/curve_CSSpf_RMSE.pdf> <C:/Users/Jay/Desktop/distributed_p
@@ -666,13 +663,21 @@ df> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/boxplot_LCpf_RMSE_maxDegree.pdf> <C:/Users/Jay/Desktop/di
 stributed_particle_filter.git/trunk/Distributed single target PF/Figures/boxplo
 t_LCpf_weight_approx_error_maxDegree.pdf>]
-<Figures/boxplot_LApf_weight_discrepancy.pdf, id=73, 922.44624pt x 447.6725pt>
-File: Figures/boxplot_LApf_weight_discrepancy.pdf Graphic file (type pdf)
+<Figures/curve_Clusterpf_RMSE.pdf, id=73, 944.52875pt x 491.8375pt>
+File: Figures/curve_Clusterpf_RMSE.pdf Graphic file (type pdf)
 
-<use Figures/boxplot_LApf_weight_discrepancy.pdf>
-Package pdftex.def Info: Figures/boxplot_LApf_weight_discrepancy.pdf used on in
-put line 364.
-(pdftex.def)             Requested size: 281.85587pt x 136.78241pt.
+<use Figures/curve_Clusterpf_RMSE.pdf>
+Package pdftex.def Info: Figures/curve_Clusterpf_RMSE.pdf used on input line 35
+2.
+(pdftex.def)             Requested size: 230.18253pt x 119.85957pt.
+
+<Figures/curve_Clusterpf_AER.pdf, id=74, 944.52875pt x 435.6275pt>
+File: Figures/curve_Clusterpf_AER.pdf Graphic file (type pdf)
+
+<use Figures/curve_Clusterpf_AER.pdf>
+Package pdftex.def Info: Figures/curve_Clusterpf_AER.pdf used on input line 358
+.
+(pdftex.def)             Requested size: 230.18253pt x 106.16133pt.
  [8 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/curve_LCpf_llh_RMSE.pdf> <C:/Users/Jay/Desktop/distribute
 d_particle_filter.git/trunk/Distributed single target PF/Figures/curve_LCpf_llh
@@ -680,179 +685,158 @@ _AER.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distribut
 ed single target PF/Figures/curve_LApf_RMSE.pdf> <C:/Users/Jay/Desktop/distribu
 ted_particle_filter.git/trunk/Distributed single target PF/Figures/curve_LApf_A
 ER.pdf>]
-<Figures/curve_Clusterpf_RMSE.pdf, id=97, 944.52875pt x 491.8375pt>
-File: Figures/curve_Clusterpf_RMSE.pdf Graphic file (type pdf)
-
-<use Figures/curve_Clusterpf_RMSE.pdf>
-Package pdftex.def Info: Figures/curve_Clusterpf_RMSE.pdf used on input line 37
-5.
-(pdftex.def)             Requested size: 230.18253pt x 119.85957pt.
-
-<Figures/curve_Clusterpf_AER.pdf, id=98, 944.52875pt x 435.6275pt>
-File: Figures/curve_Clusterpf_AER.pdf Graphic file (type pdf)
-
-<use Figures/curve_Clusterpf_AER.pdf>
-Package pdftex.def Info: Figures/curve_Clusterpf_AER.pdf used on input line 381
-.
-(pdftex.def)             Requested size: 230.18253pt x 106.16133pt.
-
-<Figures/boxplot_Clusterpf_weight_discrepancy.pdf, id=99, 922.44624pt x 424.586
-24pt>
-File: Figures/boxplot_Clusterpf_weight_discrepancy.pdf Graphic file (type pdf)
- <use Figures/boxplot_Clusterpf_weight_discrepancy.pdf>
-Package pdftex.def Info: Figures/boxplot_Clusterpf_weight_discrepancy.pdf used 
-on input line 389.
-(pdftex.def)             Requested size: 281.85587pt x 129.7286pt.
-File: Figures/track.pdf Graphic file (type pdf)
-
-<use Figures/track.pdf>
-Package pdftex.def Info: Figures/track.pdf used on input line 404.
-(pdftex.def)             Requested size: 150.32504pt x 121.53934pt.
-
-<Figures/track1.pdf, id=100, 801.99625pt x 645.41125pt>
+<Figures/track1.pdf, id=98, 801.99625pt x 645.41125pt>
 File: Figures/track1.pdf Graphic file (type pdf)
 
 <use Figures/track1.pdf>
-Package pdftex.def Info: Figures/track1.pdf used on input line 407.
+Package pdftex.def Info: Figures/track1.pdf used on input line 381.
 (pdftex.def)             Requested size: 150.32504pt x 120.97491pt.
- <Figures/track2.pdf, id=101, 813.0375pt x 660.4675pt>
+ <Figures/track2.pdf, id=99, 813.0375pt x 660.4675pt>
 File: Figures/track2.pdf Graphic file (type pdf)
 
 <use Figures/track2.pdf>
-Package pdftex.def Info: Figures/track2.pdf used on input line 410.
+Package pdftex.def Info: Figures/track2.pdf used on input line 384.
 (pdftex.def)             Requested size: 150.32504pt x 122.11403pt.
 
-<Figures/Track3_RMSE.pdf, id=102, 1092.08pt x 664.4825pt>
-File: Figures/Track3_RMSE.pdf Graphic file (type pdf)
+<Figures/track3.pdf, id=100, 801.99625pt x 648.4225pt>
+File: Figures/track3.pdf Graphic file (type pdf)
 
-<use Figures/Track3_RMSE.pdf>
-Package pdftex.def Info: Figures/Track3_RMSE.pdf used on input line 419.
-(pdftex.def)             Requested size: 230.18253pt x 140.0524pt.
+<use Figures/track3.pdf>
+Package pdftex.def Info: Figures/track3.pdf used on input line 387.
+(pdftex.def)             Requested size: 150.32504pt x 121.53934pt.
 
-<Figures/Track3_RMSE_focus.pdf, id=103, 1101.11375pt x 632.3625pt>
-File: Figures/Track3_RMSE_focus.pdf Graphic file (type pdf)
+<Figures/Track1_bearing_RMSE.pdf, id=101, 1177.39874pt x 656.4525pt>
+File: Figures/Track1_bearing_RMSE.pdf Graphic file (type pdf)
 
-<use Figures/Track3_RMSE_focus.pdf>
-Package pdftex.def Info: Figures/Track3_RMSE_focus.pdf used on input line 422.
-(pdftex.def)             Requested size: 230.18253pt x 132.19215pt.
+<use Figures/Track1_bearing_RMSE.pdf>
+Package pdftex.def Info: Figures/Track1_bearing_RMSE.pdf used on input line 395
+.
+(pdftex.def)             Requested size: 352.31625pt x 196.42642pt.
+
+<Figures/Track2_bearing_RMSE.pdf, id=102, 1177.39874pt x 623.32875pt>
+File: Figures/Track2_bearing_RMSE.pdf Graphic file (type pdf)
+
+<use Figures/Track2_bearing_RMSE.pdf>
+Package pdftex.def Info: Figures/Track2_bearing_RMSE.pdf used on input line 409
+.
+(pdftex.def)             Requested size: 352.31625pt x 186.51498pt.
+
+<Figures/Track3_bearing_RMSE.pdf, id=103, 1139.25626pt x 654.445pt>
+File: Figures/Track3_bearing_RMSE.pdf Graphic file (type pdf)
+
+<use Figures/Track3_bearing_RMSE.pdf>
+Package pdftex.def Info: Figures/Track3_bearing_RMSE.pdf used on input line 428
+.
+(pdftex.def)             Requested size: 352.31625pt x 202.38654pt.
  [9 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/boxplot_LApf_weight_discrepancy.pdf> <C:/Users/Jay/Deskto
-p/distributed_particle_filter.git/trunk/Distributed single target PF/Figures/cu
-rve_Clusterpf_RMSE.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/t
-runk/Distributed single target PF/Figures/curve_Clusterpf_AER.pdf>] [10 <C:/Use
+gle target PF/Figures/curve_Clusterpf_RMSE.pdf> <C:/Users/Jay/Desktop/distribut
+ed_particle_filter.git/trunk/Distributed single target PF/Figures/curve_Cluster
+pf_AER.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distrib
+uted single target PF/Figures/track1.pdf> <C:/Users/Jay/Desktop/distributed_par
+ticle_filter.git/trunk/Distributed single target PF/Figures/track2.pdf> <C:/Use
 rs/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target 
-PF/Figures/boxplot_Clusterpf_weight_discrepancy.pdf> <C:/Users/Jay/Desktop/dist
-ributed_particle_filter.git/trunk/Distributed single target PF/Figures/track1.p
-df> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_fi
-lter.git/trunk/Distributed single target PF/Figures/Track3_RMSE.pdf> <C:/Users/
-Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target PF/
-Figures/Track3_RMSE_focus.pdf>]
-<Figures/Track1_RMSE.pdf, id=150, 1083.04625pt x 654.445pt>
-File: Figures/Track1_RMSE.pdf Graphic file (type pdf)
+PF/Figures/track3.pdf>] [10 <C:/Users/Jay/Desktop/distributed_particle_filter.g
+it/trunk/Distributed single target PF/Figures/Track1_bearing_RMSE.pdf> <C:/User
+s/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target P
+F/Figures/Track2_bearing_RMSE.pdf>]
+<Figures/Track3_bearing_time.pdf, id=145, 1107.13625pt x 668.4975pt>
+File: Figures/Track3_bearing_time.pdf Graphic file (type pdf)
 
-<use Figures/Track1_RMSE.pdf>
-Package pdftex.def Info: Figures/Track1_RMSE.pdf used on input line 446.
-(pdftex.def)             Requested size: 258.36668pt x 156.12134pt.
+<use Figures/Track3_bearing_time.pdf>
+Package pdftex.def Info: Figures/Track3_bearing_time.pdf used on input line 440
+.
+(pdftex.def)             Requested size: 352.31625pt x 212.73012pt.
 
-<Figures/Track2_RMSE.pdf, id=151, 1092.08pt x 664.4825pt>
-File: Figures/Track2_RMSE.pdf Graphic file (type pdf)
-
-<use Figures/Track2_RMSE.pdf>
-Package pdftex.def Info: Figures/Track2_RMSE.pdf used on input line 460.
-(pdftex.def)             Requested size: 230.18253pt x 140.0524pt.
-
-<Figures/Track2_RMSE_focus.pdf, id=152, 1077.02374pt x 654.445pt>
-File: Figures/Track2_RMSE_focus.pdf Graphic file (type pdf)
-
-<use Figures/Track2_RMSE_focus.pdf>
-Package pdftex.def Info: Figures/Track2_RMSE_focus.pdf used on input line 463.
-(pdftex.def)             Requested size: 230.18253pt x 139.8641pt.
-
-<Figures/RMSE_vs_overhead.pdf, id=153, 1033.8625pt x 445.665pt>
-File: Figures/RMSE_vs_overhead.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_vs_overhead.pdf>
-Package pdftex.def Info: Figures/RMSE_vs_overhead.pdf used on input line 475.
-(pdftex.def)             Requested size: 352.31625pt x 151.87091pt.
-
-<Figures/RMSE_vs_overhead_zoom.pdf, id=154, 1033.8625pt x 458.71375pt>
-File: Figures/RMSE_vs_overhead_zoom.pdf Graphic file (type pdf)
-
-<use Figures/RMSE_vs_overhead_zoom.pdf>
-Package pdftex.def Info: Figures/RMSE_vs_overhead_zoom.pdf used on input line 4
-78.
-(pdftex.def)             Requested size: 352.31625pt x 156.31758pt.
- [11 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed si
-ngle target PF/Figures/Track1_RMSE.pdf>] [12 <C:/Users/Jay/Desktop/distributed_
-particle_filter.git/trunk/Distributed single target PF/Figures/Track2_RMSE.pdf>
- <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single
- target PF/Figures/Track2_RMSE_focus.pdf> <C:/Users/Jay/Desktop/distributed_par
-ticle_filter.git/trunk/Distributed single target PF/Figures/RMSE_vs_overhead.pd
-f> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
-le target PF/Figures/RMSE_vs_overhead_zoom.pdf>]
-<Figures/curve_perturbation_track3.pdf, id=186, 956.57375pt x 461.725pt>
-File: Figures/curve_perturbation_track3.pdf Graphic file (type pdf)
-
-<use Figures/curve_perturbation_track3.pdf>
-Package pdftex.def Info: Figures/curve_perturbation_track3.pdf used on input li
-ne 496.
-(pdftex.def)             Requested size: 324.13211pt x 156.44897pt.
-
-<Figures/curve_perturbation_track1.pdf, id=187, 956.57375pt x 461.725pt>
+<Figures/curve_perturbation_track1.pdf, id=146, 1170.3725pt x 658.46pt>
 File: Figures/curve_perturbation_track1.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbation_track1.pdf>
 Package pdftex.def Info: Figures/curve_perturbation_track1.pdf used on input li
-ne 499.
-(pdftex.def)             Requested size: 324.13211pt x 156.44897pt.
+ne 457.
+(pdftex.def)             Requested size: 324.13211pt x 182.3581pt.
 
-<Figures/curve_perturbation_track2.pdf, id=188, 956.57375pt x 461.725pt>
+<Figures/curve_perturbation_track2.pdf, id=147, 1170.3725pt x 658.46pt>
 File: Figures/curve_perturbation_track2.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbation_track2.pdf>
 Package pdftex.def Info: Figures/curve_perturbation_track2.pdf used on input li
-ne 502.
-(pdftex.def)             Requested size: 324.13211pt x 156.44897pt.
+ne 460.
+(pdftex.def)             Requested size: 324.13211pt x 182.3581pt.
+
+<Figures/curve_perturbation_track3.pdf, id=148, 1170.3725pt x 658.46pt>
+File: Figures/curve_perturbation_track3.pdf Graphic file (type pdf)
+
+<use Figures/curve_perturbation_track3.pdf>
+Package pdftex.def Info: Figures/curve_perturbation_track3.pdf used on input li
+ne 463.
+(pdftex.def)             Requested size: 324.13211pt x 182.3581pt.
+
+
+LaTeX Warning: Float too large for page by 30.08871pt on input line 467.
+
+[11 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
+gle target PF/Figures/Track3_bearing_RMSE.pdf>]
+<Figures/Track1_range_RMSE.pdf, id=157, 1033.8625pt x 467.7475pt>
+File: Figures/Track1_range_RMSE.pdf Graphic file (type pdf)
+
+<use Figures/Track1_range_RMSE.pdf>
+Package pdftex.def Info: Figures/Track1_range_RMSE.pdf used on input line 477.
+(pdftex.def)             Requested size: 352.31625pt x 159.39603pt.
+
+<Figures/Track2_range_RMSE.pdf, id=158, 1033.8625pt x 427.5975pt>
+File: Figures/Track2_range_RMSE.pdf Graphic file (type pdf)
+
+<use Figures/Track2_range_RMSE.pdf>
+Package pdftex.def Info: Figures/Track2_range_RMSE.pdf used on input line 480.
+(pdftex.def)             Requested size: 352.31625pt x 145.71397pt.
+
+<Figures/Track3_range_RMSE.pdf, id=159, 1033.8625pt x 459.7175pt>
+File: Figures/Track3_range_RMSE.pdf Graphic file (type pdf)
+
+<use Figures/Track3_range_RMSE.pdf>
+Package pdftex.def Info: Figures/Track3_range_RMSE.pdf used on input line 483.
+(pdftex.def)             Requested size: 352.31625pt x 156.65962pt.
 
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.bbl" [13] [14 <C:/Users/Jay/Desktop/dis
-tributed_particle_filter.git/trunk/Distributed single target PF/Figures/curve_p
-erturbation_track3.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/t
-runk/Distributed single target PF/Figures/curve_perturbation_track1.pdf> <C:/Us
-ers/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target
- PF/Figures/curve_perturbation_track2.pdf>]) [15]
+ target PF\Distributed single-target PF.bbl" [12 <C:/Users/Jay/Desktop/distribu
+ted_particle_filter.git/trunk/Distributed single target PF/Figures/Track3_beari
+ng_time.pdf>] [13 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/D
+istributed single target PF/Figures/curve_perturbation_track1.pdf> <C:/Users/Ja
+y/Desktop/distributed_particle_filter.git/trunk/Distributed single target PF/Fi
+gures/curve_perturbation_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle
+_filter.git/trunk/Distributed single target PF/Figures/curve_perturbation_track
+3.pdf>] [14 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distrib
+uted single target PF/Figures/Track1_range_RMSE.pdf> <C:/Users/Jay/Desktop/dist
+ributed_particle_filter.git/trunk/Distributed single target PF/Figures/Track2_r
+ange_RMSE.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Dist
+ributed single target PF/Figures/Track3_range_RMSE.pdf>]) [15]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.aux")
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+ target PF\Distributed single-target PF.aux") ) 
 Here is how much of TeX's memory you used:
- 3167 strings out of 493921
- 43798 string characters out of 3147289
- 111689 words of memory out of 3000000
- 6390 multiletter control sequences out of 15000+200000
+ 3162 strings out of 493921
+ 43500 string characters out of 3147289
+ 111650 words of memory out of 3000000
+ 6386 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,20n,24p,1167b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmti10.pfb>
-Output written on "Distributed single-target PF.pdf" (15 pages, 374927 bytes).
+ 27i,20n,24p,1122b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on "Distributed single-target PF.pdf" (15 pages, 378892 bytes).
 PDF statistics:
- 261 PDF objects out of 1000 (max. 8388607)
+ 255 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 126 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

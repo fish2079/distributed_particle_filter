@@ -21,8 +21,8 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = [10, 15, 20, 25, 30, 35, 40,45,50]; %[];
-N_vector = [100, 250, 500, 1000];
+gossip_vector = [1:10]; %[10, 15, 20, 25, 30, 35, 40,45,50]; %[];
+N_vector = 500; %[100, 250, 500, 1000];
 max_degree_vector = 1:9;
 
 % Number of random trials
@@ -31,7 +31,7 @@ sim_parameters.no_trials = 200;
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -40,15 +40,15 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select the track
-sim_parameters.track = 3;
+sim_parameters.track = 2;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
 % 2. distributed CSS PF 
 % 3. distributed LC PF
 % 4. distributed Graph PF
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists(3);
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LCpf_GS_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
+sim_parameters.algorithms = alg_lists(4);
 
 sim_parameters.max_degree = 2;
 

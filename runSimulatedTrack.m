@@ -45,25 +45,55 @@ S.parallel = sim_parameters.parallel;
 S.visualizeParticles = sim_parameters.visualizeParticles;
 
 % The struct obs contains all required parameters of measurement model
-obs.model = @computeBearing; % measurement model
-obs.mu = 0;% [0,0]'; % measurement noise mean
-if (isfield(sim_parameters,'sigma'))
-    obs.R = (sim_parameters.sigma/180*pi)^2;
+if (isfield(sim_parameters,'measModel'))
+    obs.measModel = sim_parameters.measModel;
 else
-    obs.R = (5/180*pi)^2; %diag([5/180*pi, 0.005].^2);%diag([5^2,0.005^2]); % measurement noise covariance matrix
+    obs.measModel = 'bearing';
 end
+    
+switch obs.measModel
+    case 'bearing'
+        obs.model = @computeBearing; % measurement model
+        obs.mu = 0; % measurement noise mean
+        if (isfield(sim_parameters,'sigma'))
+            obs.R = (sim_parameters.sigma/180*pi)^2;
+        else
+            obs.R = (5/180*pi)^2; % measurement noise covariance matrix
+        end
+        F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))]; 
+    case 'range'
+        obs.model = @computeRange; % measurement model
+        obs.mu = 0; % measurement noise mean
+        if (isfield(sim_parameters,'sigma'))
+            obs.R = sim_parameters.sigma^2;
+        else
+            obs.R = 5^2; % measurement noise covariance matrix
+        end
+        F.minus = @(z_exp, z_true) z_exp-z_true; 
+    case 'bearDoppler'
+        obs.model = @computeBearingDoppler;
+        obs.mu = [0,0]';
+        obs.C = 0.343; % speed of sound in air in km/s
+        obs.F = 100;
+        obs.lambda = obs.F/obs.C;
+        if (isfield(sim_parameters,'sigma'))
+            obs.R = diag(sim_parameters.sigma.^2);
+        else
+            obs.R = diag([5/180*pi,0.5].^2); % measurement noise covariance matrix
+        end
+        F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:)); z_exp(2,:)-z_true(2,:)]; 
+end
+
 obs.sensorPos = S.sensorPos;
 % Doppler specific parameters
-% obs.C = 0.343; % speed of sound in air in km/s
-% obs.F = 100;
-% obs.lambda = obs.F/obs.C;
+
 
 % The struct F contains all relevant
 % no of particles
 if(isfield(sim_parameters, 'N'))
     F.N = sim_parameters.N; 
 else
-    F.N = 500;
+    F.N = 50; %500;
 end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
@@ -94,8 +124,6 @@ F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
 F.initializeState = @GaussianParticleCloudInitialization;
 % Function handle for estimating target state from particle cloud
 F.mmseStateEstimate = @mmseEstimateFromParticles;
-% Bootstrap specific parameters
-F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true(2,:)]; 
 
 % LC specific parameters
 % [basis_x,basis_y]=meshgrid([-20:20:120],[20:20:160]);
@@ -104,7 +132,7 @@ F.minus = @(z_exp, z_true) [wrapToPi(z_exp(1,:)-z_true(1,:))];%z_exp(2,:)-z_true
 if(isfield(sim_parameters, 'max_degree'))
     F.LC.max_degree = sim_parameters.max_degree;
 else   
-    F.LC.max_degree = 1;
+    F.LC.max_degree = 2;
 end
 
 % LA specific parameters
@@ -147,17 +175,16 @@ parameters.F = F;
 % Run all trials in parallel if required
 if (parameters.parallel)
     parfor i = 1:parameters.no_trials
-        rng(i,'twister');
         % Run one single trial
         try
             [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
         catch ME
             i
+            ME
         end
     end
 else
     for i = 1:parameters.no_trials
-        rng(i,'twister');
         % Run one single trial
         [x_t(:,:,:,i), pos_error(:,:,i), runtime(:,i), details{i}] = runOneTrial(S, F, dynamic, obs, parameters.algorithms, i);
     end

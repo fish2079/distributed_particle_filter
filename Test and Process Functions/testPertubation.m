@@ -21,7 +21,7 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-pertubation_vector = [0.01, 0.1, 1, 5, 10, 25];%, 50, 100]; %[1,5,10,25,50,100,200,500]; %[1, 5,10,25];%,[50,100,200,500];
+pertubation_vector = [0.01, 0.1, 1, 5, 10, 25, 50,100,200,300]; %[0.01, 0.1, 1, 5, 10, 25];%, 50, 100]; %[1,5,10,25,50,100,200,500]; %[1, 5,10,25];%,[50,100,200,500];
 
 % Number of random trials
 sim_parameters.no_trials = 40; 
@@ -38,7 +38,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 3;
+sim_parameters.track = 2;
 
 %%
 sim_parameters.nbEig = 9;
@@ -55,7 +55,7 @@ sim_parameters.max_degree = 2;
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @Debugpf, @LADelaunayFlexibleMpf_distributed};
 % alg_lists = {@Debugpf};
-sim_parameters.algorithms = alg_lists([3]);
+sim_parameters.algorithms = alg_lists([6]);
 
 % Loop through each choice of particle number
 for i=1:numel(pertubation_vector)
@@ -75,16 +75,3 @@ for i=1:numel(pertubation_vector)
     save(filename{i}, 'results','parameters');
     save(filename{i}, 'results','parameters');
 end
-
-weight_error = [];
-AER = [];
-Neff = [];
-for tr=1:40
-    weight_error = cat(3, weight_error, results.details{tr}{1}.weight_error);
-    AER = cat(3, AER, results.details{tr}{1}.AER);
-    Neff = cat(3, Neff, results.details{tr}{1}.Neff);
-end
-w_error= [w_error; mean(mean(weight_error,3),2)'];
-A_error = [A_error; mean(mean(AER,3),2)'];
-% mean(mean(Neff,3),2)
-

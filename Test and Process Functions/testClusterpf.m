@@ -23,7 +23,7 @@ addpath('./TrackingAlgorithms/');
 % Number of particles for the filter
 gossip_vector = 1;%10:5:35;% [1, 5, 10, 25, 50];
 N_vector = 500; %[100, 250, 500, 1000];
-k_vector = [1,3];%[1, 3, 6, 10, 20, 50];
+k_vector = 6;%[1,3];%[1, 3, 6, 10, 20, 50];
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
@@ -31,10 +31,10 @@ sim_parameters.no_trials = 200;
 % sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
-sim_parameters.visualizeParticles = false;
+sim_parameters.visualizeParticles = true;
 
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = false;
@@ -48,7 +48,7 @@ alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distrib
 sim_parameters.algorithms = alg_lists(5);
 
 % Select the track
-sim_parameters.track = 3;
+sim_parameters.track = 2;
 
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)

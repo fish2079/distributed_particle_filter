@@ -10,7 +10,7 @@ plot_color = {'k','r','b','g','y','m'};
 k_vector = [1, 3, 6, 10, 20, 50, 75, 100];
 
 % Number of gossip iterations
-gossip_vector = 1;%[1, 5, 10, 15, 20, 25, 30, 35];
+gossip_vector = 1 %[1, 5, 10, 15, 20, 25, 30, 35];
 
 % Number of random trials
 no_trials = 200; 
@@ -29,7 +29,6 @@ groupSeparator = [];
 colorgroup = [];
 
 N = 500;
-max_degree = 1;
 
 % Loop through each choice of particle number
 for i=1:numel(gossip_vector)

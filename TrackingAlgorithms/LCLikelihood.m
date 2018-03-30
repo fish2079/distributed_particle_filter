@@ -29,7 +29,6 @@ for i=1:size(degree_matrix,2)
     Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
 end
 
-Psi = GramSchmidt(Psi);
 % Psi_sum = sum(Psi,1);
 % Psi_normalized = Psi./Psi_sum;
 

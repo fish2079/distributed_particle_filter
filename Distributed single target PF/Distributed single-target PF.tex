@@ -264,8 +264,6 @@ Consider first CSSpf. Each sensor needs to broadcast $6NGossip$ scalars at each 
 
 The RMSE is very high for $NGossip< 20$ which can be attributed to the gossip algorithm not converging in such few iterations and having high errors in the final values of the global sufficient statistics. For $NGossip\geq 20$, the RMSE is fairly constant and more gossip iterations and more particles do not yield significant improvement in tracking performance. 
 
-%The runtime does not increase with higher $NGossip$ due to our implementation of the gossip algorithms. When $N$ increases, the runtime increases as expected. 
-
 With increasing $NGossip$, the AER decreases exponentially (note the log-scale of the Y-axis) and drops sharply for $NGossip \geq 50$. For $NGossip=20$, the ratio drops close to 0.02 which is low enough to yield adequate tracking performance. For higher values of $NGossip$, the ratio drops even further; although the tracking performance improvement is marginal at best. As $N$ increases, the AER does not change significantly. This is to be expected since the number of sufficient statistics to be aggregated is constant and independent of the number of particles. 
 
 \begin{figure}
@@ -286,7 +284,7 @@ With increasing $NGossip$, the AER decreases exponentially (note the log-scale o
 \subsection{Likelihood consensus particle filter}
 The max degree $d$ offers a trade-off between tracking performance and computational/communication overhead. Higher degree $d$ generates more basis functions and should yield better approximation of the measurement model. On the other hand, more basis functions lead to more computation, more communication and longer runtime. In fact, the total number of basis functions $J$ grows exponentially at $O(d^2)$. 
 
-Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE with respect to $d$. Note that, for this particular set of trials, all summations are computed exactly without gossiping. For all values of $d>1$, the RMSE remains fairly constant. This suggests that additional basis functions from $d>2$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To verify our conjecture, we compute the following metric. Let $W_{\text{true}}$ denote the true particle weights and let $W_{\text{approx}}$ denote the approximate weights. We compute and report $|W_{\text{true}}-W_{\text{approx}}|$ in Fig.~\ref{fig:boxplot_LCpf_weight_approx_error}. With the exception of $d=1$, the weight error is fairly constant. These results suggest that $d=2$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
+Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE with respect to $d$. Note that, for this particular set of trials, all summations are computed exactly without gossiping. For all values of $d>1$, the RMSE remains fairly constant. This suggests that additional basis functions from $d>2$ do not improve the approximation of the measurement model $H(X_i)$ by any significant margin. To verify our conjecture, we compute the following metric. Let $W_{\text{true}}$ denote the true particle weights and let $W_{\text{approx}}$ denote the approximate weights. We compute and report $||W_{\text{true}}-W_{\text{approx}}||_2$ in Fig.~\ref{fig:boxplot_LCpf_weight_approx_error}. With the exception of $d=1$, the weight error is fairly constant. These results suggest that $d=2$ is sufficient to yield adequate tracking performance while minimizing computational overhead. 
 
 \begin{figure}
 \centering
@@ -294,42 +292,21 @@ Fig.~\ref{fig:results_LCpf_maxDegree} shows the boxplots of RMSE with respect to
 {\includegraphics[width=0.47\textwidth]{Figures/boxplot_LCpf_RMSE_maxDegree}
 \label{fig:results_LCpf_maxDegree}}
 \end{subfigure}
-%\begin{subfigure}[total runtime]
-%{\includegraphics[width=0.49\textwidth]{Figures/boxplot_LCpf_time_maxDegree}}
-%\end{subfigure}
 \begin{subfigure}[Measurement approximation error]
 {\includegraphics[width=0.47\textwidth]{Figures/boxplot_LCpf_weight_approx_error_maxDegree}\label{fig:boxplot_LCpf_weight_approx_error}}
 \end{subfigure}
-\caption{Boxplot of RMSE, total runtime and average measurement approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}
+\caption{Boxplot of RMSE and average weight approximation error of LCpf with respect to $d$. All summations are computed exactly without gossip. $N=500$}
 \end{figure}
-
-%\begin{figure}
-%\centering
-%\begin{subfigure}[RMSE]
-%{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_RMSE}}
-%\end{subfigure}
-%%\begin{subfigure}[total runtime]
-%%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
-%%\end{subfigure}
-%\begin{subfigure}[AER]
-%{\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_AER}}
-%\end{subfigure}
-%\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
-%\label{fig:results_LCpf}
-%\end{figure}
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
 {\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_llh_RMSE}}
 \end{subfigure}
-%\begin{subfigure}[total runtime]
-%{\includegraphics[width=0.65\textwidth]{Figures/boxplot_LCpf_time}}
-%\end{subfigure}
 \begin{subfigure}[AER]
 {\includegraphics[width=0.49\textwidth]{Figures/curve_LCpf_llh_AER}}
 \end{subfigure}
-\caption{RMSE AER of LCpf with respect to $NGossip$ for different values of $N$. All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
+\caption{RMSE and AER of LCpf with respect to $NGossip$ for different values of $N$ ($d$=2). All data points are averaged over 50 time steps and 200 Monte Carlo trials.}
 \label{fig:results_LCpf_llh}
 \end{figure}
 
@@ -357,14 +334,14 @@ Consider first RMSE. We do not show the curve for $m=1$ as the filter breaks dow
 
 More interestingly, as few as 10 gossip iterations per time step are sufficient to yield robust tracking performance even though the AER of LApf is quite close to that of CSSpf and LCpf for the same $NGossip$ and $N$. This would suggest that LApf is much more robust to gossiping error. 
 
-To confirm our conjecture regarding the choice of $m$, we compute the following metrics. Let $W_{\text{approx}}i$ denote the approximate weight of particle $X_i$ computed using the Laplacian transformations and let $W_{\text{exact}}$ denote the true particle weight. We compute and report the discrepancy $|\hat{w_i}-w_i|$ averaged over all particles and all time steps. Fig.~\ref{fig:boxplot_LApf_weight_discrepancy} shows the boxplot of the weight discrepancy with respect to $m$. The error is highest at $m=1$ (by almost a factor of 10). At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\textwidth]{Figures/boxplot_LApf_weight_discrepancy}
-\caption{Boxplot of weight discrepancy with respect to $m$}
-\label{fig:boxplot_LApf_weight_discrepancy}
-\end{figure}
+%To confirm our conjecture regarding the choice of $m$, we again compute $||W_{\text{true}}-_{\text{approx}}||_2$ with respect to $m$ and show the results in Fig.~\ref{fig:boxplot_LApf_weight_discrepancy}. The error is highest at $m=1$ (by almost a factor of 10). At $m=6$, the average discrepancy is as low as $4e-4$. Increasing $m$ to 100 only reduces the error by a factor of 3 while increasing the communication overhead by a factor of 15.  
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.6\textwidth]{Figures/boxplot_LApf_weight_discrepancy}
+%\caption{Boxplot of weight discrepancy with respect to $m$}
+%\label{fig:boxplot_LApf_weight_discrepancy}
+%\end{figure}
 
 \subsection{Cluster particle filter}
 The number of clusters $C$ offers a trade-off between tracking performance and computational/communication overhead. Higher number of clusters should yield better performance albeit at higher overhead. In fact, it is clear that the parameter $C$ is analogous to $m$ in LApf. Fig.~\ref{fig:results_Clusterpf} shows the tracking results. 
@@ -384,30 +361,30 @@ The number of clusters $C$ offers a trade-off between tracking performance and c
 \label{fig:results_Clusterpf}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.6\textwidth]{Figures/boxplot_Clusterpf_weight_discrepancy}
-\caption{Boxplot of weight discrepancy with respect to $C$}
-\label{fig:boxplot_Clusterpf_weight_discrepancy}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.6\textwidth]{Figures/boxplot_Clusterpf_weight_discrepancy}
+%\caption{Boxplot of weight discrepancy with respect to $C$}
+%\label{fig:boxplot_Clusterpf_weight_discrepancy}
+%\end{figure}
 
-Again, we omit the curve for $C=1$ as the filter breaks down and yields an RMSE above 12. For $C\geq 6$, the RMSE is quite consistent for $NGossip \geq 6$. As in the case of LApf, Clusterpf is quite robust to gossiping error and yields good performance for $NGossip \geq 5$. 
+Again, we omit the curve for $C=1$ as the filter breaks down and yields an RMSE above 12. For $C\geq 5$, the RMSE is quite consistent for $NGossip \geq 6$. As in the case of LApf, Clusterpf is quite robust to gossiping error and yields good performance for $NGossip \geq 5$. 
 
-As in the case of LApf, we compute and report the average weight discrepancy in Fig.~\ref{fig:boxplot_Clusterpf_weight_discrepancy}. The discrepancy is highest at $C=1$ as expected. Increasing $C$ from 6 to 75 decreases the approximation error by no more than half at the cost of a tenfold increase in communication overhead. 
+%As in the case of LApf, we compute and report the average weight discrepancy in Fig.~\ref{fig:boxplot_Clusterpf_weight_discrepancy}. The discrepancy is highest at $C=1$ as expected. Increasing $C$ from 6 to 75 decreases the approximation error by no more than half at the cost of a tenfold increase in communication overhead. 
 
 \subsection{Performance comparison between filters}
-In this section, we compare the four filters against each other. We also include a centralized bootstrap particle filter as baseline. All four filters contain a number of algorithm-specific parameters that affect their performance, and tweaking each parameter for optimal performance is difficult. Instead we adjust the parameters such that all algorithms have the same communication overhead at each time step and compare their performance in terms of RMSE. We consider three different test tracks shown in Fig.~\ref{fig:test_tracks}. 
+In this section, we compare the four filters against each other. We use a centralized bootstrap particle filter as baseline. Finally, we include a modified version of LCpf where we use the Gram-Schmidt process to obtain an orthonormal encoding matrix $\Phi'$ (i.e., $||\Phi'(:,i)||_2=1,i=1,...J$). This filter is referred to as LCpf-GS. We consider three different test tracks shown in Fig.~\ref{fig:test_tracks}. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[Track 1]
-{\includegraphics[width=0.32\textwidth]{Figures/track}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
 {\includegraphics[width=0.32\textwidth]{Figures/track1}}
 \end{subfigure}
-\begin{subfigure}[Track 3]
+\begin{subfigure}[Track 2]
 {\includegraphics[width=0.32\textwidth]{Figures/track2}}
+\end{subfigure}
+\begin{subfigure}[Track 3]
+{\includegraphics[width=0.32\textwidth]{Figures/track3}}
 \end{subfigure}
 \caption{Target tracks (blue curve) and sensor positions (black diamond). Sensors connected by red dashed lines are within broadcast range of each other.}
 \label{fig:test_tracks}
@@ -415,102 +392,106 @@ In this section, we compare the four filters against each other. We also include
 
 \begin{figure}
 \centering
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/Track3_RMSE}}
-\end{subfigure}
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/Track3_RMSE_focus}}
-\end{subfigure}
-%\begin{subfigure}[total runtime]
-%{\includegraphics[width=0.65\textwidth]{Figures/Track3_runtime}}
-%\end{subfigure}
-\caption{Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}
-\label{fig:Track3_results}
-\end{figure}
-
-Fig.~\ref{fig:Track3_results} shows the average RMSE with respect to communication overhead per time step for all algorithms for track 1. For CSSpf and LCpf, we vary only the number of gossip iterations per time step. We run two variations of LApf and Clusterpf. In the first version, we fix $m$ and $C$, the number of scalars to aggregate per time step, and increase $NGossip$. In the second version, we fix $NGossip$ and increase $m$ and $C$ accordingly. 
-
-The LCpf has very high RMSE until $NGossip=42$ (i.e., total overhead = 42*20 = 840). This is consistent with our previous results showing that the algorithm is very susceptible to gossiping error. The CSSpf achieves good performance for $NGossip\geq 20$ but is worse than BSpf, LApf and Clusterpf. 
-
-Both LApf and Clusterpf yield good tracking performance on-par with centralized BSpf even at lowest communication overhead. Consider the two curves of LApf. When $m$ is fixed, the RMSE goes down as $NGossip$ goes down and remains relatively constant for $NGossip\geq 70$. This would suggest that, after 70 gossip iterations, the approximate aggregate values are sufficiently close to the true aggregate values, and that any additional gossip iteration would provide marginal if any improvement. When $NGossip$ is fixed, the RMSE decreases until $m=8$ then increases afterwards. If $m$ is too low, then we do not retain enough eigenvectors to provide an adequate encoding of the particle likelihoods. If $m$ goes up, we should obtain a better encoding of the particle likelihoods but also seem to get higher error from the distributed summation (as $NGossip$ remains constant). The same trends can be observed in the two Clusterpf curves. For both filters, there is a cut-off point after which it is more beneficial to minimize number of broadcast scalars and maximize number gossip iterations (540 for LApf and 300 for Clusterpf). 
-
-%The BSpf, CSSpf and LCpf have lowest runtime as expected. For all three algorithms, increasing $NGossip$ has negligible impact on runtime due to our implementation of the gossip algorithms. LApf has highest runtime by a large margin. Varying either $NGossip$ or $m$ has no significant impact on runtime since the majority of computation overhead is attributed to eigenvalue decomposition which depends only on the number of particles. The Clusterpf also has rather high runtime. When $C$ increases, there is higher computational overhead for particle clustering and the runtime increases linearly as expected.  
-
-Fig.~\ref{fig:Track1_results} shows the tracking results for track 2. The CSSpf has surprisingly the best performance in this case followed by BSpf. The RMSE of LApf and Clusterpf are fairly constant when $m$ and $C$ are fixed. Since this track contains fewer sensors than track 1, fewer ($\ll 30$) gossip iterations should be required for convergence so increasing $NGossip$ would have negligible benefit. On the other hand, increasing $m$ and $C$ does reduce the RMSE of LApf and Clutterpf up till $m=10, C=10$ and yields better performance compared to the two curves with fixed $m$ and $C$. Finally, LCpf has the worst performance by far. Nonetheless, if we compare the performance of LCpf in the two test tracks, the filter only requires half the total communication overhead to achieve adequate tracking performance in track 2. 
-
-%The runtime display identical trends as in the first test track so we focus our analysis on RMSE only.
-
-\begin{figure}
-\centering
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.55\textwidth]{Figures/Track1_RMSE}}
-\end{subfigure}
-%\begin{subfigure}[total runtime]
-%{\includegraphics[width=0.65\textwidth]{Figures/Track1_runtime}}
-%\end{subfigure}
-\caption{Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}
+\includegraphics[width=0.75\textwidth]{Figures/Track1_bearing_RMSE}
+\caption{Average RMSE and runtime with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials).}
 \label{fig:Track1_results}
 \end{figure}
 
-Fig.~\ref{fig:Track2_results} shows the tracking results for track 3. BSpf has the best performance. LCpf breaks down and loses the target even with the total overhead of 1200 scalars per time step ($NGossip=60$, 20 scalars to aggregate). CSSpf also has a higher break-off point at $NGossip=60$ (comparing to $NGossip=20$ for track 1). When $NGossip$ is fixed, LApf's performance matches that of BSpf for $m\geq 5$. Conversely, when $m=6$ is fixed, the RMSE of LApf is fairly consistent over all values of $NGossip$. The same trends can be observed in the two curves of Clusterpf. 
+%For CSSpf and LCpf, we vary only the number of gossip iterations per time step. We run two variations of LApf and Clusterpf. In the first version, we fix $m$ and $C$, the number of scalars to aggregate per time step, and increase $NGossip$. In the second version, we fix $NGossip$ and increase $m$ and $C$ accordingly. 
+
+Fig.~\ref{fig:Track1_results} shows the average RMSE with respect to communication overhead per sensor per time step for all algorithms for track 1. For overhead $< 25$, Clusterpf and LApf have the lowest RMSE. Note that these two filters have low RMSE even at $NGossip=1$ (i.e., communication overhead = 1*6 = 6). For overhead $> 50$, CSSpf has the best performance by a significant margin. The LCpf requires the highest communication overhead to achieve adequate tracking performance.
+
+Fig.~\ref{fig:Track2_results} shows the tracking results for track 2. For overhead $< 200$, LApf and Clusterpf have the lowest RMSE. The LCpf-GS achieves similar RMSE as LAPf once the overhead exceeds 200. For LCpf, over 100 Gossip iterations are required to achieve adequate tracking performance. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/Track2_RMSE}}
+{\includegraphics[width=0.75\textwidth]{Figures/Track2_bearing_RMSE}}
 \end{subfigure}
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.49\textwidth]{Figures/Track2_RMSE_focus}}
-\end{subfigure}
+%\begin{subfigure}[RMSE]
+%{\includegraphics[width=0.49\textwidth]{Figures/Track2_RMSE_focus}}
+%\end{subfigure}
 %\begin{subfigure}[total runtime]
 %{\includegraphics[width=0.65\textwidth]{Figures/Track2_runtime}}
 %\end{subfigure}
-\caption{Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}
+\caption{Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}
 \label{fig:Track2_results}
 \end{figure}
+
+%The runtime display identical trends as in the first test track so we focus our analysis on RMSE only.
+
+Fig.~\ref{fig:Track3_results} shows the tracking results for track 3. Again, LApf and Clusterpf achieve robust tracking performance even with very low communication overhead. LCpf achieves good performance for $NGossip\geq 50$. CSSpf has poor performance even for $NGossip\geq 100$. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[RMSE]
-{\includegraphics[width=0.75\textwidth]{Figures/RMSE_vs_overhead}}
+{\includegraphics[width=0.75\textwidth]{Figures/Track3_bearing_RMSE}}
 \end{subfigure}
-\begin{subfigure}[RMSE]
-{\includegraphics[width=0.75\textwidth]{Figures/RMSE_vs_overhead_zoom}}
-\end{subfigure}
-\caption{Average RMSE with respect to total communication overhead per time step for track 1 ($N=500$, 200 Monte Carlo trials). The subfig b) provides a zoomed view of RMSE curves.}
-\label{fig:Track2_results}
+\caption{Average RMSE with respect to total communication overhead per time step for track 3 ($N=500$, 200 Monte Carlo trials).}
+\label{fig:Track3_results}
 \end{figure}
 
-\section{Sensitivity analysis of particle filters}
-Simulation results in the previous sections suggest that LCpf is considerably more susceptible to gossiping noise than the other three filters. In this section, we conduct a sensitivity analysis of the four presented filters to get a better understanding of the presented filters.
+In all three test tracks, the LApf and Clusterpf yield robust tracking performance even with very low communication overhead. The other filters may outperform LApf and Clusterpf albeit at the cost of higher overhead. In particular, the LCpf requires significantly higher communication overhead to achieve similar RMSE as the other filters. 
 
-We run a centralized BSpf for all three tracks. At each time step, we re-compute the posterior particle weights using all four distributed filters. We then compute and report the discrepancy of approximate and exact particle weights (i.e., $|W_{BS}-W_{CSS}|_2$). We include two implementations of LCpf. In the first implementation, likelihood consensus is used to approximate the measurement model. In the second implementation, likelihood consensus is used to approximate the log-likelihoods directly. All LCpf results from the previous section use the first implementation. 
+Fig.~\ref{fig:Track3_time} shows the average runtime of the filters. We omit the results for tracks 1 and 2 since the trends are similar. The LApf has the highest runtime due to the overhead of eigendecomposition. The Clusterpf has the second highest runtime. The other filters have similar low runtime. We note that increasing $NGossip$ does not increase total runtime due to our implementation of the gossip algorithms. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{Figures/Track3_bearing_time}
+\caption{Average total runtime for track 3}
+\label{fig:Track3_time}
+\end{figure}
+
+\subsection{Sensitivity analysis of particle filters}
+Simulation results in the previous sections suggest that LApf and LCpf are considerably less susceptible to gossiping noise than the other three filters. In this section, we conduct a sensitivity analysis of all filters.
+
+We run a centralized BSpf for all three tracks. At each time step, we re-compute the posterior particle weights using all distributed filters. We then compute and report the discrepancy of approximate and exact particle weights (i.e., $||W_{BS}-W_{CSS}||_2$).
 
 The goal is to understand each filter's susceptibility to gossiping error. The aggregate values are first calculated exactly without gossiping; then we inject perturbation into the aggregate values. Let $\alpha$ denote the true aggregate value and $x$ the perturbation level, then the final aggregate value used in weight computation is $\alpha(1+ x/100)$ or $\alpha(1- x/100)$ with equal probability. Note that, in this definition, perturbation level is equal to the AER. We choose this approach so we can control the AER exactly without fine-tuning the number of gossip iterations. 
 
-Fig.~\ref{fig:perturbation_results} shows the average weight discrepancy with respect to perturbation level. In all three tracks, LCpf with measurement model approximation has the worst performance by far followed by CSSpf. LApf has consistently the best performance. This matches our previous observations that LApf is highly robust to gossiping error. In fact, even when the perturbation level reaches 500\%, the weight discrepancy is still quite low. 
+Fig.~\ref{fig:perturbation_results} shows the average weight discrepancy with respect to perturbation level. In all three tracks, LCpf has the worst performance by far followed by CSSpf. Even at very lowe perturbation level, the weight discrepancy of LCpf can go above 0.2. On the other hand, LCpf-GS and LApf have consistently the best performance with LApf having an edge for perturbation $>100$. 
 
 \begin{figure}
 \centering
 \begin{subfigure}[Track 1]
-{\includegraphics[width=0.69\textwidth]{Figures/curve_perturbation_track3}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
 {\includegraphics[width=0.69\textwidth]{Figures/curve_perturbation_track1}}
 \end{subfigure}
-\begin{subfigure}[Track 3]
+\begin{subfigure}[Track 2]
 {\includegraphics[width=0.69\textwidth]{Figures/curve_perturbation_track2}}
 \end{subfigure}
-\caption{Average weight discrepancy between the exact particle weights (BSpf) and approximate particle weights (LCpf, LApf, Clusterpf) with respect to perturbation. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $m=C=6$, all data points are averaged over 50 time steps and 200 Monte-Carlo trials }
+\begin{subfigure}[Track 3]
+{\includegraphics[width=0.69\textwidth]{Figures/curve_perturbation_track3}}
+\end{subfigure}
+\caption{Average weight discrepancy between the exact particle weights (BSpf) and approximate particle weights (LCpf, LApf, Clusterpf) with respect to perturbation. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}
 \label{fig:perturbation_results}
 \end{figure}
+
+\subsection{Performance comparison (range measurement model)}
+In this section, we repeat our previous simulations; but all sensors measure the target-sensor range. All measurements are corrupted by zero-mean Gaussian noise with standard deviation $\sigma_{R}=5$ m. 
+
+Fig.~\ref{fig:Track_range_results} shows the average RMSE with respect to communication overhead for all three tracks. We omit the results for CSSpf since it is not designed for range tracking. The remaining curves show the same trends as in the bearing-only tracking case. The LApf and Clusterpf have low RMSE even at very low communication overhead. LApf again requires high communication overhead for good tracking performance. 
+
+\begin{figure}
+\centering
+\begin{subfigure}[Track 1]
+{\includegraphics[width=0.75\textwidth]{Figures/Track1_range_RMSE}}
+\end{subfigure}
+\begin{subfigure}[Track 2]
+{\includegraphics[width=0.75\textwidth]{Figures/Track2_range_RMSE}}
+\end{subfigure}
+\begin{subfigure}[Track 3]
+{\includegraphics[width=0.75\textwidth]{Figures/Track3_range_RMSE}}
+\end{subfigure}
+\caption{Average RMSE with respect to total communication overhead per time step for track 2 ($N=500$, 200 Monte Carlo trials).}
+\label{fig:Track_range_results}
+\end{figure}
+
+
 \section{Conclusion}
 \label{sec:conclusion}
-In this report, we present four distributed particle filters for single-target bearing-only tracking. CSSpf approximates the log-likelihood function using six sufficient statistics. LCpf uses likelihood consensus to approximate the measurement function. LApf constructs a graph over all particles and uses the eigenvectors of resulting Laplacian matrix to encode the particle log-likelihood. Finally, Clusterpf groups particles into clusters, computes the cluster joint log-likelihood and recovers individual particle weights using convex minimization. 
+In this report, we present four distributed particle filters for single-target bearing-only tracking. CSSpf approximates the log-likelihood function using six sufficient statistics. LCpf uses likelihood consensus to encode the particle log-likelihoods. LApf constructs a graph over all particles and uses the eigenvectors of resulting Laplacian matrix to encode the particle log-likelihood. Finally, Clusterpf groups particles into clusters, computes the cluster joint log-likelihood and recovers individual particle weights using convex minimization. 
 
-We study each individual algorithm's performance and compare them against each other. The LApf and Clusterpf yield robust tracking performance in all tested scenarios; but they also have the highest runtime by a large margin. LCpf is very fast, but is highly susceptible to gossiping error and requires a much higher communication overhead to achieve adequate tracking performance. Finally, CSSpf is fast but the tracking performance is not always good. 
-
-Out of the three performance criterion, accuracy, runtime and communication overhead, our results suggest the following guidelines. For accuracy and runtime, choose LCpf. For accuracy and communication overhead, choose LApf and Clusterpf. Finally, for runtime and communication overhead, choose CSSpf. 
+We study each individual algorithm's performance and compare them against each other. LCpf is very fast, but is highly susceptible to gossiping error and requires a much higher communication overhead to achieve adequate tracking performance. The LApf and Clusterpf yield robust tracking performance in all tested scenarios; but they also have the highest runtime by a large margin. More interestingly, when minimal communication overhead is permitted, LApf and Clusterpf are still able to yield robust performance while the other filters would break down. These results make LApf and Clusterpf extremely attractive in energy-constrained tracking scenarios. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{Refs}

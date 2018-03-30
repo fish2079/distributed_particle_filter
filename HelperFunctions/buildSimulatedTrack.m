@@ -34,8 +34,9 @@ if (S.grid_sensor)
     sensorPos = [sensorX(:), sensorY(:)]';
 else
     % Alternatively, place sensors randomly in the tracking field
-    offset = rand(S.nb_sensors, 2);
-    sensorPos = [xMin + offset(:,1)*area_x_length, yMin + offset(:,2)*area_y_length]';
+%     offset = rand(S.nb_sensors, 2);
+%     sensorPos = [xMin + offset(:,1)*area_x_length, yMin + offset(:,2)*area_y_length]';
+    sensorPos = [-5.1779   32.4634  -29.8411   33.0701; 90.5887   27.8032   42.2799   63.7505];
 end
 % Store all sensor positions
 S_output.sensorPos = sensorPos;
