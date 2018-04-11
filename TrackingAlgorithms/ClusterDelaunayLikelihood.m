@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner by clustering
 %   particles and gossiping on cluster log-likelihoods
@@ -78,14 +78,45 @@ gamma_time = toc(gamma_tic);
 gamma_exact = sum(log_lh_ss);
 gamma_dif = norm(gamma_approx-gamma_exact);
 
+gamma_noGossipError = quadprog(L,[],[],[],C,sum(log_lh_cluster_ss, 1)',[], [], [], options)';
+
+% errorNorm(1) = norm(C);
+% errorNorm(2) = norm(log_lh_cluster-sum(log_lh_cluster_ss, 1));
+% yo = gamma_approx-gamma_noGossipError;
+% errorNorm(6) = norm(yo);
+% yo = yo-max(yo);
+% errorNorm(7) = norm(yo);
+% yo = exp(yo);
+% errorNorm(8) = norm(yo);
+% yo = 1-yo;
+% errorNorm(3) = norm(yo);
+% errorNorm(4) = mean(abs(yo));
+% Psi = C';
+% errorNorm(5) = norm(Psi/(Psi'*Psi));
+
+llh_matrix = [gamma_noGossipError', gamma_approx', sum(log_lh_ss,1)'];
+llh_matrix = llh_matrix-max(llh_matrix);
+lh_matrix = exp(llh_matrix);
+lh_matrix = lh_matrix./sum(lh_matrix,1);
+llh_matrix = log(lh_matrix+realmin);
+
+delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m(isinf(abs(delta_m)))=0;
+delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip(isinf(abs(delta_gossip)))=0;
+errorNorm(1) = max(abs(delta_m));
+errorNorm(2) = max(abs(delta_gossip));
+errorNorm(3) = 0; 
+errorNorm(4) = 0; 
+delta_llh = (llh_matrix(:,2)-llh_matrix(:,3))./(llh_matrix(:,3));
+delta_llh(isinf(delta_llh))=0;
+errorNorm(5) = max(abs(delta_llh));
+errorNorm(6) = (1+errorNorm(1))*errorNorm(2)+errorNorm(1);
+
 gamma = gamma_approx-max(gamma_approx);
 
-try
-    % Compute unnormalized posterior weight
-    particle_weights = exp(gamma).*x_predicted(d+1,:);
-catch ME
-    save('error.mat');
-end
+% Compute unnormalized posterior weight
+particle_weights = exp(gamma).*x_predicted(d+1,:);
 
 % Give all particles equal weights if all particles have zero weight
 if (sum(particle_weights) == 0)

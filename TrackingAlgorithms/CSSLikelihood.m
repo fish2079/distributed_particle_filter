@@ -1,4 +1,4 @@
-function [particle_weights, aggregate_error_ratio] = CSSLikelihood(x_predicted, F, D, obs)
+function [particle_weights, aggregate_error_ratio, errorNorm] = CSSLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using CSS
 %   methods
@@ -20,6 +20,17 @@ function [particle_weights, aggregate_error_ratio] = CSSLikelihood(x_predicted, 
 % Nov. 9th, 2017
 
 d = size(x_predicted,1)-1;
+
+for i=1:numel(D.sensorID)    
+    z_received = D.measurements(:,i);
+    % Compute expected measurement
+    z_expected = obs.model(x_predicted(1:d,:), D.sensorLoc(:,i), obs);
+    
+    % Compute the Gaussian log-likelihood
+    z_dif = F.minus(z_received, z_expected);
+    
+    log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
+end
 
 z = D.measurements;
 
@@ -73,6 +84,51 @@ end
 % once consensus is done, every sensor just calculates the particle weights
 multi_matrix = [ones([size(x_predicted,2),1]), x_predicted(1,:)'.^2, x_predicted(2,:)'.^2,-2*x_predicted(1,:)'.*x_predicted(2,:)',2*x_predicted(1,:)',-2*x_predicted(2,:)'];
 temp = -0.5*multi_matrix*CSS;
+
+% errorNorm(1) = norm(-0.5*multi_matrix);
+% errorNorm(2) = norm(CSS-sum(CSS_matrix,1)');
+% yo = -0.5*multi_matrix*(CSS-sum(CSS_matrix,1)');
+% errorNorm(6) = norm(yo);
+% yo = yo-max(yo);
+% errorNorm(7) = norm(yo);
+% yo = exp(yo);
+% errorNorm(8) = norm(yo);
+% yo = 1-yo;
+% errorNorm(3) = norm(yo);
+% errorNorm(4) = mean(abs(yo));
+% Psi = -0.5*multi_matrix;
+% errorNorm(5) = norm(Psi/(Psi'*Psi));
+
+Psi = -0.5*multi_matrix;
+alpha_true = sum(CSS_matrix,1)';
+alpha_gossip = CSS;
+llh_matrix = [Psi*alpha_true, Psi*alpha_gossip, sum(log_lh_ss,1)'];
+llh_matrix = llh_matrix-max(llh_matrix);
+lh_matrix = exp(llh_matrix);
+lh_matrix = lh_matrix./sum(lh_matrix,1);
+llh_matrix = log(lh_matrix+realmin);
+% delta_m=(Psi*alpha_true-sum(log_lh_ss,1)')./sum(log_lh_ss,1)';
+delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m(isinf(abs(delta_m)))=0;
+% delta_gossip=(Psi*alpha_gossip-Psi*alpha_true)./(Psi*alpha_true);
+delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip(isinf(abs(delta_gossip)))=0;
+errorNorm(1) = max(abs(delta_m));
+errorNorm(2) = max(abs(delta_gossip));
+for i=1:numel(delta_m)
+%     tempUpper(i) = norm(Psi(i,:)')*norm(Psi(i,:))*norm(alpha_gossip-alpha_true)/norm(Psi(i,:)'*Psi(i,:)*alpha_true);
+    tempUpper(i) = norm(Psi(i,:)')*norm(Psi(i,:))*norm(alpha_gossip-alpha_true)/norm(Psi(i,:)'*llh_matrix(i,1));
+%     tempLower(i) = norm(Psi(i,:)'*Psi(i,:)*alpha_gossip-Psi(i,:)'*Psi(i,:)*alpha_true)/norm(Psi(i,:)')/norm(Psi(i,:)*alpha_true);
+    tempLower(i) = norm(Psi(i,:)'*llh_matrix(i,1)-Psi(i,:)'*llh_matrix(i,2))/norm(Psi(i,:)')/norm(llh_matrix(i,1));
+end
+tempUpper(isinf(abs(tempUpper)))=0;
+tempLower(isinf(abs(tempLower)))=0;
+errorNorm(3) = max(abs(tempUpper));
+errorNorm(4) = max(abs(tempLower));
+delta_llh = (llh_matrix(:,2)-llh_matrix(:,3))./(llh_matrix(:,3));
+delta_llh(isinf(delta_llh))=0;
+errorNorm(5) = max(abs(delta_llh));
+errorNorm(6) = (1+errorNorm(1))*errorNorm(2)+errorNorm(1);
 
 gamma = temp';
 

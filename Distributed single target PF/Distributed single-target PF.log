@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  7 APR 2018 20:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  10 APR 2018 23:43
 entering extended mode
 **Distributed*single-target*PF.tex
 
@@ -449,20 +449,28 @@ Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \colbreak@box=\box53
 \multicol@sort@counter=\count115
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
  target PF\Distributed single-target PF.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
 
 (C:\Users\Jay\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -512,18 +520,18 @@ LaTeX Font Info:    ... okay on input line 13.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 14.
+LaTeX Font Info:    Try loading font information for U+msa on input line 15.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 14.
+LaTeX Font Info:    Try loading font information for U+msb on input line 15.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Overfull \hbox (65.4716pt too wide) in paragraph at lines 61--61
+Overfull \hbox (65.4716pt too wide) in paragraph at lines 62--62
 [] 
  []
 
@@ -592,26 +600,26 @@ Overfull \vbox (36.52657pt too high) has occurred while \output is active []
 File: Figures/track1.pdf Graphic file (type pdf)
 
 <use Figures/track1.pdf>
-Package pdftex.def Info: Figures/track1.pdf used on input line 387.
+Package pdftex.def Info: Figures/track1.pdf used on input line 388.
 (pdftex.def)             Requested size: 150.32504pt x 120.97491pt.
  <Figures/track2.pdf, id=32, 813.0375pt x 660.4675pt>
 File: Figures/track2.pdf Graphic file (type pdf)
 
 <use Figures/track2.pdf>
-Package pdftex.def Info: Figures/track2.pdf used on input line 390.
+Package pdftex.def Info: Figures/track2.pdf used on input line 391.
 (pdftex.def)             Requested size: 150.32504pt x 122.11403pt.
  <Figures/track3.pdf, id=33, 801.99625pt x 648.4225pt>
 File: Figures/track3.pdf Graphic file (type pdf)
 
 <use Figures/track3.pdf>
-Package pdftex.def Info: Figures/track3.pdf used on input line 393.
+Package pdftex.def Info: Figures/track3.pdf used on input line 394.
 (pdftex.def)             Requested size: 150.32504pt x 121.53934pt.
 
 <Figures/Track1_bearing_RMSE.pdf, id=34, 1177.39874pt x 654.445pt>
 File: Figures/Track1_bearing_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/Track1_bearing_RMSE.pdf>
-Package pdftex.def Info: Figures/Track1_bearing_RMSE.pdf used on input line 402
+Package pdftex.def Info: Figures/Track1_bearing_RMSE.pdf used on input line 403
 .
 (pdftex.def)             Requested size: 230.18253pt x 127.9408pt.
 
@@ -620,14 +628,14 @@ File: Figures/Track1_bearing_WError.pdf Graphic file (type pdf)
 
 <use Figures/Track1_bearing_WError.pdf>
 Package pdftex.def Info: Figures/Track1_bearing_WError.pdf used on input line 4
-05.
+06.
 (pdftex.def)             Requested size: 230.18253pt x 127.87419pt.
 
 <Figures/Track2_bearing_RMSE.pdf, id=36, 1177.39874pt x 655.44875pt>
 File: Figures/Track2_bearing_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/Track2_bearing_RMSE.pdf>
-Package pdftex.def Info: Figures/Track2_bearing_RMSE.pdf used on input line 420
+Package pdftex.def Info: Figures/Track2_bearing_RMSE.pdf used on input line 421
 .
 (pdftex.def)             Requested size: 230.18253pt x 128.13702pt.
 
@@ -636,7 +644,7 @@ File: Figures/Track2_bearing_WError.pdf Graphic file (type pdf)
 
 <use Figures/Track2_bearing_WError.pdf>
 Package pdftex.def Info: Figures/Track2_bearing_WError.pdf used on input line 4
-23.
+24.
 (pdftex.def)             Requested size: 230.18253pt x 125.75899pt.
  [6 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/track1.pdf> <C:/Users/Jay/Desktop/distributed_particle_fi
@@ -650,7 +658,7 @@ ck1_bearing_WError.pdf>]
 File: Figures/Track3_bearing_RMSE.pdf Graphic file (type pdf)
 
 <use Figures/Track3_bearing_RMSE.pdf>
-Package pdftex.def Info: Figures/Track3_bearing_RMSE.pdf used on input line 434
+Package pdftex.def Info: Figures/Track3_bearing_RMSE.pdf used on input line 435
 .
 (pdftex.def)             Requested size: 230.18253pt x 132.22481pt.
 
@@ -659,14 +667,14 @@ File: Figures/Track3_bearing_WError.pdf Graphic file (type pdf)
 
 <use Figures/Track3_bearing_WError.pdf>
 Package pdftex.def Info: Figures/Track3_bearing_WError.pdf used on input line 4
-37.
+38.
 (pdftex.def)             Requested size: 230.18253pt x 125.56668pt.
 
 <Figures/Track3_bearing_time.pdf, id=69, 1107.13625pt x 668.4975pt>
 File: Figures/Track3_bearing_time.pdf Graphic file (type pdf)
 
 <use Figures/Track3_bearing_time.pdf>
-Package pdftex.def Info: Figures/Track3_bearing_time.pdf used on input line 449
+Package pdftex.def Info: Figures/Track3_bearing_time.pdf used on input line 450
 .
 (pdftex.def)             Requested size: 234.8775pt x 141.81668pt.
  [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
@@ -681,7 +689,7 @@ File: Figures/curve_perturbation_track1.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbation_track1.pdf>
 Package pdftex.def Info: Figures/curve_perturbation_track1.pdf used on input li
-ne 468.
+ne 467.
 (pdftex.def)             Requested size: 230.18253pt x 129.49936pt.
 
 <Figures/curve_perturbationGossip_track1.pdf, id=95, 1170.3725pt x 668.4975pt>
@@ -689,7 +697,7 @@ File: Figures/curve_perturbationGossip_track1.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbationGossip_track1.pdf>
 Package pdftex.def Info: Figures/curve_perturbationGossip_track1.pdf used on in
-put line 471.
+put line 470.
 (pdftex.def)             Requested size: 230.18253pt x 131.47343pt.
 
 <Figures/curve_perturbation_track2.pdf, id=96, 1170.3725pt x 658.46pt>
@@ -697,14 +705,14 @@ File: Figures/curve_perturbation_track2.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbation_track2.pdf>
 Package pdftex.def Info: Figures/curve_perturbation_track2.pdf used on input li
-ne 474.
+ne 473.
 (pdftex.def)             Requested size: 230.18253pt x 129.49936pt.
 
 <Figures/curve_perturbationGossip_track2.pdf, id=97, 1170.3725pt x 621.32124pt>
 File: Figures/curve_perturbationGossip_track2.pdf Graphic file (type pdf)
 <use Figures/curve_perturbationGossip_track2.pdf>
 Package pdftex.def Info: Figures/curve_perturbationGossip_track2.pdf used on in
-put line 477.
+put line 476.
 (pdftex.def)             Requested size: 230.18253pt x 122.19528pt.
 
 <Figures/curve_perturbation_track3.pdf, id=98, 1170.3725pt x 658.46pt>
@@ -712,7 +720,7 @@ File: Figures/curve_perturbation_track3.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbation_track3.pdf>
 Package pdftex.def Info: Figures/curve_perturbation_track3.pdf used on input li
-ne 480.
+ne 479.
 (pdftex.def)             Requested size: 230.18253pt x 129.49936pt.
 
 <Figures/curve_perturbationGossip_track3.pdf, id=99, 1170.3725pt x 668.4975pt>
@@ -720,7 +728,7 @@ File: Figures/curve_perturbationGossip_track3.pdf Graphic file (type pdf)
 
 <use Figures/curve_perturbationGossip_track3.pdf>
 Package pdftex.def Info: Figures/curve_perturbationGossip_track3.pdf used on in
-put line 483.
+put line 482.
 (pdftex.def)             Requested size: 230.18253pt x 131.47343pt.
  [8 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
 gle target PF/Figures/Track3_bearing_time.pdf>] [9 <C:/Users/Jay/Desktop/distri
@@ -733,179 +741,144 @@ _particle_filter.git/trunk/Distributed single target PF/Figures/curve_perturbat
 ionGossip_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/tru
 nk/Distributed single target PF/Figures/curve_perturbation_track3.pdf> <C:/User
 s/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target P
-F/Figures/curve_perturbationGossip_track3.pdf>]
-<Figures/expPsiDelta_track1.pdf, id=141, 956.57375pt x 470.75874pt>
-File: Figures/expPsiDelta_track1.pdf Graphic file (type pdf)
+F/Figures/curve_perturbationGossip_track3.pdf>] [10]
+<Figures/delta_m_time_track1.pdf, id=144, 1158.3275pt x 626.34pt>
+File: Figures/delta_m_time_track1.pdf Graphic file (type pdf)
 
-<use Figures/expPsiDelta_track1.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_track1.pdf used on input line 539.
+<use Figures/delta_m_time_track1.pdf>
+Package pdftex.def Info: Figures/delta_m_time_track1.pdf used on input line 825
+.
+(pdftex.def)             Requested size: 230.18253pt x 124.46297pt.
 
-(pdftex.def)             Requested size: 230.18253pt x 113.27892pt.
+<Figures/delta_gossip_track1.pdf, id=145, 1170.3725pt x 636.3775pt>
+File: Figures/delta_gossip_track1.pdf Graphic file (type pdf)
 
-<Figures/expPsiDelta_Gossip_track1.pdf, id=142, 944.52875pt x 452.69125pt>
-File: Figures/expPsiDelta_Gossip_track1.pdf Graphic file (type pdf)
+<use Figures/delta_gossip_track1.pdf>
+Package pdftex.def Info: Figures/delta_gossip_track1.pdf used on input line 828
+.
+(pdftex.def)             Requested size: 230.18253pt x 125.15639pt.
 
-<use Figures/expPsiDelta_Gossip_track1.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_Gossip_track1.pdf used on input li
-ne 542.
-(pdftex.def)             Requested size: 230.18253pt x 110.31973pt.
+<Figures/delta_bound_track1.pdf, id=146, 1124.2pt x 636.3775pt>
+File: Figures/delta_bound_track1.pdf Graphic file (type pdf)
 
-<Figures/expPsiDelta_track2.pdf, id=143, 956.57375pt x 470.75874pt>
-File: Figures/expPsiDelta_track2.pdf Graphic file (type pdf)
+<use Figures/delta_bound_track1.pdf>
+Package pdftex.def Info: Figures/delta_bound_track1.pdf used on input line 831.
 
-<use Figures/expPsiDelta_track2.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_track2.pdf used on input line 545.
+(pdftex.def)             Requested size: 230.18253pt x 130.29315pt.
+File: Figures/curve_perturbationGossip_track1.pdf Graphic file (type pdf)
 
-(pdftex.def)             Requested size: 230.18253pt x 113.27892pt.
+<use Figures/curve_perturbationGossip_track1.pdf>
+Package pdftex.def Info: Figures/curve_perturbationGossip_track1.pdf used on in
+put line 834.
+(pdftex.def)             Requested size: 230.18253pt x 131.47343pt.
 
-<Figures/expPsiDelta_Gossip_track2.pdf, id=144, 956.57375pt x 451.6875pt>
-File: Figures/expPsiDelta_Gossip_track2.pdf Graphic file (type pdf)
+<Figures/delta_m_time_track2.pdf, id=147, 1188.44pt x 611.28375pt>
+File: Figures/delta_m_time_track2.pdf Graphic file (type pdf)
 
-<use Figures/expPsiDelta_Gossip_track2.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_Gossip_track2.pdf used on input li
-ne 548.
-(pdftex.def)             Requested size: 230.18253pt x 108.68979pt.
+<use Figures/delta_m_time_track2.pdf>
+Package pdftex.def Info: Figures/delta_m_time_track2.pdf used on input line 849
+.
+(pdftex.def)             Requested size: 230.18253pt x 118.39302pt.
 
-<Figures/expPsiDelta_track3.pdf, id=145, 956.57375pt x 470.75874pt>
-File: Figures/expPsiDelta_track3.pdf Graphic file (type pdf)
+<Figures/delta_gossip_track2.pdf, id=148, 1164.35pt x 636.3775pt>
+File: Figures/delta_gossip_track2.pdf Graphic file (type pdf)
 
-<use Figures/expPsiDelta_track3.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_track3.pdf used on input line 551.
+<use Figures/delta_gossip_track2.pdf>
+Package pdftex.def Info: Figures/delta_gossip_track2.pdf used on input line 852
+.
+(pdftex.def)             Requested size: 230.18253pt x 125.80698pt.
 
-(pdftex.def)             Requested size: 230.18253pt x 113.27892pt.
+<Figures/delta_bound_track2.pdf, id=149, 1136.245pt x 624.3325pt>
+File: Figures/delta_bound_track2.pdf Graphic file (type pdf)
 
-<Figures/expPsiDelta_Gossip_track3.pdf, id=146, 944.52875pt x 451.6875pt>
-File: Figures/expPsiDelta_Gossip_track3.pdf Graphic file (type pdf)
+<use Figures/delta_bound_track2.pdf>
+Package pdftex.def Info: Figures/delta_bound_track2.pdf used on input line 855.
 
-<use Figures/expPsiDelta_Gossip_track3.pdf>
-Package pdftex.def Info: Figures/expPsiDelta_Gossip_track3.pdf used on input li
-ne 554.
-(pdftex.def)             Requested size: 230.18253pt x 110.07512pt.
+(pdftex.def)             Requested size: 230.18253pt x 126.47427pt.
+File: Figures/curve_perturbationGossip_track2.pdf Graphic file (type pdf)
 
-<Figures/PsiDelta_track1.pdf, id=147, 956.57375pt x 414.54875pt>
-File: Figures/PsiDelta_track1.pdf Graphic file (type pdf)
+<use Figures/curve_perturbationGossip_track2.pdf>
+Package pdftex.def Info: Figures/curve_perturbationGossip_track2.pdf used on in
+put line 858.
+(pdftex.def)             Requested size: 230.18253pt x 122.19528pt.
 
-<use Figures/PsiDelta_track1.pdf>
-Package pdftex.def Info: Figures/PsiDelta_track1.pdf used on input line 565.
-(pdftex.def)             Requested size: 230.18253pt x 99.75307pt.
+<Figures/delta_m_time_track3.pdf, id=150, 1158.3275pt x 639.38875pt>
+File: Figures/delta_m_time_track3.pdf Graphic file (type pdf)
 
-<Figures/PsiDelta_Gossip_track1.pdf, id=148, 944.52875pt x 425.59pt>
-File: Figures/PsiDelta_Gossip_track1.pdf Graphic file (type pdf)
+<use Figures/delta_m_time_track3.pdf>
+Package pdftex.def Info: Figures/delta_m_time_track3.pdf used on input line 869
+.
+(pdftex.def)             Requested size: 230.18253pt x 127.05595pt.
 
-<use Figures/PsiDelta_Gossip_track1.pdf>
-Package pdftex.def Info: Figures/PsiDelta_Gossip_track1.pdf used on input line 
-568.
-(pdftex.def)             Requested size: 230.18253pt x 103.71523pt.
+<Figures/delta_gossip_track3.pdf, id=151, 1170.3725pt x 642.4pt>
+File: Figures/delta_gossip_track3.pdf Graphic file (type pdf)
 
-<Figures/PsiDelta_track2.pdf, id=149, 956.57375pt x 414.54875pt>
-File: Figures/PsiDelta_track2.pdf Graphic file (type pdf)
+<use Figures/delta_gossip_track3.pdf>
+Package pdftex.def Info: Figures/delta_gossip_track3.pdf used on input line 872
+.
+(pdftex.def)             Requested size: 230.18253pt x 126.34084pt.
 
-<use Figures/PsiDelta_track2.pdf>
-Package pdftex.def Info: Figures/PsiDelta_track2.pdf used on input line 571.
-(pdftex.def)             Requested size: 230.18253pt x 99.75307pt.
+<Figures/delta_bound_track3.pdf, id=152, 1170.3725pt x 636.3775pt>
+File: Figures/delta_bound_track3.pdf Graphic file (type pdf)
 
-<Figures/PsiDelta_Gossip_track2.pdf, id=150, 956.57375pt x 424.58624pt>
-File: Figures/PsiDelta_Gossip_track2.pdf Graphic file (type pdf)
+<use Figures/delta_bound_track3.pdf>
+Package pdftex.def Info: Figures/delta_bound_track3.pdf used on input line 875.
 
-<use Figures/PsiDelta_Gossip_track2.pdf>
-Package pdftex.def Info: Figures/PsiDelta_Gossip_track2.pdf used on input line 
-574.
-(pdftex.def)             Requested size: 230.18253pt x 102.1684pt.
+(pdftex.def)             Requested size: 230.18253pt x 125.15639pt.
+File: Figures/curve_perturbationGossip_track3.pdf Graphic file (type pdf)
 
-<Figures/PsiDelta_track3.pdf, id=151, 956.57375pt x 429.605pt>
-File: Figures/PsiDelta_track3.pdf Graphic file (type pdf)
-
-<use Figures/PsiDelta_track3.pdf>
-Package pdftex.def Info: Figures/PsiDelta_track3.pdf used on input line 577.
-(pdftex.def)             Requested size: 230.18253pt x 103.37607pt.
-
-<Figures/PsiDelta_Gossip_track3.pdf, id=152, 944.52875pt x 424.58624pt>
-File: Figures/PsiDelta_Gossip_track3.pdf Graphic file (type pdf)
-
-<use Figures/PsiDelta_Gossip_track3.pdf>
-Package pdftex.def Info: Figures/PsiDelta_Gossip_track3.pdf used on input line 
-580.
-(pdftex.def)             Requested size: 230.18253pt x 103.47061pt.
-
-Overfull \hbox (31.91498pt too wide) detected at line 646
-\OML/cmm/m/it/10 [] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 []\OT1/cmr/m/n/10 	[] 
-= [] [] 	[] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = [] []
- []
-
-[10] [11 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distribute
-d single target PF/Figures/expPsiDelta_track1.pdf> <C:/Users/Jay/Desktop/distri
-buted_particle_filter.git/trunk/Distributed single target PF/Figures/expPsiDelt
-a_Gossip_track1.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trun
-k/Distributed single target PF/Figures/expPsiDelta_track2.pdf> <C:/Users/Jay/De
-sktop/distributed_particle_filter.git/trunk/Distributed single target PF/Figure
-s/expPsiDelta_Gossip_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_fil
-ter.git/trunk/Distributed single target PF/Figures/expPsiDelta_track3.pdf> <C:/
-Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single targ
-et PF/Figures/expPsiDelta_Gossip_track3.pdf>] [12 <C:/Users/Jay/Desktop/distrib
-uted_particle_filter.git/trunk/Distributed single target PF/Figures/PsiDelta_tr
-ack1.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distribut
-ed single target PF/Figures/PsiDelta_Gossip_track1.pdf> <C:/Users/Jay/Desktop/d
-istributed_particle_filter.git/trunk/Distributed single target PF/Figures/PsiDe
-lta_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Dis
-tributed single target PF/Figures/PsiDelta_Gossip_track2.pdf> <C:/Users/Jay/Des
-ktop/distributed_particle_filter.git/trunk/Distributed single target PF/Figures
-/PsiDelta_track3.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/tru
-nk/Distributed single target PF/Figures/PsiDelta_Gossip_track3.pdf>]
-<Figures/Psi_time_track1.pdf, id=222, 1161.33875pt x 611.28375pt>
-File: Figures/Psi_time_track1.pdf Graphic file (type pdf)
-
-<use Figures/Psi_time_track1.pdf>
-Package pdftex.def Info: Figures/Psi_time_track1.pdf used on input line 661.
-(pdftex.def)             Requested size: 230.18253pt x 121.15395pt.
-
-<Figures/Psi_time_track2.pdf, id=223, 1161.33875pt x 611.28375pt>
-File: Figures/Psi_time_track2.pdf Graphic file (type pdf)
-
-<use Figures/Psi_time_track2.pdf>
-Package pdftex.def Info: Figures/Psi_time_track2.pdf used on input line 664.
-(pdftex.def)             Requested size: 230.18253pt x 121.15395pt.
-
-<Figures/Psi_time_track3.pdf, id=224, 1161.33875pt x 611.28375pt>
-File: Figures/Psi_time_track3.pdf Graphic file (type pdf)
-
-<use Figures/Psi_time_track3.pdf>
-Package pdftex.def Info: Figures/Psi_time_track3.pdf used on input line 667.
-(pdftex.def)             Requested size: 230.18253pt x 121.15395pt.
- [13 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed si
-ngle target PF/Figures/Psi_time_track1.pdf> <C:/Users/Jay/Desktop/distributed_p
-article_filter.git/trunk/Distributed single target PF/Figures/Psi_time_track2.p
-df> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sin
-gle target PF/Figures/Psi_time_track3.pdf>]
-[14]
+<use Figures/curve_perturbationGossip_track3.pdf>
+Package pdftex.def Info: Figures/curve_perturbationGossip_track3.pdf used on in
+put line 878.
+(pdftex.def)             Requested size: 230.18253pt x 131.47343pt.
+ [11] [12 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distribut
+ed single target PF/Figures/delta_m_time_track1.pdf> <C:/Users/Jay/Desktop/dist
+ributed_particle_filter.git/trunk/Distributed single target PF/Figures/delta_go
+ssip_track1.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Di
+stributed single target PF/Figures/delta_bound_track1.pdf>] [13 <C:/Users/Jay/D
+esktop/distributed_particle_filter.git/trunk/Distributed single target PF/Figur
+es/delta_m_time_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.g
+it/trunk/Distributed single target PF/Figures/delta_gossip_track2.pdf> <C:/User
+s/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed single target P
+F/Figures/delta_bound_track2.pdf>] [14 <C:/Users/Jay/Desktop/distributed_partic
+le_filter.git/trunk/Distributed single target PF/Figures/delta_m_time_track3.pd
+f> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Distributed sing
+le target PF/Figures/delta_gossip_track3.pdf> <C:/Users/Jay/Desktop/distributed
+_particle_filter.git/trunk/Distributed single target PF/Figures/delta_bound_tra
+ck3.pdf>]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
- target PF\Distributed single-target PF.bbl" [15]) [16]
+ target PF\Distributed single-target PF.bbl") [15]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Distributed single
  target PF\Distributed single-target PF.aux") ) 
 Here is how much of TeX's memory you used:
- 3199 strings out of 493921
- 44847 string characters out of 3147289
- 111627 words of memory out of 3000000
- 6414 multiletter control sequences out of 15000+200000
- 12468 words of font info for 48 fonts, out of 3000000 for 9000
+ 3210 strings out of 493921
+ 44504 string characters out of 3147289
+ 112623 words of memory out of 3000000
+ 6428 multiletter control sequences out of 15000+200000
+ 11849 words of font info for 46 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,21n,24p,1240b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,20n,24p,1211b,273s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
 amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Distributed single-target PF.pdf" (16 pages, 451806 bytes).
+5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb
+><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmti10.pfb>
+Output written on "Distributed single-target PF.pdf" (15 pages, 466775 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
+ 277 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 156 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

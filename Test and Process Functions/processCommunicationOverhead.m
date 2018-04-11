@@ -12,7 +12,7 @@
 % jun.y.y.yu@mail.mcgill.ca
 % Nov. 9th, 2017
 
-filepath = 'All PF Results\Overhead_Range\';
+filepath = 'All PF Results\Overhead_Bearing\';
 
 % Number of particles for the filter
 N = 500; 
@@ -40,7 +40,7 @@ for i=1:numel(gossip_vector)
     aggregate_error_ratioFull_sf = [];
 
     % Store the tracking results
-    filename = [filepath, 'Track3_'];
+    filename = [filepath, 'Track1_'];
     filename = [filename, '_overhead',num2str(gossip_vector(i))];
     filename = [filename, '_gossip',num2str(gossip_vector(i))];
     filename = [filename,'_N',num2str(sim_parameters.N)];
@@ -55,7 +55,6 @@ for i=1:numel(gossip_vector)
     weight_difFull_sf = cat(1, weight_difFull_sf, mean(abs(weight_dif_full_alg),4));
     aggregate_error_ratioFull_sf = cat(1, aggregate_error_ratioFull_sf, aggregate_error_ratio_alg);
 
-    
     RMSEFull = cat(4,RMSEFull, RMSEFull_sf);
     steptimeFull = cat(4, steptimeFull, steptimeFull_sf);
     weight_difFull = cat(4, weight_difFull, mean(abs(weight_difFull_sf),4));
@@ -64,7 +63,7 @@ for i=1:numel(gossip_vector)
     xticklabel{i} = num2str(gossip_vector(i));
 end
 
-plot_color = {'y','r','b','g','k','m'};
+plot_color = {'m','g','k','r','b'}; %{'y','r','b','g','k','m'};
 
 % figure();
 % set(gcf,'color','white');
@@ -87,7 +86,7 @@ xlabel('Communication overhead per sensor per time step');
 ylabel('RMSE')
 RMSE_plot = (squeeze(mean(mean(RMSEFull,2),3)));
 hold on;
-for i=2:size(RMSE_plot,1)
+for i=1:size(RMSE_plot,1)
     plot(gossip_vector*overhead_factor(i),RMSE_plot(i,:),strcat(plot_color{i},'o-'), 'linewidth',8,'markersize',16);
 end
 % set(gca,'xtick', 1:numel(gossip_vector));
@@ -104,6 +103,37 @@ runtime_plot = squeeze(sum(mean(steptimeFull,3),2));
 hold on;
 for i=1:size(runtime_plot,1)
     plot(gossip_vector,runtime_plot(i,:),strcat(plot_color{i},'o-'), 'linewidth',8,'markersize',16);
+end
+% set(gca,'xtick', 1:numel(gossip_vector));
+% set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',45);
+% legend('CSSpf', 'LCpf-meas (d=20)','LCpf-llh (d=4)','LCpf-llh (d=9)','LApf (m=6)','Clusterpf (C=6)');
+legend('CSSpf', 'LCpf (d=9)','LCpf-GS (d=9)','LApf (m=6)','Clusterpf (C=6)');
+
+figure();
+set(gcf,'color','white');
+xlabel('Communication overhead per sensor per time step');
+ylabel('Weight Error')
+RMSE_plot = (squeeze(mean(mean(weight_difFull,2),3)));
+hold on;
+for i=1:size(RMSE_plot,1)
+    plot(gossip_vector*overhead_factor(i),RMSE_plot(i,:),strcat(plot_color{i},'o-'), 'linewidth',8,'markersize',16);
+end
+% set(gca,'xtick', 1:numel(gossip_vector));
+% set(gca,'xticklabel', xticklabel);
+set(gca,'fontsize',45);
+% legend('CSSpf', 'LCpf-meas (d=20)','LCpf-llh (d=4)','LCpf-llh (d=9)','LApf (m=6)','Clusterpf (C=6)');
+legend('CSSpf', 'LCpf (d=9)','LCpf-GS (d=9)','LApf (m=6)','Clusterpf (C=6)');
+
+
+figure();
+set(gcf,'color','white');
+xlabel('Communication overhead per sensor per time step');
+ylabel('AER')
+RMSE_plot = (squeeze(mean(mean(aggregate_error_ratioFull,2),3)));
+hold on;
+for i=1:size(RMSE_plot,1)
+    plot(gossip_vector*overhead_factor(i),RMSE_plot(i,:),strcat(plot_color{i},'o-'), 'linewidth',8,'markersize',16);
 end
 % set(gca,'xtick', 1:numel(gossip_vector));
 % set(gca,'xticklabel', xticklabel);

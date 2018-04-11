@@ -93,7 +93,7 @@ obs.sensorPos = S.sensorPos;
 if(isfield(sim_parameters, 'N'))
     F.N = sim_parameters.N; 
 else
-    F.N = 50; %500;
+    F.N = 500;
 end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
@@ -136,13 +136,24 @@ else
 end
 
 % LA specific parameters
-% Number of neighbors is irrelevant since we now use Delaunay
-% triangulation
-% Maintain the parameters just in case
+% Number of neighbors for KNN graph
+% Only relevant if we choose to use KNN graph instead of Delaunay graph
 if(isfield(sim_parameters, 'KNN'))
     F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
 else
     F.LA.KNN = 10; 
+end
+
+if(isfield(sim_parameters, 'KNNgraph'))
+    F.LA.KNNgraph = sim_parameters.KNNgraph; % flag to use the KNN nearest graph
+else
+    F.LA.KNNgraph = false;
+end
+
+if(isfield(sim_parameters, 'weightedEdge'))
+    F.LA.weightedEdge = sim_parameters.weightedEdge; % flag to use the weighted adjacency matrix
+else
+    F.LA.weightedEdge = false;
 end
 
 if(isfield(sim_parameters, 'nbEig'))
@@ -151,9 +162,6 @@ else
     F.LA.m = 6;
 end
 
-F.LA.max_lh_dif = 0.01;
-F.LA.max_m = 10;
-
 % Clustering specific parameters
 if(isfield(sim_parameters,'nbClusters'))
     F.cluster.k = sim_parameters.nbClusters;
@@ -161,16 +169,32 @@ else
     F.cluster.k = 6;
 end
 
-% As in the case LApf, KNN is obsolete since we use Delaunay triangulation
-% only
-F.cluster.KNN = F.LA.KNN;
+if(isfield(sim_parameters, 'KNN'))
+    F.cluster.KNN = sim_parameters.KNN; % number of nearest neighbors
+else
+    F.cluster.KNN = 10; 
+end
 
-% Store the two parameter structs in the output struct
+if(isfield(sim_parameters, 'KNNgraph'))
+    F.cluster.KNNgraph = sim_parameters.KNNgraph; % flag to use the KNN nearest graph
+else
+    F.cluster.KNNgraph = false;
+end
+
+if(isfield(sim_parameters, 'weightedEdge'))
+    F.cluster.weightedEdge = sim_parameters.weightedEdge; % flag to use the weighted adjacency matrix
+else
+    F.cluster.weightedEdge = false;
+end
+
+% Store the three parameter structs in the output struct
 % The struct S contains parameters related to target track
 % The struct F contains parameters related to tracking algorithm
+% The struct obs contains parameters related to observation model
 parameters = sim_parameters;
 parameters.S = S;
 parameters.F = F;
+parameters.obs = obs;
 
 % Run all trials in parallel if required
 if (parameters.parallel)

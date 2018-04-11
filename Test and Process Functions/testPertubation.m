@@ -21,7 +21,7 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-pertubation_vector = [0.01, 0.1, 1, 5, 10, 25, 50,100,200,300]; %[0.01, 0.1, 1, 5, 10, 25];%, 50, 100]; %[1,5,10,25,50,100,200,500]; %[1, 5,10,25];%,[50,100,200,500];
+pertubation_vector = [1, 5, 10, 25, 50,100,200,300]; %[0.01, 0.1, 1, 5, 10, 25];%, 50, 100]; %[1,5,10,25,50,100,200,500]; %[1, 5,10,25];%,[50,100,200,500];
 
 % Number of random trials
 sim_parameters.no_trials = 40; 
@@ -29,7 +29,7 @@ sim_parameters.no_trials = 40;
 sim_parameters.max_gossip_iter = 100;
 
 % Flag for parallel run
-sim_parameters.parallel = true;
+sim_parameters.parallel = false;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
@@ -38,12 +38,12 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 3;
 
 %%
-sim_parameters.nbEig = 9;
+sim_parameters.nbEig = 6;
 
-sim_parameters.nbClusters = 9; 
+sim_parameters.nbClusters = 6; 
 
 sim_parameters.max_degree = 2;
 %%

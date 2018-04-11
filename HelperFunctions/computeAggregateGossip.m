@@ -42,6 +42,5 @@ x_aggregate = max(x_aggregate_gossip,[],1);
 
 % aggregate_error_ratio = [aggregate_error_ratio; initial_error_ratio];
 aggregate_error_ratio = abs((x_aggregate(1,:)-sum(x_initial,1))./sum(x_initial,1));
-yo=5;
 
 

@@ -42,4 +42,9 @@ C.~W. Chao, M.~Rabbat, and S.~Blouin, ``Particle weight approximation with
   Int. Workshop Comp Comput. Advances Multi-Sensor Adaptive Process. (CAMSAP)},
   Cancun, Mexico, Dec 2015, pp. 85--88.
 
+\bibitem{Syamantak2015}
+S.~D. Gupta, M.~Coates, and M.~Rabbat, ``Error propagation in gossip-based
+  distributed particle filters,'' \emph{IEEE Trans. Signal Inf. Process.
+  Netw.}, vol.~1, no.~3, pp. 148--163, Aug. 2015.
+
 \end{thebibliography}

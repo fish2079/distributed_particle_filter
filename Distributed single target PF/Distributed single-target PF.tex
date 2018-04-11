@@ -8,6 +8,7 @@
 \usepackage{fullpage}
 \usepackage{subfigure}
 \usepackage{multicol}
+\usepackage{color}
 \author{Jun Ye Yu}
 \title{Distributed particle filter for bearing-only tracking}
 \begin{document}
@@ -456,9 +457,7 @@ Simulation results in the previous sections suggest that LApf and LCpf are consi
 
 We run a centralized BSpf for all three tracks. At each time step, we re-compute the posterior particle weights using all distributed filters. We then compute and report the discrepancy of approximate and exact particle weights (i.e., $||W_{BS}-W_{CSS}||_2$).
 
-The goal is to understand each filter's susceptibility to gossiping error. The aggregate values are first calculated exactly without gossiping; then we inject perturbation into the aggregate values. Let $\alpha$ denote the true aggregate value and $x$ the perturbation level, then the final aggregate value used in weight computation is $\alpha(1+ x/100)$ or $\alpha(1- x/100)$ with equal probability. Note that, in this definition, perturbation level is equal to the AER. We choose this approach so we can control the AER exactly without fine-tuning the number of gossip iterations. 
-
-We repeat this test but run a fixed number of gossip iterations for all filters. The perturbations in this case are generated from gossiping errors. 
+The goal is to understand each filter's susceptibility to gossiping error. The aggregate values are first calculated exactly without gossiping; then we inject perturbation into the aggregate values. Let $\alpha$ denote the true aggregate value and $x$ the perturbation level, then the final aggregate value used in weight computation is $\alpha(1+ x/100)$ or $\alpha(1- x/100)$ with equal probability. Note that, in this definition, perturbation level is equal to the AER. We choose this approach so we can control the AER exactly without fine-tuning the number of gossip iterations. We also repeat this test but run a fixed number of gossip iterations for all filters. The perturbations in this case are generated from gossiping errors. 
 
 Fig.~\ref{fig:perturbation_results} shows the average weight discrepancy with respect to perturbation level and number of gossip iterations. In all three tracks, LCpf has the worst performance by far followed by CSSpf. Even at very low perturbation level, the weight discrepancy of LCpf can go above 0.2. On the other hand, LCpf-GS and LApf have consistently the best performance with LApf having an edge for perturbation $>100$. And we note that, for all values of $NGossip$, the weight discrepancy of LApf and Clusterpf never exceeds 0.2. 
 
@@ -507,205 +506,206 @@ Fig.~\ref{fig:perturbation_results} shows the average weight discrepancy with re
 %\end{figure}
 %
 
-\section{Theoretical analysis}
-All four filters encode the particle log-likelihoods in a similar fashion but yet display drastically different performance at low communication overhead. 
-
-Let $\gamma_s$ denote the $N\times 1$ column vector of particle log-likelihoods at sensor $s$ and let $\gamma = \sum_{s=1}^S \gamma_s$ denote the joint log-likelihoods. Denote by $\Psi$ the $N\times J$ encoding matrix where $J \leq N$ is the number of encoding coefficients. In general, $\Psi$ is a function of local particles $x_i$. Finally, denote by $\alpha_s$ the $J\times 1$ column vector of encoded coefficients that capture all information at sensor $s$. 
-
-For CSSpf, LCpf, LCpf-GS and LApf, the joint log-likelihoods are computed as follows:
-\begin{align}
-\alpha_s &= (\Psi^T \Psi)^{-1}\Psi^T \gamma_s\\
-\alpha &= \sum_{s=1}^S \alpha_s = \sum_{s=1}^S (\Psi^T \Psi)^{-1}\Psi^T \gamma_s \\
-\gamma &= \Psi \alpha = \Psi \sum_{s=1}^S (\Psi^T \Psi)^{-1}\Psi^T \gamma_s
-\end{align}
-
-For Clusterpf, the vector $\gamma_s$ instead denotes the $C\times 1$ column vector of cluster log-likelihoods at sensor $s$. After the joint cluster log-likelihoods $\gamma$ are computed, individual particle log-likelihoods are recovered via convex optimization. This last step renders the analysis of Clusterpf more complicated and we omit all discussions related to Clusterpf for now. 
-
-With low communication overhead, the gossip algorithm does not converge and all sensors obtain $\alpha' = \alpha + \Delta$. This yields
-\begin{equation}
-\gamma' = \Psi \alpha' = \Psi \alpha + \Psi \Delta
-\end{equation}
-where the term $\Psi \Delta$ induces error in the joint log-likelihoods. Taking the exponential yields
-\begin{equation}
-w = \exp(\gamma') = \exp(\Psi\alpha)\exp(\Psi\Delta)
-\end{equation}
-where the term $\exp(\Psi\Delta)$ is the distortion induced on (unnormalized) particle weights. 
-
-In the ideal case, the gossip algorithm converges, $\Delta = 0$, and we have $\exp(\Psi \Delta)=\textbf{1}$ where $\textbf{1}$ is the vector of all 1's. In our perturbation test (Fig.~\ref{fig:perturbation_results}), we compute and report $\frac{1}{N}||\textbf{1}-\exp(\Psi \Delta)||_1$. For each filter, we compute the $N\times 1$ vector $\textbf{1}-\exp(\Psi \Delta)$ and report its average over $N$ particles. A value closer to 0 indicates less distortion to the particle weights due to gossiping error. Conversely, a value close to 1 indicates high distortion. Fig.~\ref{fig:perturbation_expPsiDelta} shows the results for all three tracks. In all perturbation tests, LApf has the lowest curve, followed by LCpf-GS and Clusterpf. LCpf has the highest curve for all perturbation levels. On the other hand, in the NGossip tests, Clusterpf and LApf have very similar level distortions. These trends are consistent with Fig.~\ref{fig:perturbation_results} which shows the discrepancy in normalized particle weights estimation. These results are also consistent with our previous observation that LApf and Clusterpf have robust performance even at low communication overhead.
-
-\begin{figure}
-\centering
-\begin{subfigure}[Track 1]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track1}}
-\end{subfigure}
-\begin{subfigure}[Track 1]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track1}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track2}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track2}}
-\end{subfigure}
-\begin{subfigure}[Track 3]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track3}}
-\end{subfigure}
-\begin{subfigure}[Track 3]
-{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track3}}
-\end{subfigure}
-\caption{Average value of $\textbf{1}-\exp(\Psi\Delta)$ over $N$ particles. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}
-\label{fig:perturbation_expPsiDelta}
-\end{figure}
-
-Fig.~\ref{fig:perturbation_PsiDelta} shows the average $||\Psi \Delta||_w$ for all filters on all three tracks. The distortion increases at higher perturbation level and decreases with higher NGossip as expected. LApf, Clusterpf and LCpf-GS have similar level of distortion for all NGossip values. 
-
-\begin{figure}
-\centering
-\begin{subfigure}[Track 1]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track1}}
-\end{subfigure}
-\begin{subfigure}[Track 1]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track1}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track2}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track2}}
-\end{subfigure}
-\begin{subfigure}[Track 3]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track3}}
-\end{subfigure}
-\begin{subfigure}[Track 3]
-{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track3}}
-\end{subfigure}
-\caption{Average value of $||\Psi\Delta||_2$. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}
-\label{fig:perturbation_PsiDelta}
-\end{figure}
-
-Our objective is to derive some suitable bounds on the distortion $||\Psi \Delta||$. From the submultiplicative property of $L_2$ norm, we have
-\begin{equation}
-||\Psi \Delta|| \leq ||\Psi|| \cdot ||\Delta||
-\end{equation}
-
-For LCpf-GS and LApf, the encoding matrices are orthonormal and thus have norm 1. On the other hand, $||\Psi_{CSS}||$ and $||\Psi_{LC}||$ depend strongly on the states of particles $x_i$ and the choice of basis functions.
-
-We seek to bound the gossip error $||\Delta||$. Let $W$ denote the mixing matrix in the gossip algorithm. Let $k$ denote the current gossip iteration. We abuse slightly our existing notation and let $\alpha_s(k)$ denote the coefficient values at sensor $s$ after $k$ gossip iterations. Each sensor starts with local coefficients $\alpha_s(0)$. The coefficients evolve as
-\begin{align}
-\left[
-\begin{array}{c}
-\alpha_1(k+1)^T \\
-... \\
-\alpha_S(k+1)^T \\
-\end{array}\right] 
-&=W
-\left[
-\begin{array}{c}
-\alpha_1(k)^T \\
-... \\
-\alpha_S(k)^T \\
-\end{array}\right] \\
-&=W^{k+1}
-\left[
-\begin{array}{c}
-\alpha_1(0)^T \\
-... \\
-\alpha_S(0)^T \\
-\end{array}\right] \\
-&=W^{k+1}
-\underbrace{\left[
-\begin{array}{c}
-\gamma_1^T \\
-... \\
-\gamma_S^T \\
-\end{array}\right]\Psi(\Psi^T\Psi)^{-1}}_{\text{Pseudo log-likelihood}}
-\label{eqn:gossip_alpha}
-\end{align}
-
-Eq.~\eqref{eqn:gossip_alpha} suggests that, for all three filters, the highlighted terms may be interpreted as some type of pseudo log-likelihood. This allows us to readily apply existing results on gossiping error (on these pseudo log-likelihoods). 
-
-After $k$ gossip iterations, max consensus is applied so all sensors obtain the same coefficients. This step is necessary to ensure that all sensors obtain the same particle weights and that the particle cloud remains synchronized across the network. 
-\begin{equation}
-\gamma^T = \alpha^T\Psi^T = 
-\text{MaxConsensus}\left(
-W^{k+1}
-\left[
-\begin{array}{c}
-\gamma_1^T \\
-... \\
-\gamma_S^T \\
-\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\right)\Psi^T
-\neq \text{MaxConsensus}\left(
-W^{k+1}
-\left[
-\begin{array}{c}
-\gamma_1^T \\
-... \\
-\gamma_S^T \\
-\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T\right)
-\end{equation}
-
-Fig.~\ref{fig:Psi_time} shows the average norm of $||\Psi(\Psi^T\Psi)^{-1}||_2$ over time for all three tracks. As expected, LCpf has the highest curve by several orders of magnitude; followed by CSSpf and Clusterpf. We omit the curves for LApf and LCpf-GS since $||\Psi||_2=1$ for these two filters. 
-
-In this set of tests, the tracking is done using a centralized BSpf. Thus, at each time step, the particles remain the same for all levels of perturbation and NGossip. In other words, the perturbation level and NGossip only affects $W^{k+1}
-\left[
-\begin{array}{c}
-\gamma_1^T \\
-... \\
-\gamma_S^T \\
-\end{array}\right]$ but has no impact on $||\Psi||$.
-
-\begin{figure}
-\centering
-\begin{subfigure}[Track 1]
-{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track1}}
-\end{subfigure}
-\begin{subfigure}[Track 2]
-{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track2}}
-\end{subfigure}
-\begin{subfigure}[Track 3]
-{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track3}}
-\end{subfigure}
-\caption{Average value of $||\Psi (\Psi^T\Psi)^{-1}||_2$ over time for CSSpf, LCpf and Clusterpf}
-\label{fig:Psi_time}
-\end{figure}
-
-%In fact, we can take Eq.~\eqref{eqn:gossip_alpha} further and obtain
+%\section{Theoretical analysis}
+%All four filters encode the particle log-likelihoods in a similar fashion but yet display drastically different performance at low communication overhead. 
+%
+%Let $\gamma_s$ denote the $N\times 1$ column vector of particle log-likelihoods at sensor $s$ and let $\gamma = \sum_{s=1}^S \gamma_s$ denote the joint log-likelihoods. Denote by $\Psi$ the $N\times J$ encoding matrix where $J \leq N$ is the number of encoding coefficients. In general, $\Psi$ is a function of local particles $x_i$. Finally, denote by $\alpha_s$ the $J\times 1$ column vector of encoded coefficients that capture all information at sensor $s$. 
+%
+%For CSSpf, LCpf, LCpf-GS and LApf, the joint log-likelihoods are computed as follows:
+%\begin{align}
+%\alpha_s &= (\Psi^T \Psi)^{-1}\Psi^T \gamma_s\\
+%\alpha &= \sum_{s=1}^S \alpha_s = \sum_{s=1}^S (\Psi^T \Psi)^{-1}\Psi^T \gamma_s \\
+%\gamma &= \Psi \alpha = \Psi \sum_{s=1}^S (\Psi^T \Psi)^{-1}\Psi^T \gamma_s
+%\end{align}
+%
+%For Clusterpf, the vector $\gamma_s$ instead denotes the $C\times 1$ column vector of cluster log-likelihoods at sensor $s$. After the joint cluster log-likelihoods $\gamma$ are computed, individual particle log-likelihoods are recovered via convex optimization. This last step renders the analysis of Clusterpf more complicated and we omit all discussions related to Clusterpf for now. 
+%
+%With low communication overhead, the gossip algorithm does not converge and all sensors obtain $\alpha' = \alpha + \Delta$. This yields
 %\begin{equation}
-%\gamma^T = \alpha^T\Psi^T = W^{k+1}
+%\gamma' = \Psi \alpha' = \Psi \alpha + \Psi \Delta
+%\end{equation}
+%where the term $\Psi \Delta$ induces error in the joint log-likelihoods. Taking the exponential yields
+%\begin{equation}
+%w = \exp(\gamma') = \exp(\Psi\alpha)\exp(\Psi\Delta)
+%\end{equation}
+%where the term $\exp(\Psi\Delta)$ is the distortion induced on (unnormalized) particle weights. 
+%
+%In the ideal case, the gossip algorithm converges, $\Delta = 0$, and we have $\exp(\Psi \Delta)=\textbf{1}$ where $\textbf{1}$ is the vector of all 1's. In our perturbation test (Fig.~\ref{fig:perturbation_results}), we compute and report $\frac{1}{N}||\textbf{1}-\exp(\Psi \Delta)||_1$. For each filter, we compute the $N\times 1$ vector $\textbf{1}-\exp(\Psi \Delta)$ and report its average over $N$ particles. A value closer to 0 indicates less distortion to the particle weights due to gossiping error. Conversely, a value close to 1 indicates high distortion. Fig.~\ref{fig:perturbation_expPsiDelta} shows the results for all three tracks. In all perturbation tests, LApf has the lowest curve, followed by LCpf-GS and Clusterpf. LCpf has the highest curve for all perturbation levels. On the other hand, in the NGossip tests, Clusterpf and LApf have very similar level distortions. These trends are consistent with Fig.~\ref{fig:perturbation_results} which shows the discrepancy in normalized particle weights estimation. These results are also consistent with our previous observation that LApf and Clusterpf have robust performance even at low communication overhead.
+%
+%\begin{figure}
+%\centering
+%\begin{subfigure}[Track 1]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track1}}
+%\end{subfigure}
+%\begin{subfigure}[Track 1]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track1}}
+%\end{subfigure}
+%\begin{subfigure}[Track 2]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track2}}
+%\end{subfigure}
+%\begin{subfigure}[Track 2]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track2}}
+%\end{subfigure}
+%\begin{subfigure}[Track 3]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_track3}}
+%\end{subfigure}
+%\begin{subfigure}[Track 3]
+%{\includegraphics[width=0.49\textwidth]{Figures/expPsiDelta_Gossip_track3}}
+%\end{subfigure}
+%\caption{Average value of $\textbf{1}-\exp(\Psi\Delta)$ over $N$ particles. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}
+%\label{fig:perturbation_expPsiDelta}
+%\end{figure}
+%
+%Fig.~\ref{fig:perturbation_PsiDelta} shows the average $||\Psi \Delta||_w$ for all filters on all three tracks. The distortion increases at higher perturbation level and decreases with higher NGossip as expected. LApf, Clusterpf and LCpf-GS have similar level of distortion for all NGossip values. 
+%
+%\begin{figure}
+%\centering
+%\begin{subfigure}[Track 1]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track1}}
+%\end{subfigure}
+%\begin{subfigure}[Track 1]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track1}}
+%\end{subfigure}
+%\begin{subfigure}[Track 2]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track2}}
+%\end{subfigure}
+%\begin{subfigure}[Track 2]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track2}}
+%\end{subfigure}
+%\begin{subfigure}[Track 3]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_track3}}
+%\end{subfigure}
+%\begin{subfigure}[Track 3]
+%{\includegraphics[width=0.49\textwidth]{Figures/PsiDelta_Gossip_track3}}
+%\end{subfigure}
+%\caption{Average value of $||\Psi\Delta||_2$. A perturbation of $x$ represents $x\%$ shift from the true aggregate value. $N=500$, $d=1,m=C=6$}
+%\label{fig:perturbation_PsiDelta}
+%\end{figure}
+%
+%Our objective is to derive some suitable bounds on the distortion $||\Psi \Delta||$. From the submultiplicative property of $L_2$ norm, we have
+%\begin{equation}
+%||\Psi \Delta|| \leq ||\Psi|| \cdot ||\Delta||
+%\end{equation}
+%
+%For LCpf-GS and LApf, the encoding matrices are orthonormal and thus have norm 1. On the other hand, $||\Psi_{CSS}||$ and $||\Psi_{LC}||$ depend strongly on the states of particles $x_i$ and the choice of basis functions.
+%
+%We seek to bound the gossip error $||\Delta||$. Let $W$ denote the mixing matrix in the gossip algorithm. Let $k$ denote the current gossip iteration. We abuse slightly our existing notation and let $\alpha_s(k)$ denote the coefficient values at sensor $s$ after $k$ gossip iterations. Each sensor starts with local coefficients $\alpha_s(0)$. The coefficients evolve as
+%\begin{align}
+%\left[
+%\begin{array}{c}
+%\alpha_1(k+1)^T \\
+%... \\
+%\alpha_S(k+1)^T \\
+%\end{array}\right] 
+%&=W
+%\left[
+%\begin{array}{c}
+%\alpha_1(k)^T \\
+%... \\
+%\alpha_S(k)^T \\
+%\end{array}\right] \\
+%&=W^{k+1}
+%\left[
+%\begin{array}{c}
+%\alpha_1(0)^T \\
+%... \\
+%\alpha_S(0)^T \\
+%\end{array}\right] \\
+%&=W^{k+1}
 %\underbrace{\left[
 %\begin{array}{c}
 %\gamma_1^T \\
 %... \\
 %\gamma_S^T \\
-%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T}_{\text{Pseudo log-likelihood}}
-%\label{eqn:pseudo_llg}
-%\end{equation}
-
-%We obtain the coefficient vector $\alpha'$ by applying a max-consensus algorithm over the network
+%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}}_{\text{Pseudo log-likelihood}}
+%\label{eqn:gossip_alpha}
+%\end{align}
+%
+%Eq.~\eqref{eqn:gossip_alpha} suggests that, for all three filters, the highlighted terms may be interpreted as some type of pseudo log-likelihood. This allows us to readily apply existing results on gossiping error (on these pseudo log-likelihoods). 
+%
+%After $k$ gossip iterations, max consensus is applied so all sensors obtain the same coefficients. This step is necessary to ensure that all sensors obtain the same particle weights and that the particle cloud remains synchronized across the network. 
 %\begin{equation}
-%\alpha' = \text{MaxConsensus}(\alpha_1(k+1)^T,...\alpha_S(k+1)^T)
+%\gamma^T = \alpha^T\Psi^T = 
+%\text{MaxConsensus}\left(
+%W^{k+1}
+%\left[
+%\begin{array}{c}
+%\gamma_1^T \\
+%... \\
+%\gamma_S^T \\
+%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\right)\Psi^T
+%\neq \text{MaxConsensus}\left(
+%W^{k+1}
+%\left[
+%\begin{array}{c}
+%\gamma_1^T \\
+%... \\
+%\gamma_S^T \\
+%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T\right)
 %\end{equation}
 %
-%This max-consensus  
-
-%From the multiplicative property of matrix norm, we have
-%\begin{equation}
-%\left\vert\left\vert \left[
+%Fig.~\ref{fig:Psi_time} shows the average norm of $||\Psi(\Psi^T\Psi)^{-1}||_2$ over time for all three tracks. As expected, LCpf has the highest curve by several orders of magnitude; followed by CSSpf and Clusterpf. We omit the curves for LApf and LCpf-GS since $||\Psi||_2=1$ for these two filters. 
+%
+%In this set of tests, the tracking is done using a centralized BSpf. Thus, at each time step, the particles remain the same for all levels of perturbation and NGossip. In other words, the perturbation level and NGossip only affects $W^{k+1}
+%\left[
 %\begin{array}{c}
 %\gamma_1^T \\
 %... \\
 %\gamma_S^T \\
-%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T\right\vert\right\vert
-%\leq 
-%\left\vert\left\vert \left[
-%\begin{array}{c}
-%\gamma_1^T \\
-%... \\
-%\gamma_S^T \\
-%\end{array}\right]\right\vert\right\vert \cdot
-%||\Psi||\cdot ||(\Psi^T\Psi)^{-1}||\cdot ||\Psi^T||
-%\end{equation}
+%\end{array}\right]$ but has no impact on $||\Psi||$.
+%
+%\begin{figure}
+%\centering
+%\begin{subfigure}[Track 1]
+%{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track1}}
+%\end{subfigure}
+%\begin{subfigure}[Track 2]
+%{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track2}}
+%\end{subfigure}
+%\begin{subfigure}[Track 3]
+%{\includegraphics[width=0.49\textwidth]{Figures/Psi_time_track3}}
+%\end{subfigure}
+%\caption{Average value of $||\Psi (\Psi^T\Psi)^{-1}||_2$ over time for CSSpf, LCpf and Clusterpf}
+%\label{fig:Psi_time}
+%\end{figure}
+%
+%%In fact, we can take Eq.~\eqref{eqn:gossip_alpha} further and obtain
+%%\begin{equation}
+%%\gamma^T = \alpha^T\Psi^T = W^{k+1}
+%%\underbrace{\left[
+%%\begin{array}{c}
+%%\gamma_1^T \\
+%%... \\
+%%\gamma_S^T \\
+%%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T}_{\text{Pseudo log-likelihood}}
+%%\label{eqn:pseudo_llg}
+%%\end{equation}
+%
+%%We obtain the coefficient vector $\alpha'$ by applying a max-consensus algorithm over the network
+%%\begin{equation}
+%%\alpha' = \text{MaxConsensus}(\alpha_1(k+1)^T,...\alpha_S(k+1)^T)
+%%\end{equation}
+%%
+%%This max-consensus  
+%
+%%From the multiplicative property of matrix norm, we have
+%%\begin{equation}
+%%\left\vert\left\vert \left[
+%%\begin{array}{c}
+%%\gamma_1^T \\
+%%... \\
+%%\gamma_S^T \\
+%%\end{array}\right]\Psi(\Psi^T\Psi)^{-1}\Psi^T\right\vert\right\vert
+%%\leq 
+%%\left\vert\left\vert \left[
+%%\begin{array}{c}
+%%\gamma_1^T \\
+%%... \\
+%%\gamma_S^T \\
+%%\end{array}\right]\right\vert\right\vert \cdot
+%%||\Psi||\cdot ||(\Psi^T\Psi)^{-1}||\cdot ||\Psi^T||
+%%\end{equation}
+%
 
 \section{Bounding the error propagation}
 In this section, we seek to bound the error in the presented particle filters. Let $\hat{\gamma}(x_i)$ denote the approximate joint particle log-likelihood for particle $x_i$ and let $\gamma(x_i)$ denote its true joint particle log-likelihood. Our objective is to derive an upper bound for $\frac{||\hat{\gamma}(x_i)-\gamma(x_i)||}{||\gamma(x_i)||}$ for all particles.
@@ -730,51 +730,65 @@ Consider the encoding error first. Let $\gamma_m(x_i)$ denote the approximate lo
 \gamma_m^{\text{CSS}} &= \Psi^{\text{CSS}}\alpha^{\text{CSS}}
 \end{align}
 
-Without loss of generality, we define the following bound on encoding error for sensor $s$
+We can derive the following bound on the entire log-likelihood vector
+\begin{align}
+\frac{||\gamma_{m} - \gamma||}{||\gamma||} &= \frac{||\Psi(\Psi^T\Psi)^{-1}\Psi^T\gamma - \gamma||}{||\gamma||} \nonumber \\
+&\leq ||\Psi(\Psi^T\Psi)^{-1}\Psi^T-I||
+\label{eqn:encoding_error_vector}
+\end{align}
+where $I$ is the identify matrix of appropriate dimension
+
+Without loss of generality, we define the following bound on encoding error that holds for all particles $x_i$
 \begin{equation}
-|\gamma_{m,s}(x_i) - \gamma_s(x_i)|\leq -\delta_m\gamma_s(x_i)
-\label{eqn:encoding_error_ss}
+|\gamma_{m}(x_i) - \gamma(x_i)|\leq -\delta_m\gamma(x_i)
+\label{eqn:encoding_error}
 \end{equation}
 
-With suitable normalization, we have $\gamma_s(x_i)\leq 0 \quad \forall x_i, s$ so that the right hand of Eq.~\eqref{eqn:encoding_error_ss} is always positive. Then we have
-\begin{align}
-\left\vert\gamma_{m}(x_i) - \gamma(x_i)\right\vert &=
-\left\vert\sum_s \gamma_{m,s}(x_i)-\gamma_s(x_i) \right\vert \nonumber \\
-&\leq \sum_s\left\vert \gamma_{m,s}(x_i)-\gamma_s(x_i) \right\vert \nonumber \\
-&\leq \delta_m\sum_s -\gamma_s(x_i) \nonumber\\
-&= \delta_m \left\vert \sum_s \gamma_s(x_i)\right\vert \nonumber \\
-&= \delta_m \left\vert \gamma(x_i)\right\vert
-\label{eqn:encoding_error}
-\end{align}
-where the second equality holds since $-\gamma_s(x_i)\geq 0\quad \forall s$. 
-
-Eq.~\eqref{eqn:encoding_error} gives us an upper bound on the encoding error. The ratio term $\delta_m$ depends on the specific filter and the number of coefficients $m$. We can rewrite Eq.~\eqref{eqn:encoding_error} to yield
+With suitable normalization, we have $\gamma(x_i)\leq 0 \quad \forall x_i$ so that the right hand of Eq.~\eqref{eqn:encoding_error} is always positive. 
+The ratio term $\delta_m$ depends on the specific filter and the number of coefficients $m$. We can rewrite Eq.~\eqref{eqn:encoding_error} to yield
 \begin{equation}
 \gamma_m(x_i) \leq (1+\delta_m)\gamma(x_i)
 \end{equation}
 
-Next, we consider the gossiping error. Let $\hat{\alpha}$ denote the coefficients obtained after gossip and max-consensus iterations. This gives us the approximate log-likelihoods $\hat{\gamma} = F(\Psi, \hat{\alpha})$. 
+%Eq.~\eqref{eqn:encoding_error_vector} can actually be used as a low bound for Eq.~\eqref{eqn:encoding_error}. 
+%\begin{align}
+%\frac{||\gamma_{m} - \gamma||}{||\gamma||} &\leq \frac{\sqrt{n}||\gamma_{m} - \gamma||_\infty}{||\gamma||_\infty}
+%\end{align}
+%where we used the identify $||\gamma||_\infty \leq ||\gamma||_2 \leq \sqrt{n}||\gamma||_\infty$ where $n$ is the number of particles. 
+%
+%Let $|\gamma_m(x_i)-\gamma(x_i)| = ||\gamma_{m} - \gamma||_\infty$. Furthermore, let $||\gamma||_\infty=|\gamma(x_j)|\geq |\gamma(x_i)|\quad i\neq j$. Then we have
+%\begin{align}
+%\frac{||\gamma_{m} - \gamma||}{||\gamma||} &\leq \frac{\sqrt{n}||\gamma_{m} - \gamma||_\infty}{||\gamma||_\infty} \\
+%&leq 
+%\end{align}
 
-Again, without loss of generality, we define the following bound
+Next, we consider the gossiping error. Let $\hat{\alpha}$ denote the coefficients obtained after gossip and max-consensus iterations. This gives us the approximate log-likelihoods $\hat{\gamma} = F(\Psi, \hat{\alpha})$. Again, without loss of generality, we define the following bound
 \begin{equation}
 \frac{|\gamma_m(x_i)-\hat{\gamma}(x_i)|}{|\gamma_m(x_i)|} \leq \delta_{Gossip}
 \label{eqn:gossiping_error}
 \end{equation}
 
-Consider LApf, LCpf, LCpf-GS and CSSpf. Let $\Psi_i$ denote the $i^{th}$ row of encoding matrix $\Psi$, we can derive an upper bound for the gossiping error as follows:
-\begin{align}
-\frac{||\gamma_m(x_i)-\hat{\gamma}(x_i)||}{||\gamma_m(x_i)||}&=\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i\alpha||} \\
-&\leq ||\Psi_i^T||\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||} \\
-&\leq ||\Psi_i^T|| \cdot ||\Psi_i||\cdot \frac{||\alpha-\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||} 
-\end{align}
-where the first inequality follows from $||\Psi_i^T\Psi_i \alpha|| \leq ||\Psi_i^T||\cdot ||\Psi_i\alpha||$.
-
-Depending on the encoding matrix $\Psi$, the upper bound an be quite loose. We follow the same approach and derive a lower bound which may be more useful. 
-
+Consider LApf, LCpf, LCpf-GS and CSSpf. Let $\Psi_i$ denote the $i^{th}$ row of encoding matrix $\Psi$. We can derive a lower bound for the gossiping error as follows: 
 \begin{align}
 \frac{||\gamma_m(x_i)-\hat{\gamma}(x_i)||}{||\gamma_m(x_i)||}&=\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i\alpha||} \nonumber \\
 &\geq \frac{||\Psi_i^T\Psi_i\alpha-\Psi_i^T\Psi_i\hat{\alpha}||}{||\Psi_i^T||\cdot ||\Psi_i\alpha||}
-\end{align}
+\end{align} 
+where the inequality follows from $||\Psi_i^T\Psi_i \alpha|| \leq ||\Psi_i^T||\cdot ||\Psi_i\alpha||$.
+
+%an upper bound for the gossiping error as follows:
+%\begin{align}
+%\frac{||\gamma_m(x_i)-\hat{\gamma}(x_i)||}{||\gamma_m(x_i)||}&=\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i\alpha||} \\
+%&\leq ||\Psi_i^T||\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||} \\
+%&\leq ||\Psi_i^T|| \cdot ||\Psi_i||\cdot \frac{||\alpha-\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||} 
+%\end{align}
+%where the first inequality follows from $||\Psi_i^T\Psi_i \alpha|| \leq ||\Psi_i^T||\cdot ||\Psi_i\alpha||$.
+
+%Depending on the encoding matrix $\Psi$, the upper bound can be quite loose. We follow the same approach and derive a lower bound which may be more useful. 
+
+%\begin{align}
+%\frac{||\gamma_m(x_i)-\hat{\gamma}(x_i)||}{||\gamma_m(x_i)||}&=\frac{||\Psi_i\alpha-\Psi_i\hat{\alpha}||}{||\Psi_i\alpha||} \nonumber \\
+%&\geq \frac{||\Psi_i^T\Psi_i\alpha-\Psi_i^T\Psi_i\hat{\alpha}||}{||\Psi_i^T||\cdot ||\Psi_i\alpha||}
+%\end{align}
 
 Putting everything together, we obtain
 \begin{align}
@@ -785,18 +799,87 @@ Putting everything together, we obtain
 \label{eqn:error_bound}
 \end{align}
 
-Consider Eq.~\eqref{eqn:error_bound}. When both the encoding and gossiping errors are present, they have a cascading effect on the overall error propagation. The error is bounded (i.e., less than unity) when both terms are bounded. 
+Consider Eq.~\eqref{eqn:error_bound}. When both the encoding and gossiping errors are present, they have a cascading effect on the overall error propagation. The overall error is bounded (i.e., less than unity) when both terms are bounded and less than unity. In fact, $0<\gamma(x_i)\leq 1$ and $\delta\leq 1$ are two of the conditions required to establish a time-uniform bound on the error of particle filters~\cite{Syamantak2015}. If the following two conditions are also satisfied: 1. Markov chain associated with state evolution undergoes sufficient mixing within a finite number of time steps and 2. state estimate function $f(x_i)$ can be suitably scaled and bounded such that $\sup_{x_i} |f(x_i)|<1$); then a distributed particle filter based on a consensus algorithm does not induce instability in terms of error propagation and the error remains bounded over time~\cite{Syamantak2015}).
 
-To validate the derived error bounds, we run the following simulations. We run a centralized BSpf to track the target. At each time step, we also compute the particle weights using the four distributed filters. we also compute and report the following the metric:
+To validate the derived error bounds, we run the following simulations. We run a centralized BSpf to track the target. At each time step, for comparison, we re-compute the particle weights using the four distributed filters. we also report the following the metric:
 \begin{enumerate}
-\item $\max_{s,x_i} \frac{|\gamma_{m,s}(x_i)-\gamma_s(x_i)|}{|\gamma_s(x_i)|}$: estimate of $\delta_m$
+\item $\max_{x_i} \frac{|\gamma_{m}(x_i)-\gamma(x_i)|}{|\gamma(x_i)|}$: estimate of $\delta_m$
 \item $\max_{x_i} \frac{|\gamma_m(x_i)-\hat{\gamma}(x_i)|}{|\gamma_m(x_i)|}$: estimate of $\delta_{gossip}$ 
-\item $||\Psi_i^T|| \cdot ||\Psi_i||\cdot \frac{||\alpha-\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||}$: upper limit of $\delta_{gossip}$ for LApf, LCpf, LCpf-GS and CSSpf
+%\item $||\Psi_i^T|| \cdot ||\Psi_i||\cdot \frac{||\alpha-\hat{\alpha}||}{||\Psi_i^T\Psi_i\alpha||}$: upper limit of $\delta_{gossip}$ for LApf, LCpf, LCpf-GS and CSSpf
 \item $\frac{||\Psi_i^T\Psi_i\alpha-\Psi_i^T\Psi_i\hat{\alpha}||}{||\Psi_i^T||\cdot ||\Psi_i\alpha||}$: lower limit of $\delta_{gossip}$ for LApf, LCpf, LCpf-GS and CSSpf
 \item $\max_{x_i} \frac{|\hat{\gamma}(x_i) - \gamma(x_i)|}{|\gamma(x_i)|}$: discrepancy in log-likelihood
 \item $(1+\delta_m)\delta_{gossip} + \delta_m$: estimate of $\delta$
 \end{enumerate}
 
+Fig.~\ref{fig:detailed_results_track1} shows the results for track 1. All data points are averaged over all MC trials. Consider first $\delta_m$. The LCpf and LCpf-GS have the lowest encoding error followed by CSSpf. The LApf and Clusterpf have the highest encoding error. Nonetheless, $\delta_m<1$ for all filters across all time steps. Note that, in our set-up, $\delta_m$ remains constant over different values of NGossip.
+
+Consider next the gossiping error. For LApf, LCpf-GS and Clusterpf, $\delta_{\text{gossip}}<1$ for all values of NGossip. For CSSpf and LCpf, $\delta_{\text{gossip}}$ falls below 1 only when NGossip exceeds 4 and 10. We note that, for all filters, the theoretical lower limit is a close match for the true gossiping error value. 
+
+Fig.~\ref{fig:detailed_results_track1} (c) shows the overall error $\delta$. As $\delta_m$ is small for all filters, the gossiping error $\delta_{\text{gossip}}$ becomes the dominating factor. For LApf, LCpf-GS and Clusterpf, $\delta<1$ for all values of NGossip. For LCpf and CSSpf, the error becomes bounded only when NGossip exceeds 7 and 4 respectively. With the exception of LCpf, the upper bound $(1+\delta_m)\delta_{\text{gossip}}+\delta_m$ is very close to the true value. 
+
+Fig.~\ref{fig:detailed_results_track1} (d) shows the average discrepancy in normalized particle weights. The curves for CSSpf and LCpf are significantly higher than the other curves until NGossip $>$ 4 and NGossip $>$ 8 as expected. 
+
+\begin{figure}
+\centering
+\begin{subfigure}[Encoding error $\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_m_time_track1}}
+\end{subfigure}
+\begin{subfigure}[Gossiping error $\delta_{\text{gossip}}$, solid lines represent true gossiping errors and circles represent the theoretical lower bound]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_gossip_track1}}
+\end{subfigure}
+\begin{subfigure}[Log-likelihood error $\delta$, solid lines represent true errors and dashed lines with circles represent the theoretical higher bound $(1+\delta_m)\delta_{\text{gossip}}+\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_bound_track1}}
+\end{subfigure}
+\begin{subfigure}[Average normalized particle weights discrepancy $||w_{\text{true}}-w_{\text{approx}}||_2$]
+{\includegraphics[width=0.49\textwidth]{Figures/curve_perturbationGossip_track1}}
+\end{subfigure}
+\caption{Distributed filter error bound with respect to $NGossip$ and time for track 1 averaged over 40 trials. $N=500$, $d=2,m=C=6$.}
+\label{fig:detailed_results_track1}
+\end{figure}
+
+Fig.~\ref{fig:detailed_results_track2} shows the relevant results for track 2. Consider first $\delta_m$. For all filters, the encoding error spikes for time steps 22 to 23. Otherwise, $\delta_m$ remains below 1. Again, LCpf and LCpf-GS have the lowest encoding error followed by CSSpf, LApf and Clusterpf. 
+
+Consider next $\delta_{\text{gossip}}$. For Clusterpf, the gossiping error is consistently below unity. For LApf and LCpf-GS, the gossiping error drops below 1 for NGossip$>$4; although the gossiping error for LApf is fairly close to 1 even at low NGossip. For CSSpf and LCpf, again a much higher communication overhead is required to reduce $\delta_{\text{gossip}}$ below 1. 
+
+The curves for the overall error $\delta$ reflect the same trends in $\delta_{\text{gossip}}$. We do note that the upper bounds for LCpf, LCpf-GS and CSSpf are much higher than the actual error values. 
+
+\begin{figure}
+\centering
+\begin{subfigure}[Encoding error $\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_m_time_track2}}
+\end{subfigure}
+\begin{subfigure}[Gossiping error $\delta_{\text{gossip}}$, solid lines represent true gossiping errors and circles represent the theoretical lower bound]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_gossip_track2}}
+\end{subfigure}
+\begin{subfigure}[Log-likelihood error $\delta$, solid lines represent true errors and dashed lines with circles represent the theoretical higher bound $(1+\delta_m)\delta_{\text{gossip}}+\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_bound_track2}}
+\end{subfigure}
+\begin{subfigure}[Average normalized particle weights discrepancy $||w_{\text{true}}-w_{\text{approx}}||_2$]
+{\includegraphics[width=0.49\textwidth]{Figures/curve_perturbationGossip_track2}}
+\end{subfigure}
+\caption{Distributed filter error bound with respect to $NGossip$ and time for track 2 averaged over 40 trials. $N=500$, $d=2,m=C=6$.}
+\label{fig:detailed_results_track2}
+\end{figure}
+
+Finally, Fig.~\ref{fig:detailed_results_track3} shows the results for track 3. With the exception of time step 1, $\delta_m$ remains below unity for all filters. For Clusterpf, the gossiping error remains below 1 even at NGossip = 1. For LApf and LCpf-GS, the gossiping error falls below 1 for NGossip > 3. Finally, for CSSpf and LCpf, much higher communication overhead is required. These trends are also reflected in the overall $\delta$ and normalized particle weights discrepancy. 
+
+\begin{figure}
+\centering
+\begin{subfigure}[Encoding error $\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_m_time_track3}}
+\end{subfigure}
+\begin{subfigure}[Gossiping error $\delta_{\text{gossip}}$, solid lines represent true gossiping errors and circles represent the theoretical lower bound]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_gossip_track3}}
+\end{subfigure}
+\begin{subfigure}[Log-likelihood error $\delta$, solid lines represent true errors and circles represent the theoretical higher bound $(1+\delta_m)\delta_{\text{gossip}}+\delta_m$]
+{\includegraphics[width=0.49\textwidth]{Figures/delta_bound_track3}}
+\end{subfigure}
+\begin{subfigure}[Average normalized particle weights discrepancy $||w_{\text{true}}-w_{\text{approx}}||_2$]
+{\includegraphics[width=0.49\textwidth]{Figures/curve_perturbationGossip_track3}}
+\end{subfigure}
+\caption{Distributed filter error bound with respect to $NGossip$ and time for track 3 averaged over 40 trials. $N=500$, $d=2,m=C=6$.}
+\label{fig:detailed_results_track3}
+\end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}

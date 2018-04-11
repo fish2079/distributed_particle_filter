@@ -22,7 +22,7 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 N = 500; 
-gossip_vector = [1:10];
+gossip_vector = [1:10, 20, 50,100];%1:10];
 
 % Number of random trials
 sim_parameters.no_trials = 200;
@@ -37,10 +37,10 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select measurement model
-sim_parameters.measMdoel = 'range';
+sim_parameters.measMdoel = 'bearing';
 
 % Select the track
-sim_parameters.track = 4;
+sim_parameters.track = 1;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -65,7 +65,7 @@ for i=1:numel(gossip_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track3_'];
+    filename{i} = ['Track1_'];
     filename{i} = [filename{i}, '_overhead',num2str(gossip_vector(i))];
     filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
     filename{i} = [filename{i},'_N',num2str(parameters.F.N)];

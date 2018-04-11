@@ -1,4 +1,4 @@
-function [particle_weights, aggregate_error_ratio, errorNorm] = LCLikelihood(x_predicted, F, D, obs)
+function [particle_weights, aggregate_error_ratio, errorNorm] = LCLikelihood_GS(x_predicted, F, D, obs)
 %   Function to compute the posterior weights of particles
 %   The weight is computed using likelihood consensus to approximate the
 %   measurement model
@@ -28,6 +28,9 @@ degree_matrix = combinator(F.LC.max_degree+1,2,'p','r')'-1;
 for i=1:size(degree_matrix,2)
     Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
 end
+Psi = GramSchmidt(Psi);
+% Psi_sum = sum(Psi,1);
+% Psi_normalized = Psi./Psi_sum;
 
 % Compute the local log-likelihoods
 for i=1:numel(D.sensorID)  
@@ -39,7 +42,7 @@ for i=1:numel(D.sensorID)
     z_dif = F.minus(z_received, z_expected);
     
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
-    log_lh_ss(i,:) = log_lh_ss(i,:)-max(log_lh_ss(i,:));
+    
 %     alpha_LC(:,i) = mldivide(Psi_normalized,log_lh_ss(i,:)');
     alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
 %     temp_alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
