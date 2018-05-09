@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  2 MAY 2018 18:10
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.7.2)  3 MAY 2018 01:05
 entering extended mode
 **Distributed*Graph*Laplacian*Particle*Filter.tex
 
@@ -523,26 +523,26 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 14.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-<Figures/LApf_particles_single_time.pdf, id=21, 930.47626pt x 427.5975pt>
+{C:/Users/Jay/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
+<Figures/LApf_particles_single_time.pdf, id=24, 930.47626pt x 427.5975pt>
 File: Figures/LApf_particles_single_time.pdf Graphic file (type pdf)
 
 <use Figures/LApf_particles_single_time.pdf>
 Package pdftex.def Info: Figures/LApf_particles_single_time.pdf used on input l
-ine 115.
+ine 116.
 (pdftex.def)             Requested size: 225.21626pt x 103.49326pt.
 
-<Figures/LApf_single_time.pdf, id=22, 916.42375pt x 416.55624pt>
+<Figures/LApf_single_time.pdf, id=25, 916.42375pt x 416.55624pt>
 File: Figures/LApf_single_time.pdf Graphic file (type pdf)
 
 <use Figures/LApf_single_time.pdf>
-Package pdftex.def Info: Figures/LApf_single_time.pdf used on input line 118.
+Package pdftex.def Info: Figures/LApf_single_time.pdf used on input line 119.
 (pdftex.def)             Requested size: 225.21626pt x 102.3718pt.
- [3]
-Overfull \hbox (7.96239pt too wide) in paragraph at lines 139--140
+
+Overfull \hbox (11.61098pt too wide) in paragraph at lines 140--141
 []\OT1/cmr/m/n/9 We now de-rive the com-pu-ta-tional over-head of the clus-ter 
-fil-ter. K-mean clus-ter-ing has com-plex-ity $\OML/cmm/m/it/9 O\OT1/cmr/m/n/9 
-(4\OML/cmm/m/it/9 NKI\OT1/cmr/m/n/9 )$ [22]
+fil-ter. K-means clus-ter-ing has com-plex-ity $\OML/cmm/m/it/9 O\OT1/cmr/m/n/9
+ (4\OML/cmm/m/it/9 NKI\OT1/cmr/m/n/9 )$ [22]
  []
 
 <Figures/Clusterpf_single_time.pdf, id=26, 1119.18124pt x 624.3325pt>
@@ -550,65 +550,60 @@ File: Figures/Clusterpf_single_time.pdf Graphic file (type pdf)
 
 <use Figures/Clusterpf_single_time.pdf>
 Package pdftex.def Info: Figures/Clusterpf_single_time.pdf used on input line 1
-45.
+46.
 (pdftex.def)             Requested size: 225.21626pt x 125.63593pt.
  [4 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/F
 igures/LApf_particles_single_time.pdf> <C:/Users/Jay/Desktop/distributed_partic
-le_filter.git/trunk/Journal Draft/Figures/LApf_single_time.pdf> <C:/Users/Jay/D
-esktop/distributed_particle_filter.git/trunk/Journal Draft/Figures/Clusterpf_si
-ngle_time.pdf>]
-<Figures/Track1.pdf, id=49, 813.0375pt x 660.4675pt>
+le_filter.git/trunk/Journal Draft/Figures/LApf_single_time.pdf>] <Figures/Track
+1.pdf, id=44, 813.0375pt x 660.4675pt>
 File: Figures/Track1.pdf Graphic file (type pdf)
- <use Figures/Track1.pdf>
-Package pdftex.def Info: Figures/Track1.pdf used on input line 157.
+
+<use Figures/Track1.pdf>
+Package pdftex.def Info: Figures/Track1.pdf used on input line 158.
 (pdftex.def)             Requested size: 200.19054pt x 162.61714pt.
-
-<Figures/Track2.pdf, id=50, 801.99625pt x 648.4225pt>
+ <Figures/Track2.pdf, id=45, 801.99625pt x 648.4225pt>
 File: Figures/Track2.pdf Graphic file (type pdf)
- <use Figures/Track2.pdf>
-Package pdftex.def Info: Figures/Track2.pdf used on input line 160.
-(pdftex.def)             Requested size: 200.19054pt x 161.85786pt.
 
-[5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Fi
-gures/Track1.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/J
-ournal Draft/Figures/Track2.pdf>]
-<Figures/Track1_RMSE_full.pdf, id=65, 1153.30875pt x 627.34375pt>
+<use Figures/Track2.pdf>
+Package pdftex.def Info: Figures/Track2.pdf used on input line 161.
+(pdftex.def)             Requested size: 200.19054pt x 161.85786pt.
+ [5 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/F
+igures/Clusterpf_single_time.pdf> <C:/Users/Jay/Desktop/distributed_particle_fi
+lter.git/trunk/Journal Draft/Figures/Track1.pdf> <C:/Users/Jay/Desktop/distribu
+ted_particle_filter.git/trunk/Journal Draft/Figures/Track2.pdf>] [6]
+<Figures/Track1_RMSE_full.pdf, id=68, 1153.30875pt x 627.34375pt>
 File: Figures/Track1_RMSE_full.pdf Graphic file (type pdf)
 
 <use Figures/Track1_RMSE_full.pdf>
-Package pdftex.def Info: Figures/Track1_RMSE_full.pdf used on input line 262.
+Package pdftex.def Info: Figures/Track1_RMSE_full.pdf used on input line 263.
 (pdftex.def)             Requested size: 225.21626pt x 122.49905pt.
 
-<Figures/Track2_RMSE_full.pdf, id=66, 1153.30875pt x 645.41125pt>
+<Figures/Track2_RMSE_full.pdf, id=69, 1153.30875pt x 645.41125pt>
 File: Figures/Track2_RMSE_full.pdf Graphic file (type pdf)
 
 <use Figures/Track2_RMSE_full.pdf>
-Package pdftex.def Info: Figures/Track2_RMSE_full.pdf used on input line 265.
+Package pdftex.def Info: Figures/Track2_RMSE_full.pdf used on input line 266.
 (pdftex.def)             Requested size: 225.21626pt x 126.02702pt.
 
-<Figures/Track1_time.pdf, id=67, 1107.13625pt x 636.3775pt>
+<Figures/Track1_time.pdf, id=70, 1107.13625pt x 636.3775pt>
 File: Figures/Track1_time.pdf Graphic file (type pdf)
 
 <use Figures/Track1_time.pdf>
-Package pdftex.def Info: Figures/Track1_time.pdf used on input line 268.
+Package pdftex.def Info: Figures/Track1_time.pdf used on input line 269.
 (pdftex.def)             Requested size: 225.21626pt x 129.44835pt.
 
-<Figures/Track2_time.pdf, id=68, 1107.13625pt x 636.3775pt>
+<Figures/Track2_time.pdf, id=71, 1107.13625pt x 636.3775pt>
 File: Figures/Track2_time.pdf Graphic file (type pdf)
 
 <use Figures/Track2_time.pdf>
-Package pdftex.def Info: Figures/Track2_time.pdf used on input line 271.
+Package pdftex.def Info: Figures/Track2_time.pdf used on input line 272.
 (pdftex.def)             Requested size: 225.21626pt x 129.44835pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[6] [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draf
-t/Figures/Track1_RMSE_full.pdf> <C:/Users/Jay/Desktop/distributed_particle_filt
-er.git/trunk/Journal Draft/Figures/Track2_RMSE_full.pdf> <C:/Users/Jay/Desktop/
-distributed_particle_filter.git/trunk/Journal Draft/Figures/Track1_time.pdf> <C
-:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Figures
-/Track2_time.pdf>] [8]
+ [7 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/F
+igures/Track1_RMSE_full.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.
+git/trunk/Journal Draft/Figures/Track2_RMSE_full.pdf> <C:/Users/Jay/Desktop/dis
+tributed_particle_filter.git/trunk/Journal Draft/Figures/Track1_time.pdf> <C:/U
+sers/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Figures/Tr
+ack2_time.pdf>] [8]
 <Figures/delta_m_time_track2.pdf, id=99, 1170.3725pt x 626.34pt>
 File: Figures/delta_m_time_track2.pdf Graphic file (type pdf)
 
@@ -654,52 +649,49 @@ File: Figures/Track1_weight_discrepancy.pdf Graphic file (type pdf)
 Package pdftex.def Info: Figures/Track1_weight_discrepancy.pdf used on input li
 ne 436.
 (pdftex.def)             Requested size: 245.2399pt x 130.18741pt.
-
+ [9] [10 <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Dr
+aft/Figures/delta_m_time_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle
+_filter.git/trunk/Journal Draft/Figures/delta_gossip2_track2.pdf> <C:/Users/Jay
+/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Figures/beta_track
+2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draf
+t/Figures/Psi_Alpha_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filt
+er.git/trunk/Journal Draft/Figures/delta_bound_track2.pdf> <C:/Users/Jay/Deskto
+p/distributed_particle_filter.git/trunk/Journal Draft/Figures/Track1_weight_dis
+crepancy.pdf>]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Journal Draft\Dist
-ributed Graph Laplacian Particle Filter.bbl" [9] [10 <C:/Users/Jay/Desktop/dist
-ributed_particle_filter.git/trunk/Journal Draft/Figures/delta_m_time_track2.pdf
-> <C:/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Fig
-ures/delta_gossip2_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filte
-r.git/trunk/Journal Draft/Figures/beta_track2.pdf> <C:/Users/Jay/Desktop/distri
-buted_particle_filter.git/trunk/Journal Draft/Figures/Psi_Alpha_track2.pdf> <C:
-/Users/Jay/Desktop/distributed_particle_filter.git/trunk/Journal Draft/Figures/
-delta_bound_track2.pdf> <C:/Users/Jay/Desktop/distributed_particle_filter.git/t
-runk/Journal Draft/Figures/Track1_weight_discrepancy.pdf>]) [11]
+ributed Graph Laplacian Particle Filter.bbl") [11] [12]
 ("C:\Users\Jay\Desktop\distributed_particle_filter.git\trunk\Journal Draft\Dist
-ributed Graph Laplacian Particle Filter.aux")
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ributed Graph Laplacian Particle Filter.aux") ) 
 Here is how much of TeX's memory you used:
  3210 strings out of 493921
- 42961 string characters out of 3147289
- 111409 words of memory out of 3000000
+ 42952 string characters out of 3147289
+ 111400 words of memory out of 3000000
  6440 multiletter control sequences out of 15000+200000
- 13086 words of font info for 51 fonts, out of 3000000 for 9000
+ 13393 words of font info for 52 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,20n,24p,2783b,283s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
-:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on "Distributed Graph Laplacian Particle Filter.pdf" (11 pages, 
-449384 bytes).
+ 27i,20n,24p,2824b,283s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cmextra/cmex9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on "Distributed Graph Laplacian Particle Filter.pdf" (12 pages, 
+451376 bytes).
 PDF statistics:
- 205 PDF objects out of 1000 (max. 8388607)
+ 208 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  76 words of extra memory for PDF output out of 10000 (max. 10000000)
 

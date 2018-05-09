@@ -75,7 +75,7 @@ D.~Gu, J.~Sun, Z.~Hu, and H.~Li, ``Consensus based distributed particle filter
   China, Aug. 2008, pp. 302--307.
 
 \bibitem{Sheng2005}
-X.~Sheng, Y.~H. Hu, and P.~Ramanathan, ``Distributed particle filter with $gmm$
+X.~Sheng, Y.~H. Hu, and P.~Ramanathan, ``Distributed particle filter with {GMM}
   approximation for multiple targets localization and tracking in wireless
   sensor network,'' in \emph{4th Int. Symp. Inform. Process. Sensor Networks},
   Boise, ID, USA, Apr. 2005, pp. 181--188.
@@ -121,7 +121,7 @@ S.~Boyd and L.~Vandenberghe, \emph{Convex Optimization}.\hskip 1em plus 0.5em
   minus 0.4em\relax Cambridge University Press, 2004.
 
 \bibitem{Hartigan1979}
-J.~A. Hartigan and M.~A. Wong, ``Algorithm $as$ 136: A k-means clustering
+J.~A. Hartigan and M.~A. Wong, ``Algorithm {AS} 136: A k-means clustering
   algorithm,'' \emph{J. Roy. Statistical Soc. Series C (Appl. Statist.)},
   vol.~28, no.~1, pp. 100--108, 1979.
 

@@ -195,6 +195,10 @@
   Journal                  = {SIAM J. Control Optimization},
   Year                     = {2009},
 
+  Month                    = {Feb.},
+  Pages                    = {33-55},
+  Volume                   = {48},
+
   Owner                    = {Jay},
   Timestamp                = {2018.05.02}
 }
@@ -250,7 +254,7 @@
 }
 
 @InProceedings{Sheng2005,
-  Title                    = {Distributed particle filter with $GMM$ approximation for multiple targets localization and tracking in wireless sensor network},
+  Title                    = {Distributed particle filter with {GMM} approximation for multiple targets localization and tracking in wireless sensor network},
   Author                   = {X. Sheng and Y. H. Hu and P. Ramanathan},
   Booktitle                = {4th Int. Symp. Inform. Process. Sensor Networks},
   Year                     = {2005},
