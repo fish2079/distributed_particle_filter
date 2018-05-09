@@ -26,9 +26,11 @@ N_vector = 500; %[100, 250, 500, 1000];
 max_degree_vector = 1:9;
 
 % Number of random trials
-sim_parameters.no_trials = 200; 
+sim_parameters.no_trials = 20; 
 
 sim_parameters.max_gossip_iter = 100;
+
+sim_parameters.measModel = 'range';
 
 % Flag for parallel run
 sim_parameters.parallel = false;
@@ -40,7 +42,7 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select the track
-sim_parameters.track = 2;
+sim_parameters.track = 3;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -48,7 +50,7 @@ sim_parameters.track = 2;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LCpf_GS_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
-sim_parameters.algorithms = alg_lists(4);
+sim_parameters.algorithms = alg_lists(3);
 
 sim_parameters.max_degree = 2;
 

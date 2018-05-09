@@ -22,7 +22,7 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 N = 500; 
-gossip_vector = [1:10, 20, 50,100];%1:10];
+gossip_vector = 1;%[1:10, 20, 50,100];%1:10];
 
 % Number of random trials
 sim_parameters.no_trials = 200;
@@ -34,13 +34,13 @@ sim_parameters.parallel = true;
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = true;
+sim_parameters.gossip = false;
 
 % Select measurement model
 sim_parameters.measMdoel = 'bearing';
 
 % Select the track
-sim_parameters.track = 1;
+sim_parameters.track = 2;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -57,7 +57,7 @@ sim_parameters.max_degree = 2;
 
 sim_parameters.N = N; 
 for i=1:numel(gossip_vector)
-    sim_parameters.algorithms = alg_lists(2:6);
+    sim_parameters.algorithms = alg_lists(1); %(2:6);
     sim_parameters.max_gossip_iter = gossip_vector(i);
 
     % Run the simulated track with all selected tracking algorithms 
@@ -65,7 +65,7 @@ for i=1:numel(gossip_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track1_'];
+    filename{i} = ['Track2_BSpf_'];
     filename{i} = [filename{i}, '_overhead',num2str(gossip_vector(i))];
     filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
     filename{i} = [filename{i},'_N',num2str(parameters.F.N)];

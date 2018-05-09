@@ -85,8 +85,6 @@ switch obs.measModel
 end
 
 obs.sensorPos = S.sensorPos;
-% Doppler specific parameters
-
 
 % The struct F contains all relevant
 % no of particles

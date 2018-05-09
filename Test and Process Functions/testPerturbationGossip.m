@@ -20,7 +20,7 @@ addpath('./HelperFunctions/');
 addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
-gossip_vector = [1:10,20,50,100,200]; 
+gossip_vector = [1:10,20,30,50,75, 100,125]; 
 
 % Number of random trials
 sim_parameters.no_trials = 40; 
@@ -35,7 +35,10 @@ sim_parameters.visualizeParticles = false;
 sim_parameters.gossip = true;
 
 % Select the track
-sim_parameters.track = 1;
+sim_parameters.track = 2;
+
+% Select measurement model
+sim_parameters.measModel = 'range';
 
 %%
 sim_parameters.nbEig = 6;
@@ -69,6 +72,5 @@ for i=1:numel(gossip_vector)
     filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
     filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
     filename{i} = [filename{i},'.mat'];
-    save(filename{i}, 'results','parameters');
     save(filename{i}, 'results','parameters');
 end

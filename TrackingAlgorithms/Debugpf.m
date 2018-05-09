@@ -85,6 +85,7 @@ if ~isempty(D.measurements)
         details.Neff = Neff;
     end
     
+%     particle_weights = LC_weights;
     if (1/sum(particle_weights.^2)<F.N_eff)
         % Sample according to weights with replacement
         I = randsample((1:N)', N, true, particle_weights);

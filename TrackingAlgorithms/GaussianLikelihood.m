@@ -28,8 +28,8 @@ for j = 1:size(D.measurements,2)
     % Compute the Gaussian log-likelihood
     z_dif = F.minus(z_received, z_expected);
     
-    gamma = gamma + log(mvnpdf(z_dif', obs.mu', obs.R))';
-    gamma_ss(j,:) = log(mvnpdf(z_dif', obs.mu', obs.R))';
+    gamma = gamma + log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
+    gamma_ss(j,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
 end
 
 % if (F.gossip)

@@ -58,13 +58,33 @@ else
     aggregate_error_ratio = zeros(1, F.cluster.k);
 end
 
-% Now compute individual particle joint log-likelihood
-% Construct the K-nearest graph for all the particles
-% We actually find the k+1 nearest neighbors since particle i is the
-% closest neighbor to particle i itself with 0 distance
-% We thus ignore the first column of idx 
+% Construct the KNN or Delaunchy triangulation graph for all the particles
 graph_tic = tic;
-A = DelaunayGraph(x_predicted(1:2,:)');
+if (F.cluster.KNNgraph)
+    idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.cluster.KNN+1);
+    idx = idx(:,2:end);
+    % Now construct the adjacency matrix
+    A = zeros(F.N, F.N);
+    for i=1:F.N
+        % particle i is connected to its K nearest neighbor
+        A(i,idx(i,:)) = 1;
+        % the connection is symmetric
+        A(idx(i,:),i) = 1;
+    end
+else
+    A = DelaunayGraph(x_predicted(1:2,:)');
+end
+
+% Change to weighted adjacency matrix if needed
+if (F.cluster.weightedEdge)
+    for i=1:F.N
+        x1 = x_predicted(1:2,i);
+        x2 = x_predicted(1:2,A(i,:)>0);
+        dist = sqrt((x1(1,:)-x2(1,:)).^2+(x1(2,:)-x2(2,:)).^2);
+        A(i,A(i,:)>0) = 1./dist;
+    end
+end
+
 % Construct Laplacian matrix
 L = diag(sum(A,2)) - A;
 graph_time = toc(graph_tic);
@@ -75,7 +95,7 @@ options =  optimoptions(@quadprog, 'Display','off');
 gamma_approx = quadprog(L,[],[],[],C,log_lh_cluster',[], [], [], options)';
 gamma_time = toc(gamma_tic);
 
-gamma_exact = sum(log_lh_ss);
+gamma_exact = sum(log_lh_ss, 1);
 gamma_dif = norm(gamma_approx-gamma_exact);
 
 gamma_noGossipError = quadprog(L,[],[],[],C,sum(log_lh_cluster_ss, 1)',[], [], [], options)';
@@ -94,24 +114,29 @@ gamma_noGossipError = quadprog(L,[],[],[],C,sum(log_lh_cluster_ss, 1)',[], [], [
 % Psi = C';
 % errorNorm(5) = norm(Psi/(Psi'*Psi));
 
-llh_matrix = [gamma_noGossipError', gamma_approx', sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix-max(llh_matrix);
+llh_matrix_un = [gamma_noGossipError', gamma_approx', sum(log_lh_ss,1)'];
+llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
 lh_matrix = exp(llh_matrix);
 lh_matrix = lh_matrix./sum(lh_matrix,1);
 llh_matrix = log(lh_matrix+realmin);
+C_norm = llh_matrix_un - llh_matrix;
 
 delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
 delta_m(isinf(abs(delta_m)))=0;
+errorNorm(1) = max(abs(delta_m));
 delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
 delta_gossip(isinf(abs(delta_gossip)))=0;
-errorNorm(1) = max(abs(delta_m));
 errorNorm(2) = max(abs(delta_gossip));
+
 errorNorm(3) = 0; 
 errorNorm(4) = 0; 
 delta_llh = (llh_matrix(:,2)-llh_matrix(:,3))./(llh_matrix(:,3));
 delta_llh(isinf(delta_llh))=0;
 errorNorm(5) = max(abs(delta_llh));
 errorNorm(6) = (1+errorNorm(1))*errorNorm(2)+errorNorm(1);
+
+errorNorm(7) = min(sqrt(exp(llh_matrix(:,1)-llh_matrix(:,2))));
+errorNorm(8:12) = 0;
 
 gamma = gamma_approx-max(gamma_approx);
 
