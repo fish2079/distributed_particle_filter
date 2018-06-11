@@ -1,3 +1,4 @@
+function testLApf(track)
 % Test script for comparing the algorithms' performance in terms of number 
 % of particles on the simulated track
 % For each parameter value, the script generates the simulated track,
@@ -21,27 +22,39 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-gossip_vector = 100;%[1:10];%[10:5:35];
-N_vector = 500; 
-m_vector = 6;%[6,20,50,100]; %[1, 3, 6, 10, 20, 50];
-KNN_vector = 2; %[2:2:10];
+gossip_vector = [1, 5, 10, 25, 50, 75, 100, 200];
+% N_vector = 1000; 
+m_vector = [4,16,36]; %[6, 9, 16, 25, 50, 100];
+
+% Graph parameters
+% KNN_vector = [10,50,100,200,500,1000];
+% Epsilon_vector = [1/4,1/3,1/2];
+
+sim_parameters.N = 1000;
 
 % Number of random trials
 sim_parameters.no_trials = 200; 
 
-sim_parameters.measModel = 'range';
+if (track==2)
+    sim_parameters.measModel = 'bearing';
+else
+    sim_parameters.measModel = 'range';
+end
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
-sim_parameters.visualizeParticles = true;
+sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
 sim_parameters.gossip = true;
 
-sim_parameters.KNNgraph = false;
-sim_parameters.weightedEdge = false;
+% sim_parameters.KNNgraph = true;
+sim_parameters.graphMethod = 'Delaunay';
+
+sim_parameters.weightedEdge = true;
+sim_parameters.weightedEdgeStyle = 1;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -52,24 +65,25 @@ alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LADelaunaypf_distrib
 sim_parameters.algorithms = alg_lists(4);
 
 % Select the track
-sim_parameters.track = 3;
+sim_parameters.track = track;
+
+% sim_parameters.max_gossip_iter = 100; 
 
 % Loop through each choice of particle number
-for i=1:numel(gossip_vector)
-    % Set number of particles
-    sim_parameters.max_gossip_iter = gossip_vector(i);
-
-    sim_parameters.nbEig = m_vector(1);
-    for j=1:numel(KNN_vector)
-        sim_parameters.KNN = KNN_vector(j);
+for i=1:numel(m_vector)
+    sim_parameters.nbEig = m_vector(i);
+    for j=1:numel(gossip_vector)
+    %     sim_parameters.Epsilon = Epsilon_vector(j);
+        sim_parameters.max_gossip_iter = gossip_vector(j);
         
         % Run the simulated track with all selected tracking algorithms 
         % Each filter uses N particles   
         [results, parameters]= runSimulatedTrack(sim_parameters);
 
         % Store the tracking results
-        filename{i} = ['Track3_LApf'];
-%         filename{i} = [filename{i}, '_NW_KNN',num2str(parameters.KNN)];
+        filename{i} = ['Track',num2str(track),'_LApf'];
+%         filename{i} = [filename{i}, '_Epsilon',num2str(round(1/parameters.Epsilon))];
+%         filename{i} = [filename{i}, '_KNN',num2str(parameters.KNN)];
         filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
         filename{i} = [filename{i},'_m',num2str(parameters.F.LA.m)];
         filename{i} = [filename{i},'_N',num2str(parameters.F.N)];

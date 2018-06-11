@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner by clustering
 %   particles and gossiping on cluster log-likelihoods
@@ -59,21 +59,28 @@ else
 end
 
 % Construct the KNN or Delaunchy triangulation graph for all the particles
+% Construct the KNN or Delaunchy triangulation graph for all the particles
 graph_tic = tic;
-if (F.cluster.KNNgraph)
-    idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.cluster.KNN+1);
-    idx = idx(:,2:end);
-    % Now construct the adjacency matrix
-    A = zeros(F.N, F.N);
-    for i=1:F.N
-        % particle i is connected to its K nearest neighbor
-        A(i,idx(i,:)) = 1;
-        % the connection is symmetric
-        A(idx(i,:),i) = 1;
-    end
-else
-    A = DelaunayGraph(x_predicted(1:2,:)');
+switch F.LA.graphMethod
+    case 'KNN'
+        idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
+        idx = idx(:,2:end);
+        % Now construct the adjacency matrix
+        A = zeros(F.N, F.N);
+        for i=1:F.N
+            % particle i is connected to its K nearest neighbor
+            A(i,idx(i,:)) = 1;
+            % the connection is symmetric
+            A(idx(i,:),i) = 1;
+        end
+    case 'Delaunay'
+        A = DelaunayGraph(x_predicted(1:2,:)');
+    case 'Epsilon'
+        A = EpsilonGraph(x_predicted(1:2,:)', F.LA.epsilon);
 end
+
+avg_degree = mean(sum(A,2));
+std_degree = std(sum(A,2));
 
 % Change to weighted adjacency matrix if needed
 if (F.cluster.weightedEdge)
@@ -81,7 +88,15 @@ if (F.cluster.weightedEdge)
         x1 = x_predicted(1:2,i);
         x2 = x_predicted(1:2,A(i,:)>0);
         dist = sqrt((x1(1,:)-x2(1,:)).^2+(x1(2,:)-x2(2,:)).^2);
-        A(i,A(i,:)>0) = 1./dist;
+        switch F.cluster.weightedEdgeStyle
+            case 1 % 1/dist
+                A(i,A(i,:)>0) = 1./dist;
+            case 2 % 1/dist^2
+                A(i,A(i,:)>0) = 1./(dist.^2);
+            case 3 % exp(-dist^2/sigma)
+                A(i,A(i,:)>0) = exp(-dist.^2);
+        end
+
     end
 end
 
@@ -115,16 +130,16 @@ gamma_noGossipError = quadprog(L,[],[],[],C,sum(log_lh_cluster_ss, 1)',[], [], [
 % errorNorm(5) = norm(Psi/(Psi'*Psi));
 
 llh_matrix_un = [gamma_noGossipError', gamma_approx', sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
+llh_matrix = bsxfun(@minus, llh_matrix_un, max(llh_matrix_un,[],1));
 lh_matrix = exp(llh_matrix);
-lh_matrix = lh_matrix./sum(lh_matrix,1);
+lh_matrix = bsxfun(@rdivide, lh_matrix, sum(lh_matrix,1));
 llh_matrix = log(lh_matrix+realmin);
 C_norm = llh_matrix_un - llh_matrix;
 
-delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m =  bsxfun(@rdivide,(llh_matrix(:,1)-llh_matrix(:,3)), llh_matrix(:,3));
 delta_m(isinf(abs(delta_m)))=0;
 errorNorm(1) = max(abs(delta_m));
-delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip = bsxfun(@rdivide, (llh_matrix(:,2)-llh_matrix(:,1)),llh_matrix(:,1));
 delta_gossip(isinf(abs(delta_gossip)))=0;
 errorNorm(2) = max(abs(delta_gossip));
 
@@ -136,7 +151,7 @@ errorNorm(5) = max(abs(delta_llh));
 errorNorm(6) = (1+errorNorm(1))*errorNorm(2)+errorNorm(1);
 
 errorNorm(7) = min(sqrt(exp(llh_matrix(:,1)-llh_matrix(:,2))));
-errorNorm(8:12) = 0;
+errorNorm(8:13) = 0;
 
 gamma = gamma_approx-max(gamma_approx);
 

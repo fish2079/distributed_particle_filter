@@ -22,7 +22,7 @@ addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
 gossip_vector = 1;%[1:10]; %[10, 15, 20, 25, 30, 35, 40,45,50]; %[];
-N_vector = 500; %[100, 250, 500, 1000];
+N_vector = 1000; %[100, 250, 500, 1000];
 max_degree_vector = 1:9;
 
 % Number of random trials
@@ -30,19 +30,19 @@ sim_parameters.no_trials = 20;
 
 sim_parameters.max_gossip_iter = 100;
 
-sim_parameters.measModel = 'range';
+sim_parameters.measModel = 'bearing';
 
 % Flag for parallel run
-sim_parameters.parallel = false;
+sim_parameters.parallel = true;
 
 % Flag for visualizing at each time step
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = true;
+sim_parameters.gossip = false;
 
 % Select the track
-sim_parameters.track = 3;
+sim_parameters.track = 2;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS

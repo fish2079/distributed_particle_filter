@@ -79,6 +79,18 @@ if ~isempty(D.measurements)
         details.eig_time = eig_time;
     end
     
+    if (isfield(details,'avg_degree'))
+        details.avg_degree = [details.avg_degree, avg_degree];
+    else
+        details.avg_degree = avg_degree;
+    end
+    
+    if (isfield(details,'std_degree'))
+        details.std_degree = [details.std_degree, std_degree];
+    else
+        details.std_degree = std_degree;
+    end
+    
     N_eff = 1/sum(particle_weights.^2);
     if (N_eff<F.N_eff)
         % Sample according to weights with replacement

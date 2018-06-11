@@ -47,7 +47,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = LADelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
        
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif, gamma_dif];
@@ -78,7 +78,25 @@ if ~isempty(D.measurements)
     else
         details.eig_time = eig_time;
     end
-        
+
+    if (isfield(details,'errorNorm'))
+        details.errorNorm = [details.errorNorm; errorNorm];
+    else
+        details.errorNorm = errorNorm;
+    end
+    
+    if (isfield(details,'avg_degree'))
+        details.avg_degree = [details.avg_degree, avg_degree];
+    else
+        details.avg_degree = avg_degree;
+    end
+    
+    if (isfield(details,'std_degree'))
+        details.std_degree = [details.std_degree, std_degree];
+    else
+        details.std_degree = std_degree;
+    end
+    
     if (F.gossip)
         if (isfield(details,'aggregate_error_ratio'))
             details.aggregate_error_ratio = [details.aggregate_error_ratio; mean(aggregate_error_ratio)];

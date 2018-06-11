@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio, errorNorm] = LADelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = LADelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -43,20 +43,56 @@ log_lh_time = toc(log_lh_tic);
 
 % Construct the KNN or Delaunchy triangulation graph for all the particles
 graph_tic = tic;
-if (F.LA.KNNgraph)
-    idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
-    idx = idx(:,2:end);
-    % Now construct the adjacency matrix
-    A = zeros(F.N, F.N);
-    for i=1:F.N
-        % particle i is connected to its K nearest neighbor
-        A(i,idx(i,:)) = 1;
-        % the connection is symmetric
-        A(idx(i,:),i) = 1;
-    end
-else
-    A = DelaunayGraph(x_predicted(1:2,:)');
+switch F.LA.graphMethod
+    case 'KNN'
+        idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
+        idx = idx(:,2:end);
+        % Now construct the adjacency matrix
+        A = zeros(F.N, F.N);
+        for i=1:F.N
+            % particle i is connected to its K nearest neighbor
+            A(i,idx(i,:)) = 1;
+            % the connection is symmetric
+            A(idx(i,:),i) = 1;
+        end
+    case 'Delaunay'
+        A = DelaunayGraph(x_predicted(1:2,:)');
+    case 'Epsilon'
+        A = EpsilonGraph(x_predicted(1:2,:)', F.LA.epsilon);
+    case 'Dummy'
+        A = zeros(F.N, F.N);
+        for i=1:F.N-1
+            A(i,i+1) = 1;
+            A(i+1,i) = 1;
+        end
+        A(F.N,1) = 1;
+        A(1,F.N) = 1;
 end
+
+% avg_degree = mean(sum(A,2));
+% std_degree = std(sum(A,2));
+
+% A_KNN = A;
+% A_DT = DelaunayGraph(x_predicted(1:2,:)');
+% A_Epsilon = EpsilonGraph(x_predicted(1:2,:)', 1/4);
+% 
+% [mean(sum(A_DT,2)),mean(sum(A_KNN,2)),mean(sum(A_Epsilon,2))]
+% [std(sum(A_DT,2)),std(sum(A_KNN,2)),std(sum(A_Epsilon,2))]
+
+% if (F.LA.KNNgraph)
+%     idx = knnsearch(x_predicted(1:2,:)', x_predicted(1:2,:)','k',F.LA.KNN+1);
+%     idx = idx(:,2:end);
+%     % Now construct the adjacency matrix
+%     A = zeros(F.N, F.N);
+%     for i=1:F.N
+%         % particle i is connected to its K nearest neighbor
+%         A(i,idx(i,:)) = 1;
+%         % the connection is symmetric
+%         A(idx(i,:),i) = 1;
+%     end
+% else
+%     A = DelaunayGraph(x_predicted(1:2,:)');
+% end
 
 % Change to weighted adjacency matrix if needed
 if (F.LA.weightedEdge)
@@ -65,6 +101,14 @@ if (F.LA.weightedEdge)
         x2 = x_predicted(1:2,A(i,:)>0);
         dist = sqrt((x1(1,:)-x2(1,:)).^2+(x1(2,:)-x2(2,:)).^2);
         A(i,A(i,:)>0) = 1./dist;
+        switch F.LA.weightedEdgeStyle
+            case 1 % 1/dist
+                A(i,A(i,:)>0) = 1./dist;
+            case 2 % 1/dist^2
+                A(i,A(i,:)>0) = 1./(dist.^2);
+            case 3 % exp(-dist^2/sigma)
+                A(i,A(i,:)>0) = exp(-dist.^2);
+        end
     end
 end
 
@@ -74,9 +118,12 @@ graph_time = toc(graph_tic);
 
 % Do eigenvalue decomposition of Laplacian matrix
 eig_time_tic = tic;
-[V_full,~] = eig(L);
+[V_full,temp] = eig(L);
 % V_full = F.LA.V_full;
 eig_time = toc(eig_time_tic);
+
+avg_degree = sqrt(sum(log_lh_ss,1)*L*(sum(log_lh_ss,1)'));
+std_degree = temp(F.LA.m,F.LA.m);
 
 % Select the m smallest eigenvectors;
 V = V_full(:,1:F.LA.m);
@@ -100,17 +147,17 @@ alpha_true = sum(alpha_ss,2);
 alpha_gossip = alpha;
 alpha_delta = alpha_gossip-alpha_true;
 llh_matrix_un = [Psi*alpha_true, Psi*alpha_gossip, sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
+llh_matrix = bsxfun(@minus, llh_matrix_un, max(llh_matrix_un,[],1));
 lh_matrix = exp(llh_matrix);
-lh_matrix = lh_matrix./sum(lh_matrix,1);
+lh_matrix = bsxfun(@rdivide, lh_matrix, sum(lh_matrix,1));
 llh_matrix = log(lh_matrix+realmin);
 C_norm = llh_matrix_un - llh_matrix;
 
-delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m =  bsxfun(@rdivide,(llh_matrix(:,1)-llh_matrix(:,3)), llh_matrix(:,3));
 delta_m(isinf(abs(delta_m)))=0;
 errorNorm(1) = max(abs(delta_m));
 
-delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip = bsxfun(@rdivide, (llh_matrix(:,2)-llh_matrix(:,1)),llh_matrix(:,1));
 delta_gossip(isinf(abs(delta_gossip)))=0;
 errorNorm(2) = max(abs(delta_gossip));
 
@@ -158,6 +205,7 @@ errorNorm(10) = max(abs(tempUpper4));
 errorNorm(11) = norm(Psi,'inf');
 errorNorm(12) = norm(alpha_true,'inf');
 
+errorNorm(13) = norm((eye(F.LA.m)-ones(F.LA.m,F.LA.m)/F.LA.m)*sum(alpha_ss,2))^2;
 
 % Compute approximate global joint log-likelihood
 gamma_approx = (V*alpha)';

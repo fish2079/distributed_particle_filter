@@ -104,17 +104,17 @@ alpha_true = sum(CSS_matrix,1)';
 alpha_gossip = CSS;
 alpha_delta = alpha_gossip - alpha_true;
 llh_matrix_un = [Psi*alpha_true, Psi*alpha_gossip, sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
+llh_matrix = bsxfun(@minus, llh_matrix_un, max(llh_matrix_un,[],1));
 lh_matrix = exp(llh_matrix);
-lh_matrix = lh_matrix./sum(lh_matrix,1);
+lh_matrix = bsxfun(@rdivide, lh_matrix, sum(lh_matrix,1));
 llh_matrix = log(lh_matrix+realmin);
 C_norm = llh_matrix_un - llh_matrix;
 
-delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m =  bsxfun(@rdivide,(llh_matrix(:,1)-llh_matrix(:,3)), llh_matrix(:,3));
 delta_m(isinf(abs(delta_m)))=0;
 errorNorm(1) = max(abs(delta_m));
 
-delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip = bsxfun(@rdivide, (llh_matrix(:,2)-llh_matrix(:,1)),llh_matrix(:,1));
 delta_gossip(isinf(abs(delta_gossip)))=0;
 errorNorm(2) = max(abs(delta_gossip));
 
@@ -161,6 +161,7 @@ errorNorm(10) = max(abs(tempUpper4));
 errorNorm(11) = norm(Psi,'inf');
 errorNorm(12) = norm(alpha_true,'inf');
 
+errorNorm(13) = norm((eye(6)-ones(6,6)/6)*CSS)^2;
 gamma = temp';
 
 gamma = gamma - max(gamma);

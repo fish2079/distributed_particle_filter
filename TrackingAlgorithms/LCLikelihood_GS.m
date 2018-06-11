@@ -24,7 +24,7 @@ d = size(x_predicted,1)-1;
 % R_inv = inv(obs.R);
 
 % Construct the Psi matrix
-degree_matrix = combinator(F.LC.max_degree+1,2,'p','r')'-1;
+degree_matrix = combinator(F.LC.max_degree_GS+1,2,'p','r')'-1;
 for i=1:size(degree_matrix,2)
     Psi(:,i) = prod(bsxfun(@power, x_predicted(1:2,:), degree_matrix(:,i)),1);
 end
@@ -44,7 +44,7 @@ for i=1:numel(D.sensorID)
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
     
 %     alpha_LC(:,i) = mldivide(Psi_normalized,log_lh_ss(i,:)');
-    alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
+    alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)'; %mldivide(Psi,log_lh_ss(i,:)');
 %     temp_alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
 end
 
@@ -75,17 +75,17 @@ alpha_true = sum(alpha_LC,2);
 alpha_gossip = alpha_LC_aggregate;
 alpha_delta = alpha_gossip-alpha_true;
 llh_matrix_un = [Psi*alpha_true, Psi*alpha_gossip, sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
+llh_matrix = bsxfun(@minus, llh_matrix_un, max(llh_matrix_un,[],1));
 lh_matrix = exp(llh_matrix);
-lh_matrix = lh_matrix./sum(lh_matrix,1);
+lh_matrix = bsxfun(@rdivide, lh_matrix, sum(lh_matrix,1));
 llh_matrix = log(lh_matrix+realmin);
 C_norm = llh_matrix_un - llh_matrix;
 
-delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m =  bsxfun(@rdivide,(llh_matrix(:,1)-llh_matrix(:,3)), llh_matrix(:,3));
 delta_m(isinf(abs(delta_m)))=0;
 errorNorm(1) = max(abs(delta_m));
 
-delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip = bsxfun(@rdivide, (llh_matrix(:,2)-llh_matrix(:,1)),llh_matrix(:,1));
 delta_gossip(isinf(abs(delta_gossip)))=0;
 errorNorm(2) = max(abs(delta_gossip));
 
@@ -133,6 +133,7 @@ errorNorm(10) = max(abs(tempUpper4));
 errorNorm(11) = norm(Psi,'inf');
 errorNorm(12) = norm(alpha_true,'inf');
 
+errorNorm(13) = norm((eye(numel(alpha_true))-ones(numel(alpha_true),numel(alpha_true))/numel(alpha_true))*alpha_LC_aggregate)^2;
 
 gamma = Psi*alpha_LC_aggregate;
 % gamma = Psi_normalized*alpha_LC_aggregate;

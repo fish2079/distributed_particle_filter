@@ -40,9 +40,8 @@ for i=1:numel(D.sensorID)
     
     log_lh_ss(i,:) = log(mvnpdf(z_dif', obs.mu', obs.R)+realmin)';
     log_lh_ss(i,:) = log_lh_ss(i,:)-max(log_lh_ss(i,:));
-%     alpha_LC(:,i) = mldivide(Psi_normalized,log_lh_ss(i,:)');
-    alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
-%     temp_alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)';
+    alpha_LC(:,i) = mldivide((Psi'*Psi),Psi')*log_lh_ss(i,:)'; %mldivide(Psi,log_lh_ss(i,:)');
+%     alpha_LC(:,i) = mldivide(Psi,log_lh_ss(i,:)');
 end
 
 if (F.gossip)
@@ -55,34 +54,21 @@ else
     aggregate_error_ratio = zeros(1, numel(alpha_LC_aggregate));
 end
 
-% errorNorm(1) = norm(Psi);
-% errorNorm(2) = norm(alpha_LC_aggregate-sum(alpha_LC,2));
-% yo = Psi*(alpha_LC_aggregate-sum(alpha_LC,2));
-% errorNorm(6) = norm(yo);
-% yo = yo-max(yo);
-% errorNorm(7) = norm(yo);
-% yo = exp(yo);
-% errorNorm(8) = norm(yo);
-% yo = 1-yo;
-% errorNorm(3) = norm(yo);
-% errorNorm(4) = mean(abs(yo));
-% errorNorm(5) = norm(Psi/(Psi'*Psi));
-
 alpha_true = sum(alpha_LC,2);
 alpha_gossip = alpha_LC_aggregate;
 alpha_delta = alpha_gossip-alpha_true;
 llh_matrix_un = [Psi*alpha_true, Psi*alpha_gossip, sum(log_lh_ss,1)'];
-llh_matrix = llh_matrix_un-max(llh_matrix_un,[],1);
+llh_matrix = bsxfun(@minus, llh_matrix_un, max(llh_matrix_un,[],1));
 lh_matrix = exp(llh_matrix);
-lh_matrix = lh_matrix./sum(lh_matrix,1);
+lh_matrix = bsxfun(@rdivide, lh_matrix, sum(lh_matrix,1));
 llh_matrix = log(lh_matrix+realmin);
 C_norm = llh_matrix_un - llh_matrix;
 
-delta_m = (llh_matrix(:,1)-llh_matrix(:,3))./llh_matrix(:,3);
+delta_m =  bsxfun(@rdivide,(llh_matrix(:,1)-llh_matrix(:,3)), llh_matrix(:,3));
 delta_m(isinf(abs(delta_m)))=0;
 errorNorm(1) = max(abs(delta_m));
 
-delta_gossip = (llh_matrix(:,2)-llh_matrix(:,1))./llh_matrix(:,1);
+delta_gossip = bsxfun(@rdivide, (llh_matrix(:,2)-llh_matrix(:,1)),llh_matrix(:,1));
 delta_gossip(isinf(abs(delta_gossip)))=0;
 errorNorm(2) = max(abs(delta_gossip));
 
@@ -130,6 +116,7 @@ errorNorm(10) = max(abs(tempUpper4));
 errorNorm(11) = norm(Psi,'inf');
 errorNorm(12) = norm(alpha_true,'inf');
 
+errorNorm(13) = norm((eye(numel(alpha_true))-ones(numel(alpha_true),numel(alpha_true))/numel(alpha_true))*alpha_LC_aggregate)^2;
 
 gamma = Psi*alpha_LC_aggregate;
 % gamma = Psi_normalized*alpha_LC_aggregate;

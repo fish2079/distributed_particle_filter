@@ -24,6 +24,8 @@ function [x_t, pos_error, runtime, details] = runOneTrial(S, F, dynamic, obs, al
 rng(trial_idx+1000);
 D = generateSimulatedMeasurements(S, obs);    
 F_trial = F;
+F_trial.initial_sensors =  D.sensorLoc{1};
+F_trial.initial_meas =  D.measurements{1};
 
 x_t = zeros(F.d, S.nb_steps, numel(algorithms));
 pos_error = zeros(numel(algorithms), S.nb_steps);

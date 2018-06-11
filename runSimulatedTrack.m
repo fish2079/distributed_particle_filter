@@ -91,7 +91,7 @@ obs.sensorPos = S.sensorPos;
 if(isfield(sim_parameters, 'N'))
     F.N = sim_parameters.N; 
 else
-    F.N = 500;
+    F.N = 1000;
 end
 F.N_eff = F.N/3; % minimum number of effective particles before resampling
 F.d = 4; % state vector dimension
@@ -116,10 +116,42 @@ end
 
 % Particle Filter Regularization
 F.sigma_noise = 10^-3; % std of Gaussian noise to add to particles at each iteration
-F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
-F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
-% Function handle for initial particle cloud generation
-F.initializeState = @GaussianParticleCloudInitialization;
+
+if (isfield(sim_parameters,'initialization'))
+    switch sim_parameters.initialization
+        case 'perfect'
+            F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
+            F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
+            % Function handle for initial particle cloud generation
+            F.initializeState = @GaussianParticleCloudInitialization;
+        otherwise
+            F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
+            F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
+            F.initial_particles_R = diag([5 5 0.5 0.5].^2);
+            % Function handle for initial particle cloud generation
+            F.initializeState = @InaccurateParticleCloudInitialization;
+    end
+else
+    F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
+    F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
+    F.initial_particles_R = diag([5 5 0.5 0.5].^2);
+    % Function handle for initial particle cloud generation
+    F.initializeState = @InaccurateParticleCloudInitialization;
+end
+% F.initial_mu = S.x_t(:,1)'; % mean of initial particle cloud
+% F.initial_R = diag([0.5 0.5 0.05 0.05].^2); % covariance matrix of initial cloud
+% % Function handle for initial particle cloud generation
+% F.initializeState = @GaussianParticleCloudInitialization;
+
+
+
+% F.initial_lower_limit = S.x_t(:,1)'-[10,10,5,5]; 
+% F.initial_upper_limit = S.x_t(:,1)'+[10,10,5,5]; 
+% F.initializeState = @UniformParticleCloudInitialization;
+
+% F.initial_sensor = S.sensorPos; 
+% F.initializeState = @BearingCrossParticleCloudInitialization;
+
 % Function handle for estimating target state from particle cloud
 F.mmseStateEstimate = @mmseEstimateFromParticles;
 
@@ -133,23 +165,37 @@ else
     F.LC.max_degree = 2;
 end
 
-% LA specific parameters
-% Number of neighbors for KNN graph
-% Only relevant if we choose to use KNN graph instead of Delaunay graph
-if(isfield(sim_parameters, 'KNN'))
-    F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
-else
-    F.LA.KNN = 10; 
+if(isfield(sim_parameters, 'max_degree_GS'))
+    F.LC.max_degree_GS = sim_parameters.max_degree_GS;
+else   
+    F.LC.max_degree_GS = F.LC.max_degree;
 end
 
-if(isfield(sim_parameters, 'KNNgraph'))
-    F.LA.KNNgraph = sim_parameters.KNNgraph; % flag to use the KNN nearest graph
-else
-    F.LA.KNNgraph = false;
+% LA specific parameters
+% Graph construction methods
+if(isfield(sim_parameters, 'graphMethod'))
+    F.LA.graphMethod = sim_parameters.graphMethod;
+    switch sim_parameters.graphMethod
+        case 'KNN'
+            % Number of neighbors for KNN graph
+            if(isfield(sim_parameters, 'KNN'))
+                F.LA.KNN = sim_parameters.KNN; % number of nearest neighbors
+            else
+                F.LA.KNN = 10; 
+            end
+        case 'Epsilon'
+            % Number of neighbors for KNN graph
+            if(isfield(sim_parameters, 'Epsilon'))
+                F.LA.epsilon = sim_parameters.Epsilon; % number of nearest neighbors
+            else
+                F.LA.epsilon = 1/3; 
+            end
+    end
 end
 
 if(isfield(sim_parameters, 'weightedEdge'))
     F.LA.weightedEdge = sim_parameters.weightedEdge; % flag to use the weighted adjacency matrix
+    F.LA.weightedEdgeStyle = sim_parameters.weightedEdgeStyle; % choose different weighted matrix
 else
     F.LA.weightedEdge = false;
 end
@@ -167,20 +213,30 @@ else
     F.cluster.k = 6;
 end
 
-if(isfield(sim_parameters, 'KNN'))
-    F.cluster.KNN = sim_parameters.KNN; % number of nearest neighbors
-else
-    F.cluster.KNN = 10; 
-end
-
-if(isfield(sim_parameters, 'KNNgraph'))
-    F.cluster.KNNgraph = sim_parameters.KNNgraph; % flag to use the KNN nearest graph
-else
-    F.cluster.KNNgraph = false;
+% Graph construction methods
+if(isfield(sim_parameters, 'graphMethod'))
+    F.cluster.graphMethod = sim_parameters.graphMethod;
+    switch sim_parameters.graphMethod
+        case 'KNN'
+            % Number of neighbors for KNN graph
+            if(isfield(sim_parameters, 'KNN'))
+                F.cluster.KNN = sim_parameters.KNN; % number of nearest neighbors
+            else
+                F.cluster.KNN = 10; 
+            end
+        case 'Epsilon'
+            % Number of neighbors for KNN graph
+            if(isfield(sim_parameters, 'epsilon'))
+                F.cluster.epsilon = sim_parameters.epsilon; % number of nearest neighbors
+            else
+                F.cluster.epsilon = 1/3; 
+            end
+    end
 end
 
 if(isfield(sim_parameters, 'weightedEdge'))
     F.cluster.weightedEdge = sim_parameters.weightedEdge; % flag to use the weighted adjacency matrix
+    F.cluster.weightedEdgeStyle = sim_parameters.weightedEdgeStyle; % choose different weighted matrix
 else
     F.cluster.weightedEdge = false;
 end

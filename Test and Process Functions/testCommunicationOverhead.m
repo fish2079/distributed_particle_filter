@@ -21,8 +21,8 @@ addpath('./MeasurementModels/');
 addpath('./TrackingAlgorithms/');
 
 % Number of particles for the filter
-N = 500; 
-gossip_vector = 1;%[1:10, 20, 50,100];%1:10];
+N = 1000; 
+gossip_vector = [1, 5, 10, 25, 50, 75, 100, 150, 200];
 
 % Number of random trials
 sim_parameters.no_trials = 200;
@@ -34,13 +34,18 @@ sim_parameters.parallel = true;
 sim_parameters.visualizeParticles = false;
 
 % Flag for using gossip or exact aggregate
-sim_parameters.gossip = false;
+sim_parameters.gossip = true;
 
 % Select measurement model
-sim_parameters.measMdoel = 'bearing';
+sim_parameters.measModel = 'bearing';
 
 % Select the track
 sim_parameters.track = 2;
+
+sim_parameters.graphMethod = 'Delaunay';
+
+sim_parameters.weightedEdge = true;
+sim_parameters.weightedEdgeStyle = 1;
 
 % Tracking algorithms are
 % 1. centralized bootstrap PF: BS
@@ -48,16 +53,17 @@ sim_parameters.track = 2;
 % 3. distributed LC PF
 % 4. distributed Graph PF
 % alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LApf_distributed, @LADelaunaypf_distributed, @Clusterpf_distributed, @ClusterDelaunaypf_distributed};
-alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LCpf_GS_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed};
+alg_lists = {@BSpf, @CSSpf_distributed, @LCpf_distributed, @LCpf_GS_distributed, @LADelaunaypf_distributed, @ClusterDelaunaypf_distributed, @GApf_distributed};
 
-% sim_parameters.areaLength = 125;
-sim_parameters.nbEig = 6;
-sim_parameters.nbClusters = 6;
+sim_parameters.nbEig = 9;
+sim_parameters.nbClusters = 25;
 sim_parameters.max_degree = 2;
 
 sim_parameters.N = N; 
+% for j=[1,3,5,7,10]
+%     sim_parameters.sigma = j;
 for i=1:numel(gossip_vector)
-    sim_parameters.algorithms = alg_lists(1); %(2:6);
+    sim_parameters.algorithms = alg_lists(2:7);
     sim_parameters.max_gossip_iter = gossip_vector(i);
 
     % Run the simulated track with all selected tracking algorithms 
@@ -65,11 +71,13 @@ for i=1:numel(gossip_vector)
     [results, parameters]= runSimulatedTrack(sim_parameters);
 
     % Store the tracking results
-    filename{i} = ['Track2_BSpf_'];
-    filename{i} = [filename{i}, '_overhead',num2str(gossip_vector(i))];
+    filename{i} = ['Track2_Allpf_'];
+%     filename{i} = [filename{i}, '_overhead',num2str(gossip_vector(i))];
     filename{i} = [filename{i}, '_gossip',num2str(parameters.max_gossip_iter)];
+%     filename{i} = [filename{i}, '_R',num2str(sim_parameters.sigma)];
     filename{i} = [filename{i},'_N',num2str(parameters.F.N)];
     filename{i} = [filename{i},'_trials',num2str(parameters.no_trials)];
     filename{i} = [filename{i},'.mat'];
     save(filename{i}, 'results','parameters');
 end
+% end
