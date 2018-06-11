@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm, smoothness, mth_eigvalue] = ClusterDelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner by clustering
 %   particles and gossiping on cluster log-likelihoods
@@ -79,8 +79,8 @@ switch F.LA.graphMethod
         A = EpsilonGraph(x_predicted(1:2,:)', F.LA.epsilon);
 end
 
-avg_degree = mean(sum(A,2));
-std_degree = std(sum(A,2));
+smoothness = sqrt(sum(log_lh_ss,1)*L*(sum(log_lh_ss,1)'));
+mth_eigvalue = temp(F.LA.m,F.LA.m);
 
 % Change to weighted adjacency matrix if needed
 if (F.cluster.weightedEdge)

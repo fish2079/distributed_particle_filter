@@ -1,4 +1,4 @@
-function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = LADelaunayLikelihood(x_predicted, F, D, obs)
+function [particle_weights, gamma_dif, weight_dif, log_lh_time, graph_time, eig_time, aggregate_error_ratio, errorNorm, smoothness, mth_eigvalue] = LADelaunayLikelihood(x_predicted, F, D, obs)
 %   Function to compute the approximate posterior particles weights
 %   The log-likelihood is computed in a distributed manner using Laplacian
 %   approximation methods
@@ -122,8 +122,8 @@ eig_time_tic = tic;
 % V_full = F.LA.V_full;
 eig_time = toc(eig_time_tic);
 
-avg_degree = sqrt(sum(log_lh_ss,1)*L*(sum(log_lh_ss,1)'));
-std_degree = temp(F.LA.m,F.LA.m);
+smoothness = sqrt(sum(log_lh_ss,1)*L*(sum(log_lh_ss,1)'));
+mth_eigvalue = temp(F.LA.m,F.LA.m);
 
 % Select the m smallest eigenvectors;
 V = V_full(:,1:F.LA.m);

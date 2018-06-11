@@ -45,7 +45,7 @@ end
 % Proceed if there are measurements 
 if ~isempty(D.measurements) 
     % Compute the posterior particle weights
-    [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm, avg_degree, std_degree] = ClusterDelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
+    [particle_weights, gamma_dif, weight_dif, cluster_time, log_lh_time, graph_time, gamma_time, aggregate_error_ratio, errorNorm, smoothness, mth_eigvalue] = ClusterDelaunayLikelihood([x_predicted; x_old(d+1,:)], F, D, obs);
     
     if (isfield(details,'gamma_dif'))
         details.gamma_dif = [details.gamma_dif, gamma_dif];
@@ -89,16 +89,16 @@ if ~isempty(D.measurements)
         details.errorNorm = errorNorm;
     end
     
-    if (isfield(details,'avg_degree'))
-        details.avg_degree = [details.avg_degree, avg_degree];
+    if (isfield(details,'smoothness'))
+        details.smoothness = [details.smoothness, smoothness];
     else
-        details.avg_degree = avg_degree;
+        details.smoothness = smoothness;
     end
     
-    if (isfield(details,'std_degree'))
-        details.std_degree = [details.std_degree, std_degree];
+    if (isfield(details,'mth_eigvalue'))
+        details.mth_eigvalue = [details.mth_eigvalue, mth_eigvalue];
     else
-        details.std_degree = std_degree;
+        details.mth_eigvalue = mth_eigvalue;
     end
     
     if (F.gossip)
